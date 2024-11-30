@@ -52,7 +52,6 @@ public class MazeGeneration : MonoBehaviour
             {
                 if (laberinto[i, j] == 1)
                 {
-                    laberinto[i, j] = -1;
                     isGoal = true;
                     break;
                 }

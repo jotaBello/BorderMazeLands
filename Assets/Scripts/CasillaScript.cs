@@ -9,6 +9,7 @@ public class CasillaScript : MonoBehaviour
     public Sprite imagenCaminoEsquina;
     public Sprite imagenCaminoLateral;
     public Sprite imagenCaminoSuperior;
+    public Sprite imagenCaminoPedacito;
     public int filaI;
     public int columnaJ;
     public bool isWall;
@@ -24,7 +25,7 @@ public class CasillaScript : MonoBehaviour
         if (mazegen.laberinto[filaI, columnaJ] == 0)
         {
             isWall = true;
-            objetoImagen.color = Color.white;
+            objetoImagen.color = Color.gray;
         }
         if (mazegen.laberinto[filaI, columnaJ] == 1)
         {
@@ -46,9 +47,13 @@ public class CasillaScript : MonoBehaviour
             {
                 objetoImagen.sprite = imagenCaminoSuperior;
             }
+            if (mazegen.laberinto[filaI - 1, columnaJ - 1] == 0 && mazegen.laberinto[filaI - 1, columnaJ] == 1 && mazegen.laberinto[filaI, columnaJ - 1] == 1)
+            {
+                objetoImagen.sprite = imagenCaminoPedacito;
+            }
         }
 
-        if (mazegen.laberinto[filaI, columnaJ] == -1) isGoal = true;
+        if (filaI == 16 && columnaJ == 16) isGoal = true;
         if (isGoal) objetoImagen.color = Color.red;
     }
 
