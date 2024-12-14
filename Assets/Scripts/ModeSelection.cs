@@ -3,9 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class ModeSelection : MonoBehaviour
 {
-    public void toPlayerSelection()
+    public SelectionMenu canvas;
+    public GameObject M;
+    public GameObject P;
+    public void TwoPlayerSelection()
     {
-        Debug.Log("2 jugadores");
-        SceneManager.LoadScene("PlayerSelection");
+        canvas.usersLimit = 2;
+        M.SetActive(false);
+        P.SetActive(true);
     }
 }

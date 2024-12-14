@@ -14,7 +14,7 @@ public class SelectionMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentUser;
     [SerializeField] private TextMeshProUGUI teamDescription;
     private GameManager gameManager;
-    private int usersLimit;
+    public int usersLimit;
 
     private void Start()
     {
@@ -66,8 +66,9 @@ public class SelectionMenu : MonoBehaviour
 
     public void Select()
     {
-        if (gameManager.users.Count == usersLimit)
+        if (gameManager.users.Count == usersLimit - 1)
         {
+            gameManager.users.Add(gameManager.teams[index]);
             SceneManager.LoadScene("Game");
         }
         else
