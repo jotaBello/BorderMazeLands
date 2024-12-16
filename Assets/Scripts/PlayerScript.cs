@@ -5,9 +5,6 @@ public class PlayerScript : MonoBehaviour
 {
     Teams myteam;
     public MazeGeneration maze;
-    [SerializeField] float movimientoHorizontal;
-    [SerializeField] float movimientoVertical;
-    [SerializeField] bool parArriba;
 
     int positionI;
     int positionJ;
@@ -21,10 +18,6 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        // Capturar el input del teclado
-
-        /*movimientoHorizontal = Input.GetAxis("Horizontal"); // A y D
-        movimientoVertical = Input.GetAxis("Vertical"); // W y S*/
 
         if (Input.GetKeyDown(KeyCode.D) && maze.laberinto[positionI, positionJ + 1] != 0)
         {
