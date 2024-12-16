@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BackgroundScript : MonoBehaviour
 {
-    public GameObject camera;
+    public GameObject camara;
     void Start()
     {
 
@@ -11,6 +11,6 @@ public class BackgroundScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, -1);
+        transform.position = new Vector3(camara.transform.position.x, camara.transform.position.y, -1);
     }
 }
