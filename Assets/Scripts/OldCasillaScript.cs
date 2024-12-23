@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.UI;
 
 public class CasillaScript : MonoBehaviour
@@ -58,3 +58,4 @@ public class CasillaScript : MonoBehaviour
     }
 
 }
+*/

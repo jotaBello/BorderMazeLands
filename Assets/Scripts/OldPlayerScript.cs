@@ -1,4 +1,4 @@
-using System.Threading;
+/*using System.Threading;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -53,3 +53,4 @@ public class PlayerScript : MonoBehaviour
         }
     }
 }
+*/
