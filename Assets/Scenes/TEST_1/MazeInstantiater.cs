@@ -19,7 +19,7 @@ public class MazeInstantiater : MonoBehaviour
             for (int j = 0; j < maze.GetLength(1); j++)
             {
                 Vector2 position = new Vector2(i - maze.GetLength(0) / 2, j - maze.GetLength(1) / 2);
-                if (maze[i, j].EsPared) Instantiate(wall, position, Quaternion.identity);
+                if (!maze[i, j].EsCamino) Instantiate(wall, position, Quaternion.identity);
                 if (maze[i, j].EsCamino) Instantiate(path, position, Quaternion.identity);
             }
         }

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Threading;
 
 
-public class MazeGeneration : MonoBehaviour
+public class IntMazeGeneration : MonoBehaviour
 {
     public static int filas = 31, columnas = 31; // Deben ser impares para permitir caminos
-    public Casilla[,] laberinto = new Casilla[filas, columnas];
+    public int[,] laberinto = new int[filas, columnas];
     System.Random rand = new System.Random();
     List<(int, int, int, int)> paredes = new List<(int, int, int, int)>();
 
-    MazeGeneration()
+    IntMazeGeneration()
     {
 
     }
@@ -23,15 +23,14 @@ public class MazeGeneration : MonoBehaviour
             for (int j = 0; j < columnas; j++)
             {
                 // Asume que todo es pared por defecto
-                laberinto[i, j] = new Casilla(false, true);
+                laberinto[i, j] = 0;
             }
         }
 
 
         // Selecciona una celda inicial en una posición impar
         int x = 15, y = 15;
-        laberinto[x, y].EsCamino = true;
-        laberinto[x, y].EsPared = false; // Marca la celda como camino
+        laberinto[x, y] = 1; // Marca la celda como camino
 
         // Añade las paredes iniciales de esta celda
         AgregarParedes(x, y);
@@ -45,11 +44,11 @@ public class MazeGeneration : MonoBehaviour
             paredes.RemoveAt(indice);
 
             // Si la celda conectada no ha sido visitada
-            if (laberinto[cx, cy].EsPared)
+            if (laberinto[cx, cy] == 0)
             {
-                laberinto[px, py].EsCamino = true; // Elimina la pared entre las celdas
-                laberinto[cx, cy].EsCamino = true;
-                laberinto[px, py].EsPared = false; // Marca la nueva celda como camino
+                laberinto[px, py] = 1; // Elimina la pared entre las celdas
+                laberinto[cx, cy] = 1;
+                laberinto[px, py] = 1; // Marca la nueva celda como camino
                 AgregarParedes(cx, cy); // Añade las paredes de la nueva celda
             }
         }
