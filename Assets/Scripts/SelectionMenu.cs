@@ -69,7 +69,7 @@ public class SelectionMenu : MonoBehaviour
         if (gameManager.users.Count == usersLimit - 1)
         {
             gameManager.users.Add(gameManager.teams[index]);
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("test");
         }
         else
         {

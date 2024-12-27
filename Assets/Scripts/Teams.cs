@@ -6,4 +6,9 @@ public class Teams : ScriptableObject
     public Sprite teamImage;
     public string teamName;
     public string teamDescription;
+
+    public int velocidad;
+
+    public Color colort;
+    public int habilidadEnfriamiento;
 }

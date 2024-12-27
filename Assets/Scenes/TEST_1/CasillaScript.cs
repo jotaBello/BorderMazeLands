@@ -1,16 +1,20 @@
+using UnityEngine;
+
 public class Casilla
 {
     public int fila;
     public int columna;
     public bool EsCamino { get; set; }
-    public Jugador Jugador { get; set; } // Si hay un jugador en la casilla
+    public Ficha ficha { get; set; } // Si hay un jugador en la casilla
+
+    public GameObject casillaObject;
 
     public Casilla(bool esCamino, int f, int c)
     {
-        fila = c;
-        columna = f;
+        fila = f;
+        columna = c;
         EsCamino = esCamino;
-        Jugador = null; // No hay jugador al principio
+        ficha = null; // No hay jugador al principio
     }
 }
 

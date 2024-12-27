@@ -286,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1012079307
 Transform:
   m_ObjectHideFlags: 0
@@ -348,7 +348,6 @@ MonoBehaviour:
   wall: {fileID: 6941801574839929535, guid: ce5bc56b047317c4ca75e367e4f28c80, type: 3}
   path: {fileID: 6941801574839929535, guid: 7b6eef26e423de9408df4ca462106356, type: 3}
   player: {fileID: 9068090023899803530, guid: 7cce39f0ff37777498819b54754a9bab, type: 3}
-  Initialposition: {x: 15, y: 15}
 --- !u!4 &1040517638
 Transform:
   m_ObjectHideFlags: 0

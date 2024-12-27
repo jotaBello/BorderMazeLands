@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamImage: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   teamName: VaultHunters
+  teamDescription: 
+  velocidad: 0
+  colort: {r: 0.42839468, g: 0, b: 0.4528302, a: 1}
+  habilidadEnfriamiento: 0

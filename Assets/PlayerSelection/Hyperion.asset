@@ -16,3 +16,6 @@ MonoBehaviour:
   teamName: Hyperion
   teamDescription: Hyperion es una empresa militar especializada en la venta de armas
     que se vuelven precisas con el fuego continuo.
+  velocidad: 0
+  colort: {r: 0.7264151, g: 0.709985, b: 0, a: 1}
+  habilidadEnfriamiento: 0

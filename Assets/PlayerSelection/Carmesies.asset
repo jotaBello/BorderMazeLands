@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   teamName: Carmesies
+  teamDescription: 
+  velocidad: 0
+  colort: {r: 1, g: 0.07715398, b: 0, a: 1}
+  habilidadEnfriamiento: 0
