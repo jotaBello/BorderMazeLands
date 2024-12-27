@@ -1,4 +1,4 @@
-/*using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -38,6 +38,6 @@ public class Jugador
         Debug.Log($"{Nombre} usa la habilidad de {ficha.Nombre}.");
         TurnosRestantesEnHabilidad = ficha.HabilidadEnfriamiento;
     }
-    
+
 }
-*/
+

@@ -20,7 +20,7 @@ public class MazeGeneration : MonoBehaviour
             for (int j = 0; j < columnas; j++)
             {
                 // Asume que todo es pared por defecto
-                laberinto[i, j] = new Casilla(false);
+                laberinto[i, j] = new Casilla(false, i, j);
             }
         }
 
@@ -64,6 +64,7 @@ public class MazeGeneration : MonoBehaviour
     void Awake()
     {
         Debug.Log("hola");
+
         Generar(); // Genera el laberinto
 
     }

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pandora-as-it-appears-in-the-borderlands-lore_0: -9002708888831630469
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
