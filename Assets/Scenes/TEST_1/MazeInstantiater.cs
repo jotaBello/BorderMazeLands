@@ -48,6 +48,8 @@ public class MazeInstantiater : MonoBehaviour
                 GameObject fichaObj;
 
                 fichaObj = InstanciarFicha(ficha, 2 * i + j);
+
+                ficha.fichaObj = fichaObj;
                 fichaObj.GetComponent<SeleccionarFicha>().fichaObject = fichaObj;
                 fichaObj.GetComponent<SeleccionarFicha>().ficha = ficha;
                 fichaObj.GetComponent<SpriteRenderer>().color = gameManager.users[i].colort;

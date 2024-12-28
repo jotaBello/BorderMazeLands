@@ -6,10 +6,13 @@ public class SeleccionarCasilla : MonoBehaviour
     Casilla casilla;
     public MazeGeneration mazegen;
 
-    Vector2 position;
+    public Vector2 position;
+
+    TurnManager turnManager;
 
     void Start()
     {
+        turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
         mazegen = GameObject.Find("MazeGen").GetComponent<MazeGeneration>();
         position = transform.position;
         casilla = mazegen.laberinto[-((int)position.y - mazegen.laberinto.GetLength(0) / 2), (int)position.x + mazegen.laberinto.GetLength(1) / 2];
@@ -17,13 +20,16 @@ public class SeleccionarCasilla : MonoBehaviour
     void OnMouseDown()
     {
         Debug.Log($"tocaste la casilla {casilla.fila},{casilla.columna}");
-        /*if (ficha.Jugador == GameManager.Instance.turnoManager.jugadores[GameManager.Instance.turnoManager.turnoActual])
+        if (turnManager.fichaSelecc != null)
         {
-            // Si la ficha pertenece al jugador cuyo turno es
-            GameManager.Instance.SeleccionarFicha(ficha);
-        }*/
-
-
+            Debug.Log("fichasell no es null");
+            turnManager.MoverFicha(casilla);
+        }
+        else
+        {
+            Debug.Log("fichasell es null");
+        }
+        turnManager.fichaSelecc = null;
     }
 }
 
