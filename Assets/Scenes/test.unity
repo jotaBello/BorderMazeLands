@@ -317,6 +317,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   equipos: []
   turnoActual: 0
+  mazeInst: {fileID: 1040517637}
 --- !u!1 &1040517636
 GameObject:
   m_ObjectHideFlags: 0

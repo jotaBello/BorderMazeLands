@@ -16,11 +16,12 @@ public class MazeInstantiater : MonoBehaviour
 
     List<(int, int)> listInitialPositions;
 
-    List<Ficha> fichaList;
+    public List<Ficha> fichaList;
 
 
     void Start()
     {
+        fichaList = new List<Ficha>();
         maze = mazeGen.laberinto;
         for (int i = 0; i < maze.GetLength(0); i++)
         {
@@ -38,8 +39,6 @@ public class MazeInstantiater : MonoBehaviour
     void InstantiatePlayer()
     {
         GeneratePositions();
-        fichaList = new List<Ficha>();
-
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         for (int i = 0; i < gameManager.users.Count; i++)
         {
@@ -55,6 +54,7 @@ public class MazeInstantiater : MonoBehaviour
                 fichaObj.GetComponent<SeleccionarFicha>().ficha = ficha;
                 fichaObj.GetComponent<SpriteRenderer>().color = gameManager.users[i].colort;
                 fichaList.Add(ficha);
+                Debug.LogWarning(fichaList.Count);
             }
         }
     }

@@ -8,7 +8,7 @@ public class Ficha
     public Teams team;
 
     public GameObject fichaObj;
-    public (int, int) positionF;
+    
 
     public Ficha(Teams tea)
     {

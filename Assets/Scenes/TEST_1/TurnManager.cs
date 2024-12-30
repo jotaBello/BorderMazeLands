@@ -10,7 +10,10 @@ public class TurnManager : MonoBehaviour
     public int turnoActual;
 
     MazeGeneration mazeGeneration;
+    public MazeInstantiater mazeInst;
 
+
+    //List<Ficha> fichaList;
     public Ficha fichaSelecc = null;
 
     static (int, int)[] directions = { (1, 0), (0, 1), (-1, 0), (0, -1) };
@@ -39,6 +42,8 @@ public class TurnManager : MonoBehaviour
     private void IniciarTurno()
     {
         Debug.Log($"Turno de {equipos[turnoActual].teamName}");
+
+        ActualizarPosiciones();
     }
 
     public void FinalizarTurno()
@@ -71,8 +76,8 @@ public class TurnManager : MonoBehaviour
 
     bool IsValidCasilla(Casilla destino, Ficha fich)
     {
-        Casilla inicioC = fich.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion;
-
+        Casilla inicioC = fich.fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno;
+        if (inicioC == null) Debug.LogError($"Pinga la posicion inicial");
         (int, int) inicio = (inicioC.fila, inicioC.columna);
         (int, int) destinoC = (destino.fila, destino.columna);
 
@@ -142,7 +147,7 @@ public class TurnManager : MonoBehaviour
 
     public void PonerVerdeCasillasValidas(Ficha fic)
     {
-        Casilla inicio = fic.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion;
+        Casilla inicio = fic.fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno;
         int[,] bfs = BFS((inicio.fila, inicio.columna));
         for (int i = 0; i < bfs.GetLength(0); i++)
         {
@@ -168,6 +173,15 @@ public class TurnManager : MonoBehaviour
                     mazeGeneration.laberinto[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.black;
                 }
             }
+        }
+    }
+
+    void ActualizarPosiciones()
+    {
+        Debug.Log($"actualice la lista de fichas de tama;o {mazeInst.fichaList.Count}");
+        for (int i = 0; i < mazeInst.fichaList.Count; i++)
+        {
+            mazeInst.fichaList[i].fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno = mazeInst.fichaList[i].fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion;
         }
     }
 }

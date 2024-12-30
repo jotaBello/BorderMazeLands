@@ -7,6 +7,7 @@ public class SeleccionarFicha : MonoBehaviour
     TurnManager turnManager;
 
     public Casilla casillaPosicion;
+    public Casilla PosicionInicialTurno;
 
     public MazeGeneration mazegen;
 
@@ -15,12 +16,14 @@ public class SeleccionarFicha : MonoBehaviour
 
     void Start()
     {
+
         mazegen = GameObject.Find("MazeGen").GetComponent<MazeGeneration>();
         turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
         position = transform.position;
         //        positionMatrix = (-((int)position.y - mazegen.laberinto.GetLength(0) / 2), (int)position.x + mazegen.laberinto.GetLength(1) / 2);
         //ficha.positionF = position;
         casillaPosicion = mazegen.laberinto[-((int)position.y - mazegen.laberinto.GetLength(0) / 2), (int)position.x + mazegen.laberinto.GetLength(1) / 2];
+        PosicionInicialTurno = casillaPosicion;
     }
 
     void OnMouseDown()
