@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SeleccionarCasilla : MonoBehaviour
 {
-    Casilla casilla;
+    public Casilla casilla;
     public MazeGeneration mazegen;
 
     public Vector2 position;
@@ -19,15 +19,16 @@ public class SeleccionarCasilla : MonoBehaviour
     }
     void OnMouseDown()
     {
-        Debug.Log($"tocaste la casilla {casilla.fila},{casilla.columna}");
+        //Debug.Log($"tocaste la casilla {casilla.fila},{casilla.columna}");
         if (turnManager.fichaSelecc != null)
         {
-            Debug.Log("fichasell no es null");
+            //Debug.Log("fichasell no es null");
             turnManager.MoverFicha(casilla);
         }
         else
         {
             Debug.Log("fichasell es null");
+            turnManager.PonerNegrasCasillas();
         }
         turnManager.fichaSelecc = null;
     }

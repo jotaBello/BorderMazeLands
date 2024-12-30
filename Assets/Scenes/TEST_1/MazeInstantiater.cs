@@ -31,6 +31,7 @@ public class MazeInstantiater : MonoBehaviour
                 if (maze[i, j].EsCamino) maze[i, j].casillaObject = Instantiate(path, position, Quaternion.identity);
             }
         }
+        maze[15, 15].casillaObject.GetComponent<SpriteRenderer>().color = Color.red;
         InstantiatePlayer();
     }
 

@@ -6,6 +6,8 @@ public class SeleccionarFicha : MonoBehaviour
     public GameObject fichaObject;
     TurnManager turnManager;
 
+    public Casilla casillaPosicion;
+
     public MazeGeneration mazegen;
 
     Vector2 position;
@@ -13,10 +15,12 @@ public class SeleccionarFicha : MonoBehaviour
 
     void Start()
     {
+        mazegen = GameObject.Find("MazeGen").GetComponent<MazeGeneration>();
         turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
         position = transform.position;
         //        positionMatrix = (-((int)position.y - mazegen.laberinto.GetLength(0) / 2), (int)position.x + mazegen.laberinto.GetLength(1) / 2);
         //ficha.positionF = position;
+        casillaPosicion = mazegen.laberinto[-((int)position.y - mazegen.laberinto.GetLength(0) / 2), (int)position.x + mazegen.laberinto.GetLength(1) / 2];
     }
 
     void OnMouseDown()
@@ -24,8 +28,14 @@ public class SeleccionarFicha : MonoBehaviour
         Debug.Log($"me tocaste, soy una ficha de {ficha.team}");
         if (ficha.team == GameManager.Instance.users[turnManager.turnoActual])
         {
+            turnManager.PonerVerdeCasillasValidas(ficha);
             turnManager.SeleccionarFicha(ficha);
             Debug.Log("casilla seleccionada");
+        }
+        else
+        {
+            turnManager.fichaSelecc = null;
+            turnManager.PonerNegrasCasillas();
         }
 
 

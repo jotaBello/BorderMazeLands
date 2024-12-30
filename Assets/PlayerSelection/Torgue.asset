@@ -15,6 +15,6 @@ MonoBehaviour:
   teamImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   teamName: Torgue
   teamDescription: EXPLOSIVOOOS
-  velocidad: 0
+  velocidad: 3
   colort: {r: 0.6226415, g: 0.25710058, b: 0, a: 1}
   habilidadEnfriamiento: 0
