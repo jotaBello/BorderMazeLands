@@ -11,4 +11,6 @@ public class Teams : ScriptableObject
 
     public Color colort;
     public int habilidadEnfriamiento;
+
+    public int vida;
 }

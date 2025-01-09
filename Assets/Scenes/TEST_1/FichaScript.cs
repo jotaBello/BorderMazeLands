@@ -7,11 +7,17 @@ public class Ficha
     public Casilla Posicion { get; set; }
     public Teams team;
 
+    public int vida;
+
     public GameObject fichaObj;
-    
+
+
+
 
     public Ficha(Teams tea)
     {
         team = tea;
+        vida = team.vida;
+        Velocidad = team.velocidad;
     }
 }

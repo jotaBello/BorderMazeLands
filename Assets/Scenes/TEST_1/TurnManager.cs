@@ -50,6 +50,8 @@ public class TurnManager : MonoBehaviour
     {
         // Aquí puedes realizar acciones al final del turno (por ejemplo, verificar condiciones de victoria, etc.).
 
+        CheckTraps();
+
         // Cambia al siguiente jugador
         turnoActual = (turnoActual + 1) % equipos.Count;
         IniciarTurno();
@@ -70,6 +72,9 @@ public class TurnManager : MonoBehaviour
                 fichaSelecc.fichaObj.transform.position = destino.casillaObject.transform.position;
                 fichaSelecc.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion = mazeGeneration.laberinto[-((int)fichaSelecc.fichaObj.transform.position.y - mazeGeneration.laberinto.GetLength(0) / 2), (int)fichaSelecc.fichaObj.transform.position.x + mazeGeneration.laberinto.GetLength(1) / 2];
             }
+
+
+
         }
         PonerNegrasCasillas();
     }
@@ -86,7 +91,7 @@ public class TurnManager : MonoBehaviour
 
 
 
-        bool b = (bfs[destinoC.Item1, destinoC.Item2] > 0) && (bfs[destinoC.Item1, destinoC.Item2] <= fich.team.velocidad);
+        bool b = (bfs[destinoC.Item1, destinoC.Item2] > 0) && (bfs[destinoC.Item1, destinoC.Item2] <= fich.Velocidad);
         if (!b)
             Debug.LogWarning(bfs[destinoC.Item1, destinoC.Item2]);
         return b;
@@ -148,6 +153,7 @@ public class TurnManager : MonoBehaviour
     public void PonerVerdeCasillasValidas(Ficha fic)
     {
         Casilla inicio = fic.fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno;
+        Debug.LogWarning($"Ficha {fic.team.teamName} ahora su posicionInicialTurno es ({fic.fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno.fila}, {fic.fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno.columna})");
         int[,] bfs = BFS((inicio.fila, inicio.columna));
         for (int i = 0; i < bfs.GetLength(0); i++)
         {
@@ -168,7 +174,7 @@ public class TurnManager : MonoBehaviour
         {
             for (int j = 0; j < mazeGeneration.laberinto.GetLength(1); j++)
             {
-                if (mazeGeneration.laberinto[i, j].EsCamino && !(i == 15 && j == 15))
+                if (mazeGeneration.laberinto[i, j].EsCamino && !(i == 15 && j == 15) && mazeGeneration.laberinto[i, j].trampa == null)
                 {
                     mazeGeneration.laberinto[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.black;
                 }
@@ -184,12 +190,27 @@ public class TurnManager : MonoBehaviour
             mazeInst.fichaList[i].fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno = mazeInst.fichaList[i].fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion;
         }
     }
+
+    void CheckTraps()
+    {
+
+        // Activar la trampa si existe
+        foreach (Ficha fich in mazeInst.fichaList)
+        {
+            if (fich.team == equipos[turnoActual])
+            {
+                if (fich.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion.trampa != null)
+                {
+                    fich.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion.trampa.Activar(fich);
+
+                    Debug.Log($"Vida restante  : {fich.vida}");
+                    Debug.Log($"Velocidad restante  : {fich.Velocidad}");
+                }
+            }
+
+        }
+    }
 }
-
-
-
-
-
 
 
 

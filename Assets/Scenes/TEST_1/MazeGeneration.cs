@@ -11,6 +11,8 @@ public class MazeGeneration : MonoBehaviour
     System.Random rand = new System.Random();
     List<(int, int, int, int)> paredes = new List<(int, int, int, int)>();
 
+    static string[] trampasArr = { "Daño", "Velocidad", "" };
+
 
 
     void Generar()
@@ -31,6 +33,7 @@ public class MazeGeneration : MonoBehaviour
 
         // Añade las paredes iniciales de esta celda
         AgregarParedes(x, y);
+
 
         // Procesa las paredes hasta que se acaben
         while (paredes.Count > 0)
@@ -61,12 +64,60 @@ public class MazeGeneration : MonoBehaviour
         if (y < columnas - 2) paredes.Add((x, y + 1, x, y + 2)); // Derecha
     }
 
+    void ColocarTrampas()
+    {
+        int cantidadTrampas = 10; // Número de trampas que quieres colocar
+        int intentos = 0;
+
+        while (cantidadTrampas > 0 && intentos < 1000)
+        {
+            int x = rand.Next(1, filas - 1);
+            int y = rand.Next(1, columnas - 1);
+
+            if (laberinto[x, y].EsCamino && laberinto[x, y].trampa == null)
+            {
+                // Selecciona aleatoriamente el tipo de trampa
+                int tipoTrampa = rand.Next(0, 2); // 0: Teletransporte, 1: Daño, 2: Pérdida de Turno
+
+                switch (tipoTrampa)
+                {
+                    case 0: // Trampa de Teletransporte
+                        Casilla destino = BuscarCasillaAleatoria(); // Implementa esta función para encontrar un destino válido
+                        laberinto[x, y].trampa = new TrampaTeletransporte(laberinto[x, y], destino);
+                        break;
+                    case 1: // Trampa de Daño
+                        laberinto[x, y].trampa = new TrampaDaño(laberinto[x, y], 10); // Inflige 10 de daño
+                        break;
+                }
+
+                cantidadTrampas--;
+            }
+
+            intentos++;
+        }
+    }
+
+    Casilla BuscarCasillaAleatoria()
+    {
+        int x, y;
+        do
+        {
+            x = rand.Next(1, filas - 1);
+            y = rand.Next(1, columnas - 1);
+        } while (!laberinto[x, y].EsCamino || laberinto[x, y].trampa != null);
+        return laberinto[x, y];
+    }
+
+
+
     void Awake()
     {
         Debug.Log("hola");
 
-        Generar(); // Genera el laberinto
+        Generar();
+        ColocarTrampas(); // Genera el laberinto
 
     }
 }
+
 

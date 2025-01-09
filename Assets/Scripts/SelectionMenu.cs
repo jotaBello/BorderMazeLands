@@ -31,6 +31,7 @@ public class SelectionMenu : MonoBehaviour
 
     private void UpdateScreen()
     {
+        if (index > gameManager.teams.Count - 1) index = 0;
         PlayerPrefs.SetInt("PlayerIndex", index);
         image.sprite = gameManager.teams[index].teamImage;
         teamname.text = $"EQUIPO {index + 1} : {gameManager.teams[index].name}";
@@ -74,6 +75,7 @@ public class SelectionMenu : MonoBehaviour
         else
         {
             gameManager.users.Add(gameManager.teams[index]);
+            gameManager.teams.RemoveAt(index);
             UpdateScreen();
         }
     }

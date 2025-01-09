@@ -30,6 +30,11 @@ public class MazeInstantiater : MonoBehaviour
                 Vector2 position = new Vector2(j - maze.GetLength(1) / 2, -i + maze.GetLength(0) / 2);
                 if (!maze[i, j].EsCamino) Instantiate(wall, position, Quaternion.identity);
                 if (maze[i, j].EsCamino) maze[i, j].casillaObject = Instantiate(path, position, Quaternion.identity);
+
+                if (maze[i, j].trampa != null)
+                {
+                    maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+                }
             }
         }
         maze[15, 15].casillaObject.GetComponent<SpriteRenderer>().color = Color.red;
@@ -53,6 +58,7 @@ public class MazeInstantiater : MonoBehaviour
                 fichaObj.GetComponent<SeleccionarFicha>().fichaObject = fichaObj;
                 fichaObj.GetComponent<SeleccionarFicha>().ficha = ficha;
                 fichaObj.GetComponent<SpriteRenderer>().color = gameManager.users[i].colort;
+
                 fichaList.Add(ficha);
                 Debug.LogWarning(fichaList.Count);
             }

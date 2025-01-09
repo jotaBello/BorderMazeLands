@@ -18,3 +18,4 @@ MonoBehaviour:
   velocidad: 3
   colort: {r: 0.6226415, g: 0.25710058, b: 0, a: 1}
   habilidadEnfriamiento: 0
+  vida: 5

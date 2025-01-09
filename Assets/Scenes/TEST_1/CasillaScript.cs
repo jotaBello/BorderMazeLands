@@ -9,12 +9,15 @@ public class Casilla
 
     public GameObject casillaObject;
 
+    public Trampa trampa;
+
     public Casilla(bool esCamino, int f, int c)
     {
         fila = f;
         columna = c;
         EsCamino = esCamino;
         ficha = null; // No hay jugador al principio
+        trampa = null;
     }
 }
 
