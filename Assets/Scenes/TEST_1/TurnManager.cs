@@ -8,12 +8,8 @@ public class TurnManager : MonoBehaviour
     public GameManager gameManager;
     public List<Teams> equipos;
     public int turnoActual;
-
     MazeGeneration mazeGeneration;
     public MazeInstantiater mazeInst;
-
-
-    //List<Ficha> fichaList;
     public Ficha fichaSelecc = null;
 
     static (int, int)[] directions = { (1, 0), (0, 1), (-1, 0), (0, -1) };

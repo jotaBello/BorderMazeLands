@@ -107,16 +107,15 @@ public class Teams : ScriptableObject
 
         (int, int)[] directions =
         {
-            (0,-1),
-            (1,0),
-            (0,1),
-            (-1,0)
+        (0,-1),
+        (1,0),
+        (0,1),
+        (-1,0)
 
-        };
+    };
 
         TurnManager turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
         Casilla[,] maze = turnManager.mazeInst.mazeGen.laberinto;
-
 
         Vector2 position = ficha.fichaObj.transform.position;
         Casilla casilla = maze[-((int)position.y - maze.GetLength(0) / 2), (int)position.x + maze.GetLength(1) / 2];
@@ -127,57 +126,53 @@ public class Teams : ScriptableObject
 
         foreach (Ficha enemie in enemies)
         {
-            //enemie.vida = 0;
+            enemie.vida = 0;
             Debug.LogWarning("Die");
         }
-
 
         List<Ficha> FindEnemies((int, int) casilla)
         {
             List<Ficha> enemies = new List<Ficha>();
 
-
-            //ERROR NO BUSCA BIEN LAS
-
             foreach (var dir in directions)
             {
-                int i = 1;
-                while (maze[casilla.Item1 + i * dir.Item1, casilla.Item1 + i * dir.Item2].EsCamino)
+                int fila = casilla.Item1 + dir.Item1;
+                int columna = casilla.Item2 + dir.Item2;
+
+                while (fila >= 0 && fila < maze.GetLength(0) && columna >= 0 && columna < maze.GetLength(1) && maze[fila, columna].EsCamino)
                 {
-                    Debug.LogWarning($"la casilla {casilla.Item1 + i * dir.Item1},{casilla.Item1 + i * dir.Item2} es camino");
-                    if (maze[casilla.Item1 + i * dir.Item1, casilla.Item1 + i * dir.Item2].ficha != null)
+                    if (maze[fila, columna].ficha != null)
                     {
-                        enemies.Add(maze[casilla.Item1 + dir.Item1, casilla.Item1 + dir.Item2].ficha);
+                        enemies.Add(maze[fila, columna].ficha);
                     }
-                    i++;
+                    fila += dir.Item1;
+                    columna += dir.Item2;
                 }
             }
-
 
             if (enemies.Count > 0) Debug.LogWarning($"matare al menos uno ");
             Debug.LogWarning($"{enemies.Count}");
             return enemies;
         }
 
+
     }
 
     void TorgueAbility(Ficha ficha)
     {
-
         Debug.Log("Entro en torgue ability");
 
         (int, int)[] directions =
         {
-            (0,-1),
-            (1,0),
-            (0,1),
-            (-1,0)
+        (0,-1),
+        (1,0),
+        (0,1),
+        (-1,0)
 
-        };
+    };
 
         TurnManager turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
         Casilla[,] maze = turnManager.mazeInst.mazeGen.laberinto;
-
 
         Vector2 position = ficha.fichaObj.transform.position;
         Casilla casilla = maze[-((int)position.y - maze.GetLength(0) / 2), (int)position.x + maze.GetLength(1) / 2];
@@ -185,11 +180,16 @@ public class Teams : ScriptableObject
 
         foreach (var dir in directions)
         {
-            Debug.Log("Entro FOREACH en torgue ability");
-            Casilla cas = maze[casillaPlayer.Item1 + dir.Item1, casillaPlayer.Item2 + dir.Item2];
-            if (!cas.EsCamino)
+            int fila = casillaPlayer.Item1 + dir.Item1;
+            int columna = casillaPlayer.Item2 + dir.Item2;
+
+            if (fila >= 0 && fila < maze.GetLength(0) && columna >= 0 && columna < maze.GetLength(1))
             {
-                cas.casillaObject.GetComponent<SpriteRenderer>().color = Color.white;
+                if (!maze[fila, columna].EsCamino)
+                {
+                    maze[fila, columna].EsCamino = true;
+                    maze[fila, columna].casillaObject.GetComponent<SpriteRenderer>().color = Color.black;
+                }
             }
         }
     }
