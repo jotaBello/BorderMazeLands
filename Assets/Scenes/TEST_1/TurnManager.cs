@@ -37,6 +37,13 @@ public class TurnManager : MonoBehaviour
         {
             FinalizarTurno();
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (fichaSelecc != null)
+            {
+                fichaSelecc.team.Habilidad(fichaSelecc);
+            }
+        }
     }
 
     private void IniciarTurno()
@@ -51,6 +58,8 @@ public class TurnManager : MonoBehaviour
         // Aquí puedes realizar acciones al final del turno (por ejemplo, verificar condiciones de victoria, etc.).
 
         CheckTraps();
+        CheckLife();
+        UpdateFreeze();
 
         // Cambia al siguiente jugador
         turnoActual = (turnoActual + 1) % equipos.Count;
@@ -59,8 +68,19 @@ public class TurnManager : MonoBehaviour
 
     public void SeleccionarFicha(Ficha fichaSel)
     {
-        fichaSelecc = fichaSel;
-        Debug.Log($"seleccionada en turnmanager la ficha{fichaSelecc.team.teamName}");
+
+        if (fichaSel.freeze <= 0)
+        {
+            PonerVerdeCasillasValidas(fichaSel);
+            fichaSelecc = fichaSel;
+            Debug.Log($"seleccionada en turnmanager la ficha{fichaSelecc.team.teamName}");
+        }
+
+        else
+        {
+
+        }
+
     }
 
     public void MoverFicha(Casilla destino)
@@ -69,8 +89,12 @@ public class TurnManager : MonoBehaviour
         {
             if (fichaSelecc.team == equipos[turnoActual] && IsValidCasilla(destino, fichaSelecc))
             {
+                fichaSelecc.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion.ficha = null;
+
                 fichaSelecc.fichaObj.transform.position = destino.casillaObject.transform.position;
                 fichaSelecc.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion = mazeGeneration.laberinto[-((int)fichaSelecc.fichaObj.transform.position.y - mazeGeneration.laberinto.GetLength(0) / 2), (int)fichaSelecc.fichaObj.transform.position.x + mazeGeneration.laberinto.GetLength(1) / 2];
+
+                destino.ficha = fichaSelecc;
             }
 
 
@@ -97,7 +121,7 @@ public class TurnManager : MonoBehaviour
         return b;
     }
 
-    int[,] BFS((int, int) casillaInicio)
+    public int[,] BFS((int, int) casillaInicio)
     {
         Debug.Log("entro al bfs");
         Casilla[,] maze = mazeGeneration.laberinto;
@@ -205,11 +229,41 @@ public class TurnManager : MonoBehaviour
 
                     Debug.Log($"Vida restante  : {fich.vida}");
                     Debug.Log($"Velocidad restante  : {fich.Velocidad}");
+                    Debug.Log($"Freeze time  : {fich.freeze}");
                 }
             }
 
         }
     }
+
+    void CheckLife()
+    {
+        foreach (Ficha fich in mazeInst.fichaList)
+        {
+            if (fich.vida <= 0)
+            {
+                Casilla spawn = fich.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicionSpawn;
+                fich.fichaObj.transform.position = spawn.casillaObject.transform.position;
+                fich.fichaObj.GetComponent<SeleccionarFicha>().PosicionInicialTurno = spawn;
+                fich.fichaObj.GetComponent<SeleccionarFicha>().casillaPosicion = spawn;
+                fich.vida = fich.team.vida;
+            }
+        }
+
+    }
+
+    void UpdateFreeze()
+    {
+        foreach (Ficha fich in mazeInst.fichaList)
+        {
+            if (fich.team == equipos[turnoActual])
+            {
+                if (fich.freeze > 0) fich.freeze--;
+            }
+
+        }
+    }
+
 }
 
 

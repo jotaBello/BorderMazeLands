@@ -2,7 +2,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-
+using Unity.VisualScripting;
+using URandom = UnityEngine.Random;
 
 public class MazeGeneration : MonoBehaviour
 {
@@ -77,7 +78,7 @@ public class MazeGeneration : MonoBehaviour
             if (laberinto[x, y].EsCamino && laberinto[x, y].trampa == null)
             {
                 // Selecciona aleatoriamente el tipo de trampa
-                int tipoTrampa = rand.Next(0, 2); // 0: Teletransporte, 1: Daño, 2: Pérdida de Turno
+                int tipoTrampa = rand.Next(0, 3); // 0: Teletransporte, 1: Daño, 2: Pérdida de Turno
 
                 switch (tipoTrampa)
                 {
@@ -86,9 +87,14 @@ public class MazeGeneration : MonoBehaviour
                         laberinto[x, y].trampa = new TrampaTeletransporte(laberinto[x, y], destino);
                         break;
                     case 1: // Trampa de Daño
-                        laberinto[x, y].trampa = new TrampaDaño(laberinto[x, y], 10); // Inflige 10 de daño
+                        laberinto[x, y].trampa = new TrampaDaño(laberinto[x, y], URandom.Range(1, 4));
+                        break;
+                    case 2: // Trampa de Freeze
+                        laberinto[x, y].trampa = new FreezeTrampa(laberinto[x, y], URandom.Range(1, 4));
                         break;
                 }
+
+
 
                 cantidadTrampas--;
             }
