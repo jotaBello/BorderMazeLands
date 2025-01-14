@@ -84,13 +84,13 @@ public class MazeGeneration : MonoBehaviour
                 {
                     case 0: // Trampa de Teletransporte
                         Casilla destino = BuscarCasillaAleatoria(); // Implementa esta función para encontrar un destino válido
-                        laberinto[x, y].trampa = new TrampaTeletransporte(laberinto[x, y], destino);
+                        //laberinto[x, y].trampa = new TrampaTeletransporte(laberinto[x, y], destino);
                         break;
                     case 1: // Trampa de Daño
-                        laberinto[x, y].trampa = new TrampaDaño(laberinto[x, y], URandom.Range(1, 4));
+                        //laberinto[x, y].trampa = new TrampaDaño(laberinto[x, y], URandom.Range(1, 4));
                         break;
                     case 2: // Trampa de Freeze
-                        laberinto[x, y].trampa = new FreezeTrampa(laberinto[x, y], URandom.Range(1, 4));
+                        //laberinto[x, y].trampa = new FreezeTrampa(laberinto[x, y], URandom.Range(1, 4));
                         break;
                 }
 

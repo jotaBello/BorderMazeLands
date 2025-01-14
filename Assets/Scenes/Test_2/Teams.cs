@@ -40,8 +40,9 @@ public class Teams : ScriptableObject
 
     void ElementalAbility(Ficha ficha)
     {
-        TurnManager turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
-        Casilla[,] maze = turnManager.mazeInst.mazeGen.laberinto;
+        MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
+
+        Casilla[,] maze = mazeManager.maze;
         List<Ficha> listNearEnemies = FindNearEnemies(ficha);
 
         foreach (Ficha f in listNearEnemies)
@@ -53,14 +54,12 @@ public class Teams : ScriptableObject
 
         List<Ficha> FindNearEnemies(Ficha ficha)
         {
-            //Debug.LogWarning("entro en findnear");
             List<Ficha> listNearEnemies = new List<Ficha>();
+            Casilla casilla = ficha.Posicion;
 
-            Vector2 position = ficha.fichaObj.transform.position;
-            Casilla casilla = maze[-((int)position.y - maze.GetLength(0) / 2), (int)position.x + maze.GetLength(1) / 2];
             (int, int) casillaPlayer = (casilla.fila, casilla.columna);
 
-            int[,] bfs = turnManager.BFS(casillaPlayer);
+            int[,] bfs = mazeManager.BFS(casillaPlayer);
 
 
             for (int i = 0; i < bfs.GetLength(0); i++)
@@ -79,7 +78,6 @@ public class Teams : ScriptableObject
                             {
                                 // Debug.LogError($"hay una ficha distinta en la posicion {i}, {j}");
                                 listNearEnemies.Add(maze[i, j].ficha);
-                                maze[i, j].ficha.freeze = 69;
                             }
                         }
                     }
@@ -114,11 +112,11 @@ public class Teams : ScriptableObject
 
     };
 
-        TurnManager turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
-        Casilla[,] maze = turnManager.mazeInst.mazeGen.laberinto;
+        MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
+        Casilla[,] maze = mazeManager.maze;
 
-        Vector2 position = ficha.fichaObj.transform.position;
-        Casilla casilla = maze[-((int)position.y - maze.GetLength(0) / 2), (int)position.x + maze.GetLength(1) / 2];
+
+        Casilla casilla = ficha.Posicion;
         (int, int) casillaPlayer = (casilla.fila, casilla.columna);
         List<Ficha> enemies = FindEnemies(casillaPlayer);
 
@@ -155,7 +153,6 @@ public class Teams : ScriptableObject
             return enemies;
         }
 
-
     }
 
     void TorgueAbility(Ficha ficha)
@@ -171,11 +168,10 @@ public class Teams : ScriptableObject
 
     };
 
-        TurnManager turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
-        Casilla[,] maze = turnManager.mazeInst.mazeGen.laberinto;
+        MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
+        Casilla[,] maze = mazeManager.maze;
 
-        Vector2 position = ficha.fichaObj.transform.position;
-        Casilla casilla = maze[-((int)position.y - maze.GetLength(0) / 2), (int)position.x + maze.GetLength(1) / 2];
+        Casilla casilla = ficha.Posicion;
         (int, int) casillaPlayer = (casilla.fila, casilla.columna);
 
         foreach (var dir in directions)
@@ -192,5 +188,6 @@ public class Teams : ScriptableObject
                 }
             }
         }
+        mazeManager.PonerVerdeCasillasValidas(ficha);
     }
 }

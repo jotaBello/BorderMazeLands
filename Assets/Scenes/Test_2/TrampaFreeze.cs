@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using URandom = UnityEngine.Random;
 
 public class FreezeTrampa : Trampa
@@ -15,4 +15,4 @@ public class FreezeTrampa : Trampa
         if (!ficha.shield)
             ficha.freeze = time;
     }
-}
+}*/

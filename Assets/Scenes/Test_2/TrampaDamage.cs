@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class TrampaDaño : Trampa
 {
@@ -12,8 +12,7 @@ public class TrampaDaño : Trampa
     public override void Activar(Ficha ficha)
     {
         if (!ficha.shield)
-            // Reduce puntos de vida de la ficha
             ficha.vida -= daño;
         Debug.Log($"Ficha {ficha.team.teamName} sufrió {daño} puntos de daño");
     }
-}
+}*/

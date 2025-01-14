@@ -52,9 +52,6 @@ public class SeleccionarFicha : MonoBehaviour
             turnManager.fichaSelecc = null;
             turnManager.PonerNegrasCasillas();
         }
-
-
-
     }
 }
 

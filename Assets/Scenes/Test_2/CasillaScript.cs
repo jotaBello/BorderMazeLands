@@ -1,13 +1,14 @@
 using UnityEngine;
-
 public class Casilla
 {
     public int fila;
     public int columna;
-    public bool EsCamino { get; set; }
-    public Ficha ficha { get; set; } // Si hay un jugador en la casilla
-
+    public bool EsCamino;
+    public bool isGoal;
+    public Ficha ficha;
     public GameObject casillaObject;
+
+    public ClickCasilla clickCasilla;
 
     public Trampa trampa;
 
@@ -16,8 +17,10 @@ public class Casilla
         fila = f;
         columna = c;
         EsCamino = esCamino;
-        ficha = null; // No hay jugador al principio
+        ficha = null;
         trampa = null;
     }
+
+
 }
 

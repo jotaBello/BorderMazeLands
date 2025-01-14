@@ -1,11 +1,12 @@
 using UnityEngine;
-
 public class Ficha
 {
-    public int Velocidad { get; set; }
-    public int HabilidadEnfriamiento { get; set; } // Tiempo de enfriamiento para la habilidad
-    public Casilla Posicion { get; set; }
+    public int Velocidad;
+    public Casilla Posicion;
+    public Casilla PosicionInicialTurno;
+    public Casilla Spawn;
     public Teams team;
+    public ClickFicha clickFicha;
 
     public int freeze;
     public int vida;
@@ -24,6 +25,9 @@ public class Ficha
         freeze = 0;
         shield = false;
     }
+
+
+
 
 
 }
