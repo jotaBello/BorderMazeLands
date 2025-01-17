@@ -15,7 +15,8 @@ MonoBehaviour:
   teamImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   teamName: Elemental
   teamDescription: 
-  velocidad: 50
+  velocidad: 4
   colort: {r: 1, g: 0.07715398, b: 0, a: 1}
+  playerSprite: {fileID: 5877024559328269138, guid: cffc5115f576cb245997e840e6be0dbf, type: 3}
   habilidadEnfriamiento: 0
   vida: 5

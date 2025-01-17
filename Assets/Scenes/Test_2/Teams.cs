@@ -11,6 +11,7 @@ public class Teams : ScriptableObject
     public int velocidad;
 
     public Color colort;
+    public Sprite playerSprite;
     public int habilidadEnfriamiento;
 
     public int vida;

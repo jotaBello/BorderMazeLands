@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using URandom = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
+using Quaternion = UnityEngine.Quaternion;
+
 public class MazeManager : MonoBehaviour
 {
 
@@ -20,6 +23,10 @@ public class MazeManager : MonoBehaviour
 
     public GameObject slot;
     public GameObject player;
+
+
+    public GameObject squareSelection;
+    public List<GameObject> squareSelectionList = new List<GameObject>();
 
 
 
@@ -110,21 +117,33 @@ public class MazeManager : MonoBehaviour
     void ColocarJugadores()
     {
         List<(int x, int y)> listInitialPositions = GeneratePositions();
+        listInitialPositions = ShuffleList(listInitialPositions);
 
         for (int i = 0; i < gameManager.users.Count; i++)
         {
-            for (int j = 0; j < 2; j++)
+            Ficha ficha = new Ficha(gameManager.users[i]);
+
+            ficha.Posicion = maze[listInitialPositions[i].x, listInitialPositions[i].y];
+            ficha.Spawn = ficha.Posicion;
+            ficha.PosicionInicialTurno = ficha.Posicion;
+
+
+            maze[listInitialPositions[i].x, listInitialPositions[i].y].ficha = ficha;
+            fichaManager.fichaList.Add(ficha);
+
+        }
+
+        List<(int x, int y)> ShuffleList(List<(int x, int y)> list)
+        {
+            List<(int x, int y)> shuffledList = new List<(int x, int y)>();
+
+            while (list.Count > 0)
             {
-                Ficha ficha = new Ficha(gameManager.users[i]);
-
-                ficha.Posicion = maze[listInitialPositions[2 * i + j].x, listInitialPositions[2 * i + j].y];
-                ficha.Spawn = ficha.Posicion;
-                ficha.PosicionInicialTurno = ficha.Posicion;
-
-
-                maze[listInitialPositions[2 * i + j].x, listInitialPositions[2 * i + j].y].ficha = ficha;
-                fichaManager.fichaList.Add(ficha);
+                int random = rand.Next(0, list.Count);
+                shuffledList.Add(list[random]);
+                list.RemoveAt(random);
             }
+            return shuffledList;
         }
     }
 
@@ -206,6 +225,12 @@ public class MazeManager : MonoBehaviour
                 }
 
             }
+
+
+            foreach (GameObject square in squareSelectionList)
+            {
+                Destroy(square);
+            }
         }
     }
 
@@ -257,7 +282,9 @@ public class MazeManager : MonoBehaviour
 
     void PonerVerde(int i, int j)
     {
-        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.green;
+        // maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.green;
+        GameObject squareSel = Instantiate(squareSelection, new Vector2(i, j), Quaternion.identity);
+        squareSelectionList.Add(squareSel);
     }
 
     public int[,] BFS((int, int) casillaInicio)
@@ -330,7 +357,8 @@ public class MazeManager : MonoBehaviour
 
     void IdentificarFicha(Ficha ficha)
     {
-        ficha.fichaObj.GetComponent<SpriteRenderer>().color = ficha.team.colort;
+        //ficha.fichaObj.GetComponent<SpriteRenderer>().color = ficha.team.colort;
+        ficha.fichaObj.GetComponent<SpriteRenderer>().sprite = ficha.team.playerSprite;
     }
 
     void Awake()
@@ -339,8 +367,8 @@ public class MazeManager : MonoBehaviour
 
 
         Generar();
-        ColocarTrampas();
         ColocarJugadores();
+        ColocarTrampas();
         ColocarMeta();
 
         InstanciarLaberinto();

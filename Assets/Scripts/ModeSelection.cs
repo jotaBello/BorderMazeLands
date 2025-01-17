@@ -12,4 +12,16 @@ public class ModeSelection : MonoBehaviour
         M.SetActive(false);
         P.SetActive(true);
     }
+    public void ThreePlayerSelection()
+    {
+        canvas.usersLimit = 3;
+        M.SetActive(false);
+        P.SetActive(true);
+    }
+    public void FourPlayerSelection()
+    {
+        canvas.usersLimit = 4;
+        M.SetActive(false);
+        P.SetActive(true);
+    }
 }

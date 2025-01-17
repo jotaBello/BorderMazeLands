@@ -290,6 +290,8 @@ MonoBehaviour:
   MainCamera: {fileID: 89105117}
   slot: {fileID: 6737991180159929581, guid: 0063f596b6752444d8f5c0648ec72392, type: 3}
   player: {fileID: 7503233823743090173, guid: 6793777a2e9580443a77ce223eda892e, type: 3}
+  squareSelection: {fileID: 7856423624883921230, guid: b362c8229b100e545b72d3eb62349947, type: 3}
+  squareSelectionList: []
 --- !u!4 &1059768173
 Transform:
   m_ObjectHideFlags: 0

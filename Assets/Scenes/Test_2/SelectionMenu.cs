@@ -14,6 +14,8 @@ public class SelectionMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentUser;
     [SerializeField] private TextMeshProUGUI teamDescription;
     private GameManager gameManager;
+
+    public GameObject selectButton;
     public int usersLimit;
 
     private void Start()
@@ -37,7 +39,25 @@ public class SelectionMenu : MonoBehaviour
         teamname.text = $"EQUIPO {index + 1} : {gameManager.teams[index].name}";
         currentUser.text = $"JUGADOR {gameManager.users.Count + 1}";
         teamDescription.text = gameManager.teams[index].teamDescription;
+
+        CheckSelectButton();
     }
+
+    void CheckSelectButton()
+    {
+        bool wasSelected = false;
+
+        foreach (Teams team in gameManager.users)
+        {
+            if (team.teamName == gameManager.teams[index].teamName)
+            {
+                wasSelected = true;
+            }
+        }
+        if (!wasSelected) selectButton.SetActive(true);
+        else selectButton.SetActive(false);
+    }
+
 
     public void NextTeam()
     {
@@ -75,7 +95,7 @@ public class SelectionMenu : MonoBehaviour
         else
         {
             gameManager.users.Add(gameManager.teams[index]);
-            gameManager.teams.RemoveAt(index);
+            // gameManager.teams.RemoveAt(index);
             UpdateScreen();
         }
     }
