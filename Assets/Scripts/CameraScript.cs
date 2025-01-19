@@ -9,7 +9,7 @@ public class CameraScript : MonoBehaviour
     {
         Camera.main.orthographicSize = Mathf.Max(mazeGen.laberinto.GetLength(0), mazeGen.laberinto.GetLength(1)) / 2f;
 
-    }
+   }
 
     // Update is called once per frame
     void Update()

@@ -12,6 +12,8 @@ public class Casilla
 
     public Trampa trampa;
 
+    public SpriteType spriteType;
+
     public Casilla(bool esCamino, int f, int c)
     {
         fila = f;
@@ -20,6 +22,13 @@ public class Casilla
         ficha = null;
         trampa = null;
     }
+
+    public enum SpriteType
+    {
+        none, wallLimitDown, wallLimitLeft, wallLimitUp, wallLimitRight, wallCornerDowLeft, wallCornerDowRight, wallCornerUpLeft, wallCornerUpRight, tMinus90, tPlus90, wallHorizontal, wallVertical,wallT,wallX,L,LReves,PointUp,PointDown,LMinus90,LMinus180,PointRight,PointLeft,
+    }
+
+
 
 
 }

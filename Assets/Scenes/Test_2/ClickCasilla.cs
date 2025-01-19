@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ClickCasilla : MonoBehaviour
@@ -7,6 +8,11 @@ public class ClickCasilla : MonoBehaviour
     public MazeManager mazeManager;
 
     public Casilla casilla;
+
+    //Test
+    public Casilla.SpriteType testSpriteType;
+    public int testFila;
+    public int testColumna;
 
     void Start()
     {
@@ -28,5 +34,12 @@ public class ClickCasilla : MonoBehaviour
             mazeManager.PrintMaze();
         }
         fichaManager.fichaSelecc = null;
+    }
+
+    void Update()
+    {
+        testSpriteType = casilla.spriteType;
+        testFila = casilla.fila;
+        testColumna = casilla.columna;
     }
 }

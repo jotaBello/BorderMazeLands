@@ -25,8 +25,27 @@ public class MazeManager : MonoBehaviour
     public GameObject player;
 
 
-    public GameObject squareSelection;
+
     public List<GameObject> squareSelectionList = new List<GameObject>();
+
+
+    //SPRITES
+    public GameObject squareSelection;
+    public Sprite path1;
+
+    public Sprite wallLimitDown, wallLimitLeft, wallLimitUp, wallLimitRight;
+
+    public Sprite wallCornerDowLeft, wallCornerDowRight, wallCornerUpLeft, wallCornerUpRight;
+
+    public Sprite tMinus90, tPlus90;
+    public Sprite wallHorizontal, wallVertical;
+    public Sprite wallT, wallX;
+    public Sprite L, LReves;
+    public Sprite PointUp, PointDown;
+    public Sprite LMinus90, LMinus180;
+    public Sprite PointRight, PointLeft;
+
+
 
 
 
@@ -236,11 +255,83 @@ public class MazeManager : MonoBehaviour
 
     void HacerCamino(int i, int j)
     {
-        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.black;
+        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = path1;
     }
     void HacerPared(int i, int j)
     {
-        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.white;
+        switch (maze[i, j].spriteType)
+        {
+            case Casilla.SpriteType.wallLimitDown:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitDown;
+                break;
+            case Casilla.SpriteType.wallLimitLeft:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitLeft;
+                break;
+            case Casilla.SpriteType.wallLimitUp:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitUp;
+                break;
+            case Casilla.SpriteType.wallLimitRight:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitRight;
+                break;
+            case Casilla.SpriteType.wallCornerDowLeft:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerDowLeft;
+                break;
+            case Casilla.SpriteType.wallCornerDowRight:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerDowRight;
+                break;
+            case Casilla.SpriteType.wallCornerUpLeft:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerUpLeft;
+                break;
+            case Casilla.SpriteType.wallCornerUpRight:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerUpRight;
+                break;
+            case Casilla.SpriteType.tMinus90:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = tMinus90;
+                break;
+            case Casilla.SpriteType.tPlus90:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = tPlus90;
+                break;
+            case Casilla.SpriteType.wallHorizontal:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallHorizontal;
+                break;
+            case Casilla.SpriteType.wallVertical:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallVertical;
+                break;
+            case Casilla.SpriteType.wallT:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallT;
+                break;
+            case Casilla.SpriteType.wallX:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallX;
+                break;
+            case Casilla.SpriteType.L:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = L;
+                break;
+            case Casilla.SpriteType.LReves:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = LReves;
+                break;
+            case Casilla.SpriteType.PointUp:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointUp;
+                break;
+            case Casilla.SpriteType.PointDown:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointDown;
+                break;
+            case Casilla.SpriteType.LMinus90:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = LMinus90;
+                break;
+            case Casilla.SpriteType.LMinus180:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = LMinus180;
+                break;
+            case Casilla.SpriteType.PointRight:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointRight;
+                break;
+            case Casilla.SpriteType.PointLeft:
+                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointLeft;
+                break;
+
+
+            default:
+                break;
+        }
     }
 
     void HacerTrampa(int i, int j)
@@ -361,6 +452,85 @@ public class MazeManager : MonoBehaviour
         ficha.fichaObj.GetComponent<SpriteRenderer>().sprite = ficha.team.playerSprite;
     }
 
+    void IdentificarCasilla(Casilla casilla)
+    {
+        int x = casilla.fila;
+        int y = casilla.columna;
+        //wallHorizontal
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino) casilla.spriteType = Casilla.SpriteType.wallHorizontal;
+
+        //wallvertical
+        if (!(y == 0 || y == maze.GetLength(0) - 1) && !maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallVertical;
+
+        //wallT
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallT;
+
+        //wallX
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallX;
+
+        //L
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.L;
+
+        //LReves
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.LReves;
+
+        //PointUp
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointUp;
+
+        //PointDown
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointDown;
+
+        //LMinus90
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.LMinus90;
+
+        //LMinus180
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.LMinus180;
+
+        //PointLeft
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointLeft;
+
+        //PointRight
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointRight;
+
+
+
+
+        //wallLimitDown
+        if (y == 0) casilla.spriteType = Casilla.SpriteType.wallLimitDown;
+        //wallLimitRigth
+        if (x == maze.GetLength(1) - 1) casilla.spriteType = Casilla.SpriteType.wallLimitRight;
+        //wallLimitUp
+        if (y == maze.GetLength(0) - 1) casilla.spriteType = Casilla.SpriteType.wallLimitUp;
+        //wallLimitLeft
+        if (x == 0) casilla.spriteType = Casilla.SpriteType.wallLimitLeft;
+        //tMinus90
+        if (casilla.spriteType == Casilla.SpriteType.wallLimitLeft && !maze[x + 1, y].EsCamino) casilla.spriteType = Casilla.SpriteType.tMinus90;
+        //tPlus90
+        if (x == maze.GetLength(1) - 1 && !maze[x - 1, y].EsCamino) casilla.spriteType = Casilla.SpriteType.tPlus90;
+
+        //wallCornerDowLeft
+        if (y == 0 && x == 0) casilla.spriteType = Casilla.SpriteType.wallCornerDowLeft;
+        //wallCornerDowRight
+        if (y == 0 && x == maze.GetLength(1) - 1) casilla.spriteType = Casilla.SpriteType.wallCornerDowRight;
+        //wallCornerUpLeft
+        if (y == maze.GetLength(0) - 1 && x == 0) casilla.spriteType = Casilla.SpriteType.wallCornerUpLeft;
+        //wallCornerUpRigh
+        if (y == maze.GetLength(0) - 1 && x == maze.GetLength(1) - 1) casilla.spriteType = Casilla.SpriteType.wallCornerUpRight;
+
+
+
+    }
+
+    void IdentificarCasillasLaberinto()
+    {
+        for (int i = 0; i < maze.GetLength(0); i++)
+        {
+            for (int j = 0; j < maze.GetLength(1); j++)
+            {
+                IdentificarCasilla(maze[i, j]);
+            }
+        }
+    }
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -371,6 +541,8 @@ public class MazeManager : MonoBehaviour
         ColocarTrampas();
         ColocarMeta();
 
+
+        IdentificarCasillasLaberinto();
         InstanciarLaberinto();
         PrintMaze();
         InstanciarJugadores();
