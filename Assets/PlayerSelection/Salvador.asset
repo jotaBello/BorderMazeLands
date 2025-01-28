@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
-  m_Name: Elemental
+  m_Name: Salvador
   m_EditorClassIdentifier: 
-  teamImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  teamName: Elemental
-  teamDescription: 
+  teamImage: {fileID: -5297570438975168841, guid: babd37a5c2d099b4889219ef96d6e91b, type: 3}
+  teamName: Salvador
+  teamDescription: El Gunzerker aumenta su vida en 2 puntos y velocidad en 1
   velocidad: 4
-  colort: {r: 1, g: 0.07715398, b: 0, a: 1}
-  playerSprite: {fileID: 5877024559328269138, guid: cffc5115f576cb245997e840e6be0dbf, type: 3}
-  habilidadEnfriamiento: 0
-  vida: 5
+  colort: {r: 0, g: 0, b: 0, a: 0}
+  playerSprite: {fileID: -5297570438975168841, guid: babd37a5c2d099b4889219ef96d6e91b, type: 3}
+  habilidadEnfriamiento: 3
+  vida: 6

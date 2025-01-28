@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
-  m_Name: Torgue
+  m_Name: Krieg
   m_EditorClassIdentifier: 
-  teamImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  teamName: Torgue
-  teamDescription: EXPLOSIVOOOS
-  velocidad: 3
+  teamImage: {fileID: 4629347822339926746, guid: 1b96ec777908b23418f0322027885d76, type: 3}
+  teamName: Krieg
+  teamDescription: El Psicopata explota las paredes adyascentes a el y las vuelve
+    camino
+  velocidad: 4
   colort: {r: 0.6226415, g: 0.25710058, b: 0, a: 1}
-  playerSprite: {fileID: -5631891675198990806, guid: 75d2ef6ff26d9194a9b4e2ddec48c6c5, type: 3}
-  habilidadEnfriamiento: 0
+  playerSprite: {fileID: 4629347822339926746, guid: 1b96ec777908b23418f0322027885d76, type: 3}
+  habilidadEnfriamiento: 3
   vida: 5

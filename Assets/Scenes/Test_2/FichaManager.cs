@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System.Threading;
+using Unity.Mathematics;
+using Unity.Mathematics.Geometry;
 
 public class FichaManager : MonoBehaviour
 {
     public Ficha fichaSelecc = null;
     public MazeManager mazeManager;
     public Turn_Manager turnManager;
+
+
+    GameObject key;
 
     public List<Ficha> fichaList = new List<Ficha>();
 
@@ -20,13 +25,17 @@ public class FichaManager : MonoBehaviour
     {
         if (fichaSel.freeze <= 0)
         {
-            mazeManager.PonerVerdeCasillasValidas(fichaSel);
+            if (!fichaSel.Moved) mazeManager.PonerVerdeCasillasValidas(fichaSel);
             fichaSelecc = fichaSel;
         }
     }
 
     public void MoverFicha(Ficha ficha, Casilla destino)
     {
+        if (ficha.Posicion.fila > destino.fila)
+            ficha.fichaObj.transform.rotation = quaternion.RotateY(math.PI);
+        if (ficha.Posicion.fila < destino.fila)
+            ficha.fichaObj.transform.rotation = quaternion.RotateY(0.0f);
         ficha.Posicion = destino;
         destino.ficha = ficha;
 
@@ -42,13 +51,10 @@ public class FichaManager : MonoBehaviour
             {
                 if (fich.Posicion.trampa != null)
                 {
+                    fich.Posicion.trampa.Actived = true;
                     fich.Posicion.trampa.Activar(fich);
-                    fich.Posicion.trampa = null;
-                    mazeManager.PrintMaze();
 
-                    Debug.Log($"Vida restante  : {fich.vida}");
-                    Debug.Log($"Velocidad restante  : {fich.Velocidad}");
-                    Debug.Log($"Freeze time  : {fich.freeze}");
+                    mazeManager.PrintMaze();
                 }
             }
 
@@ -89,5 +95,64 @@ public class FichaManager : MonoBehaviour
 
     }
 
+    public void CheckMovement()
+    {
+        foreach (Ficha ficha in fichaList)
+        {
+            ficha.Moved = false;
+        }
+    }
+
+    public void CheckCooldown()
+    {
+        foreach (Ficha ficha in fichaList)
+        {
+            if (ficha.team == turnManager.equipos[turnManager.turnoActual])
+            {
+                if (ficha.cooldown > 0) ficha.cooldown--;
+            }
+
+        }
+    }
+    public void CheckSlowness()
+    {
+        foreach (Ficha ficha in fichaList)
+        {
+            if (ficha.team == turnManager.equipos[turnManager.turnoActual])
+            {
+                if (ficha.slowness > 0) ficha.slowness--;
+                else
+                {
+                    ficha.Velocidad = ficha.team.velocidad;
+                }
+            }
+
+        }
+    }
+    public void CheckShield()
+    {
+        foreach (Ficha ficha in fichaList)
+        {
+            if (ficha.team == turnManager.equipos[turnManager.turnoActual])
+            {
+                if (ficha.shieldTime > 0) ficha.shieldTime--;
+                else
+                {
+                    ficha.shield = false;
+                }
+            }
+
+        }
+    }
+
+    public void CheckWithoutPassTurn()
+    {
+        CheckTraps();
+        CheckLife();
+        CheckFreeze();
+        turnManager.CheckKeys();
+        turnManager.CheckWin();
+        CheckTraps();
+    }
 
 }

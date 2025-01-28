@@ -10,7 +10,7 @@ public class SelectionMenu : MonoBehaviour
     public GameObject modeSelection;
     private int index;
     [SerializeField] private Image image;
-    [SerializeField] private TextMeshProUGUI teamname;
+    [SerializeField] private TextMeshProUGUI currentPlayer;
     [SerializeField] private TextMeshProUGUI currentUser;
     [SerializeField] private TextMeshProUGUI teamDescription;
     private GameManager gameManager;
@@ -36,9 +36,9 @@ public class SelectionMenu : MonoBehaviour
         if (index > gameManager.teams.Count - 1) index = 0;
         PlayerPrefs.SetInt("PlayerIndex", index);
         image.sprite = gameManager.teams[index].teamImage;
-        teamname.text = $"EQUIPO {index + 1} : {gameManager.teams[index].name}";
+        currentPlayer.text = $"{gameManager.teams[index].name}";
         currentUser.text = $"JUGADOR {gameManager.users.Count + 1}";
-        teamDescription.text = gameManager.teams[index].teamDescription;
+        teamDescription.text = $"        Vida: {gameManager.teams[index].vida}           Velocidad: {gameManager.teams[index].velocidad}        Enfriamiento: {gameManager.teams[index].habilidadEnfriamiento} \n Habilidad: {gameManager.teams[index].teamDescription}";
 
         CheckSelectButton();
     }

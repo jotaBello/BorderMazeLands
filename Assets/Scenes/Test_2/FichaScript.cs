@@ -9,10 +9,17 @@ public class Ficha
     public ClickFicha clickFicha;
 
     public int freeze;
+    public int slowness;
     public int vida;
     public bool shield;
+    public int shieldTime;
 
     public GameObject fichaObj;
+
+    public bool Moved;
+
+    public bool HadKey;
+    public int cooldown;
 
 
 
@@ -23,7 +30,9 @@ public class Ficha
         vida = team.vida;
         Velocidad = team.velocidad;
         freeze = 0;
+        slowness = 0;
         shield = false;
+        cooldown = team.habilidadEnfriamiento;
     }
 
 

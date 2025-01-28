@@ -27,7 +27,6 @@ public class ClickFicha : MonoBehaviour
     }
     void OnMouseDown()
     {
-        Debug.Log($"me tocaste, soy una ficha de {ficha.team}");
         if (ficha.team == GameManager.Instance.users[turnManager.turnoActual])
         {
             fichaManager.SeleccionarFicha(ficha);

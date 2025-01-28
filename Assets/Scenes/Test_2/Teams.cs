@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "NewTeam", menuName = "New Team")]
 public class Teams : ScriptableObject
@@ -14,6 +16,8 @@ public class Teams : ScriptableObject
     public Sprite playerSprite;
     public int habilidadEnfriamiento;
 
+
+
     public int vida;
 
 
@@ -21,17 +25,23 @@ public class Teams : ScriptableObject
     {
         switch (teamName)
         {
-            case "Elemental":
-                ElementalAbility(ficha);
+            case "Maya":
+                MayaAbility(ficha);
                 break;
-            case "Hyperion":
-                HyperionAbility(ficha);
+            case "Axton":
+                AxtonAbility(ficha);
                 break;
-            case "Jackobs":
-                JackobsAbility(ficha);
+            case "Zero":
+                ZeroAbility(ficha);
                 break;
-            case "Torgue":
-                TorgueAbility(ficha);
+            case "Krieg":
+                KriegAbility(ficha);
+                break;
+            case "Gaige":
+                GaigeAbility(ficha);
+                break;
+            case "Salvador":
+                SalvadorAbility(ficha);
                 break;
             default:
                 Debug.LogError("Ability from an Unknow Team");
@@ -39,7 +49,7 @@ public class Teams : ScriptableObject
         }
     }
 
-    void ElementalAbility(Ficha ficha)
+    void MayaAbility(Ficha ficha)
     {
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
@@ -48,7 +58,7 @@ public class Teams : ScriptableObject
 
         foreach (Ficha f in listNearEnemies)
         {
-            f.freeze = 2;
+            f.freeze = 3;
         }
 
 
@@ -93,16 +103,15 @@ public class Teams : ScriptableObject
 
     }
 
-    void HyperionAbility(Ficha ficha)
+    void AxtonAbility(Ficha ficha)
     {
         ficha.shield = true;
-
-        //falta implementar quitar el escudo
+        ficha.shieldTime = 3;
     }
 
-    void JackobsAbility(Ficha ficha)
+    void ZeroAbility(Ficha ficha)
     {
-        Debug.LogError("entro en jackobs ability");
+
 
         (int, int)[] directions =
         {
@@ -121,12 +130,11 @@ public class Teams : ScriptableObject
         (int, int) casillaPlayer = (casilla.fila, casilla.columna);
         List<Ficha> enemies = FindEnemies(casillaPlayer);
 
-        Debug.Log($"La habilidad comienza en {casilla.fila}, {casilla.columna}");
 
         foreach (Ficha enemie in enemies)
         {
-            enemie.vida = 0;
-            Debug.LogWarning("Die");
+            if (enemie != ficha)
+                enemie.vida -= 5;
         }
 
         List<Ficha> FindEnemies((int, int) casilla)
@@ -149,16 +157,14 @@ public class Teams : ScriptableObject
                 }
             }
 
-            if (enemies.Count > 0) Debug.LogWarning($"matare al menos uno ");
-            Debug.LogWarning($"{enemies.Count}");
+
             return enemies;
         }
 
     }
 
-    void TorgueAbility(Ficha ficha)
+    void KriegAbility(Ficha ficha)
     {
-        Debug.Log("Entro en torgue ability");
 
         (int, int)[] directions =
         {
@@ -185,10 +191,137 @@ public class Teams : ScriptableObject
                 if (!maze[fila, columna].EsCamino)
                 {
                     maze[fila, columna].EsCamino = true;
-                    maze[fila, columna].casillaObject.GetComponent<SpriteRenderer>().color = Color.black;
+                    mazeManager.HacerCamino(fila, columna);
                 }
             }
         }
         mazeManager.PonerVerdeCasillasValidas(ficha);
     }
+
+    void SalvadorAbility(Ficha ficha)
+    {
+        ficha.vida += 2;
+        ficha.Velocidad += 1;
+    }
+
+    void GaigeAbility(Ficha ficha)
+    {
+        (int, int)[] directions =
+                {
+        (0,-1),
+        (1,0),
+        (0,1),
+        (-1,0)
+
+    };
+        MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
+
+        Casilla[,] maze = mazeManager.maze;
+
+        Casilla goal = ficha.Posicion;
+        List<(Casilla key, int distance)> keys = new List<(Casilla keys, int distance)>();
+        Casilla key = ficha.Posicion;
+
+        int[,] bfs = mazeManager.BFS((ficha.Posicion.fila, ficha.Posicion.columna));
+
+        foreach (Casilla casilla in maze)
+        {
+            if (casilla.isGoal) goal = casilla;
+            else if (casilla.key != null) keys.Add((casilla, bfs[casilla.fila, casilla.columna]));
+        }
+
+
+
+        key = keys[0].key;
+        foreach (var Key in keys)
+        {
+            if (Key.distance < bfs[key.fila, key.columna])
+            {
+                key = Key.key;
+            }
+        }
+
+
+
+        if (ficha.HadKey)
+        {
+            List<Casilla> paths = GiveMeThePaths(ficha.Posicion, goal);
+            MostrarCasillas(paths);
+        }
+        else
+        {
+            List<Casilla> paths = GiveMeThePaths(ficha.Posicion, key);
+            MostrarCasillas(paths);
+        }
+
+
+
+
+
+        void MostrarCasillas(List<Casilla> paths)
+        {
+
+            if (paths.Count >= 3)
+            {
+                GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 1].fila, paths[paths.Count - 1].columna), Quaternion.identity);
+                mazeManager.squareSelectionList.Add(squareGaige1);
+                GameObject squareGaige2 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].fila, paths[paths.Count - 2].columna), Quaternion.identity);
+                mazeManager.squareSelectionList.Add(squareGaige2);
+            }
+            else if (paths.Count == 2)
+            {
+                GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 1].fila, paths[paths.Count - 1].columna), Quaternion.identity);
+                mazeManager.squareSelectionList.Add(squareGaige1);
+            }
+        }
+
+
+
+
+
+        List<Casilla> GiveMeThePaths(Casilla inicio, Casilla destino)
+        {
+            int distance = bfs[destino.fila, destino.columna];
+            Casilla current = destino;
+            List<Casilla> paths = new List<Casilla>();
+
+
+            while (distance > 0)
+            {
+
+                paths.Add(LaMinimaCasillaAdyascente(current));
+                current = paths[paths.Count - 1];
+                distance = bfs[current.fila, current.columna];
+            }
+
+            return paths;
+
+        }
+
+        Casilla LaMinimaCasillaAdyascente(Casilla current)
+        {
+
+            List<Casilla> adyascentes = new List<Casilla>();
+            Casilla posible = null;
+            int posibleDistance = int.MaxValue;
+
+            foreach (var dir in directions)
+            {
+                adyascentes.Add(maze[current.fila + dir.Item1, current.columna + dir.Item2]);
+            }
+            foreach (var ady in adyascentes)
+            {
+                if (ady.EsCamino && bfs[ady.fila, ady.columna] < posibleDistance)
+                {
+                    posibleDistance = bfs[ady.fila, ady.columna];
+                    posible = ady;
+                }
+            }
+            if (posible == null) Debug.LogError("Posibler nulo");
+            return posible;
+
+        }
+
+    }
+
 }

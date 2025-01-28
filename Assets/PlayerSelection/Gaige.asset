@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
-  m_Name: Jackobs
+  m_Name: Gaige
   m_EditorClassIdentifier: 
-  teamImage: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  teamName: Jackobs
-  teamDescription: 
+  teamImage: {fileID: 8412226727407725119, guid: 0de7a6a32cc2e4c47875463dab242acf, type: 3}
+  teamName: Gaige
+  teamDescription: La Mecanomante muestra el camino recomendado
   velocidad: 4
-  colort: {r: 0.42839468, g: 0, b: 0.4528302, a: 1}
-  playerSprite: {fileID: 2826493407183913623, guid: ac0f265613aac994bbef08b8ad3f3a8a, type: 3}
-  habilidadEnfriamiento: 0
+  colort: {r: 0, g: 0, b: 0, a: 0}
+  playerSprite: {fileID: 8412226727407725119, guid: 0de7a6a32cc2e4c47875463dab242acf, type: 3}
+  habilidadEnfriamiento: 3
   vida: 5

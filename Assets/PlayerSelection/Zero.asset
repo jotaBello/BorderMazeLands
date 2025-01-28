@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
+  m_Name: Zero
+  m_EditorClassIdentifier: 
+  teamImage: {fileID: 2826493407183913623, guid: ac0f265613aac994bbef08b8ad3f3a8a, type: 3}
+  teamName: Zero
+  teamDescription: El Asesino quita 5 de vida a todo enemigo en linea recta con el
+  velocidad: 4
+  colort: {r: 0.42839468, g: 0, b: 0.4528302, a: 1}
+  playerSprite: {fileID: 2826493407183913623, guid: ac0f265613aac994bbef08b8ad3f3a8a, type: 3}
+  habilidadEnfriamiento: 4
+  vida: 5

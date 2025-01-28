@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 
 public class Turn_Manager : MonoBehaviour
@@ -33,26 +34,110 @@ public class Turn_Manager : MonoBehaviour
         {
             if (fichaManager.fichaSelecc != null)
             {
-                fichaManager.fichaSelecc.team.Habilidad(fichaManager.fichaSelecc);
-                fichaManager.CheckLife();
+                if (fichaManager.fichaSelecc.cooldown <= 0)
+                {
+                    fichaManager.fichaSelecc.team.Habilidad(fichaManager.fichaSelecc);
+                    fichaManager.CheckLife();
+                    fichaManager.fichaSelecc.cooldown = fichaManager.fichaSelecc.team.habilidadEnfriamiento;
+                }
             }
         }
+
+
     }
 
     void IniciarTurno()
     {
 
-
+        UpdateCamera();
     }
+
+    void UpdateCamera()
+    {
+        GameObject target = null;
+        foreach (Ficha ficha in fichaManager.fichaList)
+        {
+            if (ficha.team == equipos[turnoActual])
+            {
+                target = ficha.fichaObj;
+            }
+        }
+        mazeManager.MainCamera.GetComponent<Camera_Script>().target = target;
+    }
+
+    void UpdateLight()
+    {
+        foreach (Ficha ficha in fichaManager.fichaList)
+        {
+            if (ficha.team == equipos[turnoActual])
+            {
+                ficha.fichaObj.GetComponent<Light2D>().enabled = false;
+            }
+            if (ficha.team == equipos[(turnoActual + 1) % equipos.Count])
+            {
+                ficha.fichaObj.GetComponent<Light2D>().enabled = true;
+            }
+        }
+    }
+
+    public void CheckWin()
+    {
+        foreach (Ficha ficha in fichaManager.fichaList)
+        {
+            if (ficha.team == equipos[turnoActual])
+            {
+                if (ficha.Posicion.isGoal == true && ficha.HadKey)
+                {
+                    Win(ficha);
+                }
+            }
+        }
+    }
+
+    void Win(Ficha ficha)
+    {
+        Debug.Log($"{ficha.team.teamName} WINS ");
+    }
+
+    public void CheckKeys()
+    {
+        foreach (Ficha ficha in fichaManager.fichaList)
+        {
+            if (ficha.team == equipos[turnoActual])
+            {
+                if (ficha.Posicion.key != null && !ficha.HadKey && ficha.Posicion.key.GetComponent<KeyScript>().target == null)
+                {
+                    ficha.Posicion.key.GetComponent<KeyScript>().target = ficha.fichaObj;
+                    ficha.HadKey = true;
+                }
+            }
+        }
+    }
+
+
+
 
     public void FinalizarTurno()
     {
+        fichaManager.fichaSelecc = null;
 
-        fichaManager.CheckTraps();
-        fichaManager.CheckLife();
+        //fichaManager.CheckTraps();
+        // fichaManager.CheckLife();
         fichaManager.CheckFreeze();
         fichaManager.UpdateInitialPosotion();
         mazeManager.PrintMaze();
+        fichaManager.CheckMovement();
+        fichaManager.CheckCooldown();
+        fichaManager.CheckSlowness();
+        fichaManager.CheckShield();
+
+
+        UpdateLight();
+
+        CheckWin();
+
+        CheckKeys();
+
 
 
         turnoActual = (turnoActual + 1) % equipos.Count;
