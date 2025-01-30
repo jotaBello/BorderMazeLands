@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamImage: {fileID: -5297570438975168841, guid: babd37a5c2d099b4889219ef96d6e91b, type: 3}
   teamName: Salvador
-  teamDescription: El Gunzerker aumenta su vida en 2 puntos y velocidad en 1
+  teamDescription: El Gunzerker aumenta su vision y velocidad durante 1 turno
   velocidad: 4
   colort: {r: 0, g: 0, b: 0, a: 0}
   playerSprite: {fileID: -5297570438975168841, guid: babd37a5c2d099b4889219ef96d6e91b, type: 3}

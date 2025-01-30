@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Threading;
 using Unity.Mathematics;
 using Unity.Mathematics.Geometry;
+using UnityEngine.Rendering.Universal;
 
 public class FichaManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class FichaManager : MonoBehaviour
     {
         if (fichaSel.freeze <= 0)
         {
-            if (!fichaSel.Moved) mazeManager.PonerVerdeCasillasValidas(fichaSel);
+            if (!fichaSel.Moved && fichaSel.freeze <= 0) mazeManager.PonerVerdeCasillasValidas(fichaSel);
             fichaSelecc = fichaSel;
         }
     }
@@ -40,6 +41,8 @@ public class FichaManager : MonoBehaviour
         destino.ficha = ficha;
 
         ficha.fichaObj.transform.position = destino.casillaObject.transform.position;
+
+
         mazeManager.PrintMaze();
     }
 
@@ -54,6 +57,7 @@ public class FichaManager : MonoBehaviour
                     fich.Posicion.trampa.Actived = true;
                     fich.Posicion.trampa.Activar(fich);
 
+
                     mazeManager.PrintMaze();
                 }
             }
@@ -66,9 +70,18 @@ public class FichaManager : MonoBehaviour
         {
             if (ficha.vida <= 0)
             {
+                if (ficha.HadKey)
+                {
+                    ficha.HadKey = false;
+                    ficha.key.CaerEnELPiso(ficha.Posicion);
+                    ficha.key = null;
+                }
+
                 Casilla spawn = ficha.Spawn;
                 MoverFicha(ficha, spawn);
                 ficha.vida = ficha.team.vida;
+
+
             }
         }
 
@@ -129,6 +142,22 @@ public class FichaManager : MonoBehaviour
 
         }
     }
+    public void CheckLight()
+    {
+        foreach (Ficha ficha in fichaList)
+        {
+            if (ficha.team == turnManager.equipos[turnManager.turnoActual])
+            {
+                if (ficha.lighttime > 1) ficha.lighttime--;
+                else
+                {
+                    ficha.fichaObj.GetComponent<Light2D>().pointLightOuterRadius = 6.0f;
+                    ficha.fichaObj.GetComponent<Light2D>().pointLightInnerRadius = 2.0f;
+                }
+            }
+
+        }
+    }
     public void CheckShield()
     {
         foreach (Ficha ficha in fichaList)
@@ -152,7 +181,6 @@ public class FichaManager : MonoBehaviour
         CheckFreeze();
         turnManager.CheckKeys();
         turnManager.CheckWin();
-        CheckTraps();
     }
 
 }

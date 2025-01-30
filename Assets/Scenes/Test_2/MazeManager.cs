@@ -223,9 +223,13 @@ public class MazeManager : MonoBehaviour
     void ColocarKeys()
     {
         maze[15, 29].key = Instantiate(Key, new Vector2(15, 29), Quaternion.identity);
+        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[15, 29];
         maze[29, 15].key = Instantiate(Key, new Vector2(29, 15), Quaternion.identity);
+        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[29, 15];
         maze[15, 1].key = Instantiate(Key, new Vector2(15, 1), Quaternion.identity);
+        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[15, 1];
         maze[1, 15].key = Instantiate(Key, new Vector2(1, 15), Quaternion.identity);
+        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[1, 15];
 
     }
 
@@ -402,8 +406,8 @@ public class MazeManager : MonoBehaviour
                 sprite = TrampaLight;
                 break;
         }
-        if (maze[i, j].trampa.Actived || maze[i, j].trampa.tipo == "Tele" || maze[i, j].trampa.tipo == "Light")
-            maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        // if (maze[i, j].trampa.Actived || maze[i, j].trampa.tipo == "Tele" || maze[i, j].trampa.tipo == "Light")
+        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
     void HacerGoal(int i, int j)

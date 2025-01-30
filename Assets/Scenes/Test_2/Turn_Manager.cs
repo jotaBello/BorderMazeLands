@@ -3,6 +3,7 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 
 public class Turn_Manager : MonoBehaviour
@@ -10,12 +11,14 @@ public class Turn_Manager : MonoBehaviour
     public MazeManager mazeManager;
     private GameManager gameManager;
     public FichaManager fichaManager;
+    private HudManager hudManager;
     public List<Teams> equipos;
     public int turnoActual;
 
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
 
 
 
@@ -42,8 +45,6 @@ public class Turn_Manager : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     void IniciarTurno()
@@ -97,6 +98,8 @@ public class Turn_Manager : MonoBehaviour
     void Win(Ficha ficha)
     {
         Debug.Log($"{ficha.team.teamName} WINS ");
+        gameManager.winner = ficha;
+        hudManager.Win();
     }
 
     public void CheckKeys()
@@ -109,6 +112,7 @@ public class Turn_Manager : MonoBehaviour
                 {
                     ficha.Posicion.key.GetComponent<KeyScript>().target = ficha.fichaObj;
                     ficha.HadKey = true;
+                    ficha.key = ficha.Posicion.key.GetComponent<KeyScript>();
                 }
             }
         }
@@ -121,8 +125,7 @@ public class Turn_Manager : MonoBehaviour
     {
         fichaManager.fichaSelecc = null;
 
-        //fichaManager.CheckTraps();
-        // fichaManager.CheckLife();
+
         fichaManager.CheckFreeze();
         fichaManager.UpdateInitialPosotion();
         mazeManager.PrintMaze();
@@ -132,6 +135,7 @@ public class Turn_Manager : MonoBehaviour
         fichaManager.CheckShield();
 
 
+        fichaManager.CheckLight();
         UpdateLight();
 
         CheckWin();

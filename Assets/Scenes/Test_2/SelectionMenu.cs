@@ -12,15 +12,22 @@ public class SelectionMenu : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI currentPlayer;
     [SerializeField] private TextMeshProUGUI currentUser;
-    [SerializeField] private TextMeshProUGUI teamDescription;
-    private GameManager gameManager;
+
+
+    [SerializeField] private TextMeshProUGUI LifeText;
+    [SerializeField] private TextMeshProUGUI VelocityText;
+    [SerializeField] private TextMeshProUGUI CoolDownText;
+    [SerializeField] private TextMeshProUGUI AbilityText;
+
+
+
+    public GameManager gameManager;
 
     public GameObject selectButton;
     public int usersLimit;
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
         index = PlayerPrefs.GetInt("PlayerIndex");
 
         if (index > gameManager.teams.Count - 1)
@@ -38,7 +45,12 @@ public class SelectionMenu : MonoBehaviour
         image.sprite = gameManager.teams[index].teamImage;
         currentPlayer.text = $"{gameManager.teams[index].name}";
         currentUser.text = $"JUGADOR {gameManager.users.Count + 1}";
-        teamDescription.text = $"        Vida: {gameManager.teams[index].vida}           Velocidad: {gameManager.teams[index].velocidad}        Enfriamiento: {gameManager.teams[index].habilidadEnfriamiento} \n Habilidad: {gameManager.teams[index].teamDescription}";
+
+
+        LifeText.text = gameManager.teams[index].vida.ToString();
+        VelocityText.text = gameManager.teams[index].velocidad.ToString();
+        CoolDownText.text = gameManager.teams[index].habilidadEnfriamiento.ToString();
+        AbilityText.text = gameManager.teams[index].teamDescription;
 
         CheckSelectButton();
     }
@@ -118,6 +130,10 @@ public class SelectionMenu : MonoBehaviour
         usersLimit = 8;
         modeSelection.SetActive(false);
         playerSelection.SetActive(true);
+    }
+    public void Quit()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

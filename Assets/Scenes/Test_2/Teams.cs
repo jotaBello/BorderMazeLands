@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(fileName = "NewTeam", menuName = "New Team")]
 public class Teams : ScriptableObject
@@ -82,7 +83,7 @@ public class Teams : ScriptableObject
                     {
                         //Debug.LogError($"hay una ficha en la posicion {i}, {j}");
                         //Debug.LogError($"para llegar a la posicion {i}, {j} se necesitan {bfs[i, j]}");
-                        if (bfs[i, j] <= 2)
+                        if (bfs[i, j] <= 4)
                         {
                             // Debug.LogError($"hay una casilla valida en la posicion {i}, {j}");
                             if (maze[i, j].ficha != ficha)
@@ -186,7 +187,7 @@ public class Teams : ScriptableObject
             int fila = casillaPlayer.Item1 + dir.Item1;
             int columna = casillaPlayer.Item2 + dir.Item2;
 
-            if (fila >= 0 && fila < maze.GetLength(0) && columna >= 0 && columna < maze.GetLength(1))
+            if (fila > 0 && fila < maze.GetLength(0) - 1 && columna > 0 && columna < maze.GetLength(1) - 1)
             {
                 if (!maze[fila, columna].EsCamino)
                 {
@@ -200,8 +201,15 @@ public class Teams : ScriptableObject
 
     void SalvadorAbility(Ficha ficha)
     {
-        ficha.vida += 2;
-        ficha.Velocidad += 1;
+        MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
+
+
+        ficha.Velocidad += 2;
+        ficha.lighttime = 1;
+        ficha.fichaObj.GetComponent<Light2D>().pointLightOuterRadius *= 1.5f;
+        ficha.fichaObj.GetComponent<Light2D>().pointLightInnerRadius *= 1.5f;
+        mazeManager.PonerVerdeCasillasValidas(ficha);
+
     }
 
     void GaigeAbility(Ficha ficha)
@@ -214,6 +222,7 @@ public class Teams : ScriptableObject
         (-1,0)
 
     };
+   //Debug.LogError("Paso1");
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
         Casilla[,] maze = mazeManager.maze;
@@ -251,6 +260,7 @@ public class Teams : ScriptableObject
         else
         {
             List<Casilla> paths = GiveMeThePaths(ficha.Posicion, key);
+           // Debug.LogError("Paso2");
             MostrarCasillas(paths);
         }
 
@@ -260,18 +270,27 @@ public class Teams : ScriptableObject
 
         void MostrarCasillas(List<Casilla> paths)
         {
+           // Debug.LogError("Paso3");
 
             if (paths.Count >= 3)
             {
-                GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 1].fila, paths[paths.Count - 1].columna), Quaternion.identity);
+              
+                GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].fila, paths[paths.Count - 2].columna), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige1);
-                GameObject squareGaige2 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].fila, paths[paths.Count - 2].columna), Quaternion.identity);
+                GameObject squareGaige2 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 3].fila, paths[paths.Count - 3].columna), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige2);
+                //Debug.LogError("Paso4");
             }
             else if (paths.Count == 2)
             {
-                GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 1].fila, paths[paths.Count - 1].columna), Quaternion.identity);
+                
+                GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].fila, paths[paths.Count - 2].columna), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige1);
+               // Debug.LogError("Paso4");
+            }
+            else
+            {
+                Debug.LogError("no entro en ninguna, maya");
             }
         }
 

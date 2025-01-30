@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamImage: {fileID: 8412226727407725119, guid: 0de7a6a32cc2e4c47875463dab242acf, type: 3}
   teamName: Gaige
-  teamDescription: La Mecanomante muestra el camino recomendado
+  teamDescription: La Mecanomante muestra el camino a la La Camara
   velocidad: 4
   colort: {r: 0, g: 0, b: 0, a: 0}
   playerSprite: {fileID: 8412226727407725119, guid: 0de7a6a32cc2e4c47875463dab242acf, type: 3}

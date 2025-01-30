@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamImage: {fileID: 5877024559328269138, guid: cffc5115f576cb245997e840e6be0dbf, type: 3}
   teamName: Maya
-  teamDescription: La Sirena congela a todo los enemigos a 2 casillas de distancia
+  teamDescription: La Sirena congela a todo los enemigos a 4 casillas de distancia
   velocidad: 4
   colort: {r: 1, g: 0.07715398, b: 0, a: 1}
   playerSprite: {fileID: 5877024559328269138, guid: cffc5115f576cb245997e840e6be0dbf, type: 3}

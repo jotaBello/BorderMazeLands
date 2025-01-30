@@ -70,10 +70,11 @@ public class Trampa
     }
     void TrampaFreeze(Ficha ficha)
     {
-        int time = URandom.Range(3, 5);
+        //int time = URandom.Range(3, 5);
 
         if (!ficha.shield && !Actived)
-            ficha.freeze = time;
+            ficha.freeze = 3;
+        
     }
     void TrampaCoolDown(Ficha ficha)
     {
@@ -83,10 +84,14 @@ public class Trampa
     void TrampaSlowness(Ficha ficha)
     {
         if (!ficha.shield)
-            ficha.Velocidad /= 2;
+        {
+            ficha.Velocidad -= 2;
+            ficha.slowness = 2;
+        }
     }
     void TrampaLight(Ficha ficha)
     {
+        ficha.lighttime = 2;
         ficha.fichaObj.GetComponent<Light2D>().pointLightOuterRadius *= 1.5f;
         ficha.fichaObj.GetComponent<Light2D>().pointLightInnerRadius *= 1.5f;
     }

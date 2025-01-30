@@ -10,6 +10,7 @@ public class Ficha
 
     public int freeze;
     public int slowness;
+    public int lighttime;
     public int vida;
     public bool shield;
     public int shieldTime;
@@ -19,6 +20,7 @@ public class Ficha
     public bool Moved;
 
     public bool HadKey;
+    public KeyScript key;
     public int cooldown;
 
 

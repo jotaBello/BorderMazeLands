@@ -24,12 +24,12 @@ public class ClickCasilla : MonoBehaviour
     {
         if (fichaManager.fichaSelecc != null)
         {
-            if (mazeManager.IsValidCasilla(casilla, fichaManager.fichaSelecc) && fichaManager.fichaSelecc.team == turnManager.equipos[turnManager.turnoActual] && !fichaManager.fichaSelecc.Moved)
+            if (mazeManager.IsValidCasilla(casilla, fichaManager.fichaSelecc) && fichaManager.fichaSelecc.team == turnManager.equipos[turnManager.turnoActual] && !fichaManager.fichaSelecc.Moved && fichaManager.fichaSelecc.freeze <= 0)
             {
                 fichaManager.MoverFicha(fichaManager.fichaSelecc, casilla);
                 fichaManager.fichaSelecc.Moved = true;
-                fichaManager.CheckWithoutPassTurn();
             }
+            fichaManager.CheckWithoutPassTurn();
             mazeManager.PrintMaze();
         }
         else

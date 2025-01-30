@@ -24,4 +24,8 @@ public class ModeSelection : MonoBehaviour
         M.SetActive(false);
         P.SetActive(true);
     }
+    public void Quit()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
