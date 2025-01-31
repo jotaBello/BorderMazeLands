@@ -11,14 +11,14 @@ using System.IO;
 public class MazeManager : MonoBehaviour
 {
 
-    public static int filas = 31, columnas = 31;
-    public Casilla[,] maze = new Casilla[filas, columnas];
+    public static int rows = 31, columns = 31;
+    public Tile[,] maze = new Tile[rows, columns];
     System.Random rand = new System.Random();
-    List<(int, int, int, int)> paredes = new List<(int, int, int, int)>();
+    List<(int, int, int, int)> walls = new List<(int, int, int, int)>();
 
 
     public GameManager gameManager;
-    public FichaManager fichaManager;
+    public PieceManager pieceManager;
 
     public GameObject MainCamera;
 
@@ -47,12 +47,12 @@ public class MazeManager : MonoBehaviour
     public Sprite LMinus90, LMinus180;
     public Sprite PointRight, PointLeft;
 
-    public Sprite TrampaDamage;
-    public Sprite TrampaTele;
-    public Sprite TrampaFreeze;
-    public Sprite TrampaCoolDown;
-    public Sprite TrampaSlowness;
-    public Sprite TrampaLight;
+    public Sprite TrapDamage;
+    public Sprite TrapTele;
+    public Sprite TrapFreeze;
+    public Sprite TrapCoolDown;
+    public Sprite TrapSlowness;
+    public Sprite TrapLight;
 
 
     public GameObject Goal;
@@ -64,126 +64,126 @@ public class MazeManager : MonoBehaviour
 
     void Generar()
     {
-        for (int i = 0; i < filas; i++)
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < columnas; j++)
+            for (int j = 0; j < columns; j++)
             {
                 // Asume que todo es pared por defecto
-                maze[i, j] = new Casilla(false, i, j);
+                maze[i, j] = new Tile(false, i, j);
             }
         }
 
 
         // Selecciona una celda inicial en una posición impar
         int x = 15, y = 15;
-        maze[x, y].EsCamino = true;  // Marca la celda como camino
+        maze[x, y].isPath = true;  // Marca la celda como camino
 
-        // Añade las paredes iniciales de esta celda
-        AgregarParedes(x, y);
+        // Añade las walls iniciales de esta celda
+        PutWalls(x, y);
 
 
-        // Procesa las paredes hasta que se acaben
-        while (paredes.Count > 0)
+        // Procesa las walls hasta que se acaben
+        while (walls.Count > 0)
         {
             // Elige una pared al azar y la elimina de la lista
-            int indice = rand.Next(paredes.Count);
-            var (px, py, cx, cy) = paredes[indice];
-            paredes.RemoveAt(indice);
+            int index = rand.Next(walls.Count);
+            var (px, py, cx, cy) = walls[index];
+            walls.RemoveAt(index);
 
             // Si la celda conectada no ha sido visitada
-            if (!maze[cx, cy].EsCamino)
+            if (!maze[cx, cy].isPath)
             {
-                maze[px, py].EsCamino = true; // Elimina la pared entre las celdas
-                maze[cx, cy].EsCamino = true; // Marca la nueva celda como camino
-                AgregarParedes(cx, cy); // Añade las paredes de la nueva celda
+                maze[px, py].isPath = true; // Elimina la pared entre las celdas
+                maze[cx, cy].isPath = true; // Marca la nueva celda como camino
+                PutWalls(cx, cy); // Añade las walls de la nueva celda
             }
         }
 
 
     }
 
-    void AgregarParedes(int x, int y)
+    void PutWalls(int x, int y)
     {
-        // Añade las paredes de las celdas adyacentes (solo celdas impares)
-        if (x > 1) paredes.Add((x - 1, y, x - 2, y)); // Arriba
-        if (x < filas - 2) paredes.Add((x + 1, y, x + 2, y)); // Abajo
-        if (y > 1) paredes.Add((x, y - 1, x, y - 2)); // Izquierda
-        if (y < columnas - 2) paredes.Add((x, y + 1, x, y + 2)); // Derecha
+        // Añade las walls de las celdas adyacentes (solo celdas impares)
+        if (x > 1) walls.Add((x - 1, y, x - 2, y)); // Arriba
+        if (x < rows - 2) walls.Add((x + 1, y, x + 2, y)); // Abajo
+        if (y > 1) walls.Add((x, y - 1, x, y - 2)); // Izquierda
+        if (y < columns - 2) walls.Add((x, y + 1, x, y + 2)); // Derecha
     }
 
-    void ColocarTrampas()
+    void PutTraps()
     {
-        int cantidadTrampas = 40; // Número de trampas que quieres colocar
-        int intentos = 0;
-        int cantidadBuff = 0;
+        int amountOfTraps = 40; // Número de traps que quieres colocar
+        int tries = 0;
+        int amountOfBuffs = 0;
 
-        while (cantidadTrampas > 0 && intentos < 1000)
+        while (amountOfTraps > 0 && tries < 1000)
         {
-            int x = rand.Next(1, filas - 1);
-            int y = rand.Next(1, columnas - 1);
+            int x = rand.Next(1, rows - 1);
+            int y = rand.Next(1, columns - 1);
 
 
 
 
-            if (maze[x, y].EsCamino && maze[x, y].trampa == null && maze[x, y].ficha == null && maze[x, y].key == null && !maze[x, y].isGoal)
+            if (maze[x, y].isPath && maze[x, y].trap == null && maze[x, y].piece == null && maze[x, y].key == null && !maze[x, y].isGoal)
             {
-                int tipoTrampa;
+                int tipeTrap;
 
-                if (cantidadBuff >= 5)
+                if (amountOfBuffs >= 5)
                 {
-                    tipoTrampa = rand.Next(2, 6);
+                    tipeTrap = rand.Next(2, 6);
                 }
                 else
                 {
-                    tipoTrampa = rand.Next(0, 6);
+                    tipeTrap = rand.Next(0, 6);
                 }
 
-                switch (tipoTrampa)
+                switch (tipeTrap)
                 {
                     case 0:
-                        maze[x, y].trampa = new Trampa(maze[x, y], "Tele");
-                        cantidadBuff++;
+                        maze[x, y].trap = new Trap(maze[x, y], "Tele");
+                        amountOfBuffs++;
                         break;
                     case 1:
-                        maze[x, y].trampa = new Trampa(maze[x, y], "Light");
-                        cantidadBuff++;
+                        maze[x, y].trap = new Trap(maze[x, y], "Light");
+                        amountOfBuffs++;
                         break;
                     case 2:
-                        maze[x, y].trampa = new Trampa(maze[x, y], "Freeze");
+                        maze[x, y].trap = new Trap(maze[x, y], "Freeze");
                         break;
                     case 3:
-                        maze[x, y].trampa = new Trampa(maze[x, y], "CoolDown");
+                        maze[x, y].trap = new Trap(maze[x, y], "CoolDown");
                         break;
                     case 4:
-                        maze[x, y].trampa = new Trampa(maze[x, y], "Slowness");
+                        maze[x, y].trap = new Trap(maze[x, y], "Slowness");
                         break;
                     case 5:
-                        maze[x, y].trampa = new Trampa(maze[x, y], "Damage");
+                        maze[x, y].trap = new Trap(maze[x, y], "Damage");
                         break;
                 }
-                cantidadTrampas--;
+                amountOfTraps--;
             }
 
-            intentos++;
+            tries++;
         }
     }
 
-    void ColocarJugadores()
+    void PutPlayers()
     {
         List<(int x, int y)> listInitialPositions = GeneratePositions();
         listInitialPositions = ShuffleList(listInitialPositions);
 
         for (int i = 0; i < gameManager.users.Count; i++)
         {
-            Ficha ficha = new Ficha(gameManager.users[i]);
+            Piece piece = new Piece(gameManager.users[i]);
 
-            ficha.Posicion = maze[listInitialPositions[i].x, listInitialPositions[i].y];
-            ficha.Spawn = ficha.Posicion;
-            ficha.PosicionInicialTurno = ficha.Posicion;
+            piece.Position = maze[listInitialPositions[i].x, listInitialPositions[i].y];
+            piece.SpawnTile = piece.Position;
+            piece.PositionInitialTurn = piece.Position;
 
 
-            maze[listInitialPositions[i].x, listInitialPositions[i].y].ficha = ficha;
-            fichaManager.fichaList.Add(ficha);
+            maze[listInitialPositions[i].x, listInitialPositions[i].y].piece = piece;
+            pieceManager.pieceList.Add(piece);
 
         }
 
@@ -215,53 +215,53 @@ public class MazeManager : MonoBehaviour
         return listInitialPositions;
     }
 
-    void ColocarMeta()
+    void PutGoal()
     {
         maze[15, 15].isGoal = true;
         Instantiate(Goal, new Vector2(15, 15), Quaternion.identity);
     }
-    void ColocarKeys()
+    void PutKeys()
     {
         maze[15, 29].key = Instantiate(Key, new Vector2(15, 29), Quaternion.identity);
-        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[15, 29];
+        maze[15, 29].key.GetComponent<KeyScript>().currentTile = maze[15, 29];
         maze[29, 15].key = Instantiate(Key, new Vector2(29, 15), Quaternion.identity);
-        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[29, 15];
+        maze[15, 29].key.GetComponent<KeyScript>().currentTile = maze[29, 15];
         maze[15, 1].key = Instantiate(Key, new Vector2(15, 1), Quaternion.identity);
-        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[15, 1];
+        maze[15, 29].key.GetComponent<KeyScript>().currentTile = maze[15, 1];
         maze[1, 15].key = Instantiate(Key, new Vector2(1, 15), Quaternion.identity);
-        maze[15, 29].key.GetComponent<KeyScript>().casillaActual = maze[1, 15];
+        maze[15, 29].key.GetComponent<KeyScript>().currentTile = maze[1, 15];
 
     }
 
-    void InstanciarLaberinto()
+    void InstantiateMaze()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
         {
             for (int j = 0; j < maze.GetLength(1); j++)
             {
                 Vector2 position = new Vector2(i, j);
-                maze[i, j].casillaObject = Instantiate(slot, position, Quaternion.identity);
-                maze[i, j].clickCasilla = maze[i, j].casillaObject.GetComponent<ClickCasilla>();
-                maze[i, j].clickCasilla.casilla = maze[i, j];
+                maze[i, j].tileObject = Instantiate(slot, position, Quaternion.identity);
+                maze[i, j].clickTile = maze[i, j].tileObject.GetComponent<ClickTile>();
+                maze[i, j].clickTile.tile = maze[i, j];
             }
         }
 
     }
 
-    void InstanciarJugadores()
+    void InstantiatePlayers()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
         {
             for (int j = 0; j < maze.GetLength(1); j++)
             {
-                if (maze[i, j].ficha != null)
+                if (maze[i, j].piece != null)
                 {
                     Vector2 position = new Vector2(i, j);
-                    maze[i, j].ficha.fichaObj = Instantiate(player, position, Quaternion.identity);
-                    maze[i, j].ficha.clickFicha = maze[i, j].ficha.fichaObj.GetComponent<ClickFicha>();
-                    maze[i, j].ficha.clickFicha.ficha = maze[i, j].ficha;
+                    maze[i, j].piece.pieceObject = Instantiate(player, position, Quaternion.identity);
+                    maze[i, j].piece.clickPiece = maze[i, j].piece.pieceObject.GetComponent<ClickPiece>();
+                    maze[i, j].piece.clickPiece.piece = maze[i, j].piece;
 
-                    IdentificarFicha(maze[i, j].ficha);
+                    IdentifyPiece(maze[i, j].piece);
                 }
             }
         }
@@ -273,22 +273,22 @@ public class MazeManager : MonoBehaviour
         {
             for (int j = 0; j < maze.GetLength(1); j++)
             {
-                if (maze[i, j].EsCamino)
+                if (maze[i, j].isPath)
                 {
-                    HacerCamino(i, j);
+                    MakePath(i, j);
                 }
                 else
                 {
-                    HacerPared(i, j);
+                    MakeWall(i, j);
                 }
 
-                if (maze[i, j].trampa != null)
+                if (maze[i, j].trap != null)
                 {
-                    HacerTrampa(i, j);
+                    MakeTrap(i, j);
                 }
                 if (maze[i, j].isGoal)
                 {
-                    //HacerGoal(i, j);
+                    //MakeGoal(i, j);
                 }
 
             }
@@ -301,79 +301,79 @@ public class MazeManager : MonoBehaviour
         }
     }
 
-    public void HacerCamino(int i, int j)
+    public void MakePath(int i, int j)
     {
-        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = path1;
+        maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = path1;
     }
-    void HacerPared(int i, int j)
+    void MakeWall(int i, int j)
     {
         switch (maze[i, j].spriteType)
         {
-            case Casilla.SpriteType.wallLimitDown:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitDown;
+            case Tile.SpriteType.wallLimitDown:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallLimitDown;
                 break;
-            case Casilla.SpriteType.wallLimitLeft:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitLeft;
+            case Tile.SpriteType.wallLimitLeft:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallLimitLeft;
                 break;
-            case Casilla.SpriteType.wallLimitUp:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitUp;
+            case Tile.SpriteType.wallLimitUp:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallLimitUp;
                 break;
-            case Casilla.SpriteType.wallLimitRight:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallLimitRight;
+            case Tile.SpriteType.wallLimitRight:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallLimitRight;
                 break;
-            case Casilla.SpriteType.wallCornerDowLeft:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerDowLeft;
+            case Tile.SpriteType.wallCornerDowLeft:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallCornerDowLeft;
                 break;
-            case Casilla.SpriteType.wallCornerDowRight:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerDowRight;
+            case Tile.SpriteType.wallCornerDowRight:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallCornerDowRight;
                 break;
-            case Casilla.SpriteType.wallCornerUpLeft:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerUpLeft;
+            case Tile.SpriteType.wallCornerUpLeft:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallCornerUpLeft;
                 break;
-            case Casilla.SpriteType.wallCornerUpRight:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallCornerUpRight;
+            case Tile.SpriteType.wallCornerUpRight:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallCornerUpRight;
                 break;
-            case Casilla.SpriteType.tMinus90:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = tMinus90;
+            case Tile.SpriteType.tMinus90:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = tMinus90;
                 break;
-            case Casilla.SpriteType.tPlus90:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = tPlus90;
+            case Tile.SpriteType.tPlus90:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = tPlus90;
                 break;
-            case Casilla.SpriteType.wallHorizontal:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallHorizontal;
+            case Tile.SpriteType.wallHorizontal:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallHorizontal;
                 break;
-            case Casilla.SpriteType.wallVertical:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallVertical;
+            case Tile.SpriteType.wallVertical:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallVertical;
                 break;
-            case Casilla.SpriteType.wallT:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallT;
+            case Tile.SpriteType.wallT:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallT;
                 break;
-            case Casilla.SpriteType.wallX:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = wallX;
+            case Tile.SpriteType.wallX:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = wallX;
                 break;
-            case Casilla.SpriteType.L:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = L;
+            case Tile.SpriteType.L:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = L;
                 break;
-            case Casilla.SpriteType.LReves:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = LReves;
+            case Tile.SpriteType.LReves:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = LReves;
                 break;
-            case Casilla.SpriteType.PointUp:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointUp;
+            case Tile.SpriteType.PointUp:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = PointUp;
                 break;
-            case Casilla.SpriteType.PointDown:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointDown;
+            case Tile.SpriteType.PointDown:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = PointDown;
                 break;
-            case Casilla.SpriteType.LMinus90:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = LMinus90;
+            case Tile.SpriteType.LMinus90:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = LMinus90;
                 break;
-            case Casilla.SpriteType.LMinus180:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = LMinus180;
+            case Tile.SpriteType.LMinus180:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = LMinus180;
                 break;
-            case Casilla.SpriteType.PointRight:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointRight;
+            case Tile.SpriteType.PointRight:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = PointRight;
                 break;
-            case Casilla.SpriteType.PointLeft:
-                maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = PointLeft;
+            case Tile.SpriteType.PointLeft:
+                maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = PointLeft;
                 break;
 
 
@@ -382,87 +382,87 @@ public class MazeManager : MonoBehaviour
         }
     }
 
-    void HacerTrampa(int i, int j)
+    void MakeTrap(int i, int j)
     {
         Sprite sprite = null;
-        switch (maze[i, j].trampa.tipo)
+        switch (maze[i, j].trap.tipe)
         {
             case "Damage":
-                sprite = TrampaDamage;
+                sprite = TrapDamage;
                 break;
             case "Tele":
-                sprite = TrampaTele;
+                sprite = TrapTele;
                 break;
             case "Freeze":
-                sprite = TrampaFreeze;
+                sprite = TrapFreeze;
                 break;
             case "CoolDown":
-                sprite = TrampaCoolDown;
+                sprite = TrapCoolDown;
                 break;
             case "Slowness":
-                sprite = TrampaSlowness;
+                sprite = TrapSlowness;
                 break;
             case "Light":
-                sprite = TrampaLight;
+                sprite = TrapLight;
                 break;
         }
-        if (maze[i, j].trampa.Actived || maze[i, j].trampa.tipo == "Tele" || maze[i, j].trampa.tipo == "Light")
-        maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        if (maze[i, j].trap.Actived || maze[i, j].trap.tipe == "Tele" || maze[i, j].trap.tipe == "Light")
+            maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
-    void HacerGoal(int i, int j)
+    void MakeGoal(int i, int j)
     {
-        //maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.red;
+        //maze[i, j].tileObject.GetComponent<SpriteRenderer>().color = Color.red;
 
     }
 
-    void ColocarCamara()
+    void PutCamera()
     {
         MainCamera.transform.position = new Vector3(maze.GetLength(0) / 2, maze.GetLength(0) / 2, -10);
         Camera.main.orthographicSize = (float)maze.GetLength(0) / 2;
     }
 
-    public void PonerVerdeCasillasValidas(Ficha ficha)
+    public void Show_Valid_Tiles(Piece piece)
     {
-        (int x, int y) Start = (ficha.PosicionInicialTurno.fila, ficha.PosicionInicialTurno.columna);
+        (int x, int y) Start = (piece.PositionInitialTurn.row, piece.PositionInitialTurn.column);
         int[,] bfs = BFS(Start);
         for (int i = 0; i < bfs.GetLength(0); i++)
         {
             for (int j = 0; j < bfs.GetLength(1); j++)
             {
-                if (bfs[i, j] <= ficha.Velocidad)
+                if (bfs[i, j] <= piece.Speed)
                 {
-                    if (maze[i, j].EsCamino)
-                        PonerVerde(i, j);
+                    if (maze[i, j].isPath)
+                        PutValid(i, j);
                 }
             }
         }
 
     }
 
-    void PonerVerde(int i, int j)
+    void PutValid(int i, int j)
     {
-        // maze[i, j].casillaObject.GetComponent<SpriteRenderer>().color = Color.green;
+        // maze[i, j].tileObject.GetComponent<SpriteRenderer>().color = Color.green;
         GameObject squareSel = Instantiate(squareSelection, new Vector2(i, j), Quaternion.identity);
         squareSelectionList.Add(squareSel);
     }
 
-    public int[,] BFS((int, int) casillaInicio)
+    public int[,] BFS((int, int) initialTile)
     {
         (int, int)[] directions = { (1, 0), (0, 1), (-1, 0), (0, -1) };
         int[,] bfs = new int[maze.GetLength(0), maze.GetLength(1)];
 
-        bfs[casillaInicio.Item1, casillaInicio.Item2] = 0;
+        bfs[initialTile.Item1, initialTile.Item2] = 0;
 
         for (int i = 0; i < bfs.GetLength(0); i++)
         {
             for (int j = 0; j < bfs.GetLength(1); j++)
             {
-                if (!maze[i, j].EsCamino)
+                if (!maze[i, j].isPath)
                 {
                     bfs[i, j] = -1;
                 }
-                if (maze[i, j].EsCamino)
+                if (maze[i, j].isPath)
                 {
                     bfs[i, j] = 0;
                 }
@@ -470,141 +470,141 @@ public class MazeManager : MonoBehaviour
         }
 
 
-        Queue<(int, int)> cola = new Queue<(int, int)>();
+        Queue<(int, int)> queue = new Queue<(int, int)>();
 
-        cola.Enqueue(casillaInicio);
+        queue.Enqueue(initialTile);
 
-        while (cola.Count > 0)
+        while (queue.Count > 0)
         {
-            (int, int) currCasilla = cola.Dequeue();
-            int distancia = bfs[currCasilla.Item1, currCasilla.Item2];
+            (int, int) currTile = queue.Dequeue();
+            int distance = bfs[currTile.Item1, currTile.Item2];
 
             for (int i = 0; i < directions.Length; i++)
             {
-                if (IsOnTheBounds((currCasilla.Item1 + directions[i].Item1, +currCasilla.Item2 + directions[i].Item2)) && bfs[currCasilla.Item1 + directions[i].Item1, +currCasilla.Item2 + directions[i].Item2] == 0)
+                if (IsOnTheBounds((currTile.Item1 + directions[i].Item1, +currTile.Item2 + directions[i].Item2)) && bfs[currTile.Item1 + directions[i].Item1, +currTile.Item2 + directions[i].Item2] == 0)
                 {
-                    bfs[currCasilla.Item1 + directions[i].Item1, +currCasilla.Item2 + directions[i].Item2] = distancia + 1;
-                    cola.Enqueue((currCasilla.Item1 + directions[i].Item1, +currCasilla.Item2 + directions[i].Item2));
+                    bfs[currTile.Item1 + directions[i].Item1, +currTile.Item2 + directions[i].Item2] = distance + 1;
+                    queue.Enqueue((currTile.Item1 + directions[i].Item1, +currTile.Item2 + directions[i].Item2));
                 }
             }
         }
 
-        bfs[casillaInicio.Item1, casillaInicio.Item2] = 0;
+        bfs[initialTile.Item1, initialTile.Item2] = 0;
 
         return bfs;
 
-        bool IsOnTheBounds((int, int) casilla)
+        bool IsOnTheBounds((int, int) Tile)
         {
-            return casilla.Item1 >= 0 && casilla.Item1 < bfs.GetLength(0) && casilla.Item2 >= 0 && casilla.Item2 < bfs.GetLength(1);
+            return Tile.Item1 >= 0 && Tile.Item1 < bfs.GetLength(0) && Tile.Item2 >= 0 && Tile.Item2 < bfs.GetLength(1);
         }
     }
 
-    public bool IsValidCasilla(Casilla destino, Ficha ficha)
+    public bool IsValidTile(Tile destino, Piece piece)
     {
-        Casilla inicioC = ficha.PosicionInicialTurno;
-        if (inicioC == null) Debug.LogError($"Pinga la posicion inicial");
-        (int, int) inicio = (inicioC.fila, inicioC.columna);
-        (int, int) destinoC = (destino.fila, destino.columna);
+        Tile initialTile = piece.PositionInitialTurn;
+
+        (int, int) startTile = (initialTile.row, initialTile.column);
+        (int, int) finalTile = (destino.row, destino.column);
 
 
-        int[,] bfs = BFS(inicio);
+        int[,] bfs = BFS(startTile);
 
 
 
-        bool b = (bfs[destinoC.Item1, destinoC.Item2] > 0) && (bfs[destinoC.Item1, destinoC.Item2] <= ficha.Velocidad);
+        bool b = (bfs[finalTile.Item1, finalTile.Item2] > 0) && (bfs[finalTile.Item1, finalTile.Item2] <= piece.Speed);
         if (!b)
-            Debug.LogWarning(bfs[destinoC.Item1, destinoC.Item2]);
+            Debug.LogWarning(bfs[finalTile.Item1, finalTile.Item2]);
         return b;
     }
 
-    void IdentificarFicha(Ficha ficha)
+    void IdentifyPiece(Piece piece)
     {
-        //ficha.fichaObj.GetComponent<SpriteRenderer>().color = ficha.team.colort;
-        ficha.fichaObj.GetComponent<SpriteRenderer>().sprite = ficha.team.playerSprite;
+        //piece.pieceObject.GetComponent<SpriteRenderer>().color = piece.team.colort;
+        piece.pieceObject.GetComponent<SpriteRenderer>().sprite = piece.team.playerSprite;
     }
 
-    void IdentificarCasilla(Casilla casilla)
+    void IdentifyTile(Tile Tile)
     {
-        int x = casilla.fila;
-        int y = casilla.columna;
+        int x = Tile.row;
+        int y = Tile.column;
         //wallHorizontal
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino) casilla.spriteType = Casilla.SpriteType.wallHorizontal;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !maze[x - 1, y].isPath && !maze[x + 1, y].isPath) Tile.spriteType = Tile.SpriteType.wallHorizontal;
 
         //wallvertical
-        if (!(y == 0 || y == maze.GetLength(0) - 1) && !maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallVertical;
+        if (!(y == 0 || y == maze.GetLength(0) - 1) && !maze[x, y - 1].isPath && !maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.wallVertical;
 
         //wallT
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallT;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].isPath && !maze[x + 1, y].isPath && !maze[x, y - 1].isPath) Tile.spriteType = Tile.SpriteType.wallT;
 
 
         //L
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.L;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].isPath && !maze[x + 1, y].isPath && maze[x, y - 1].isPath && !maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.L;
 
         //LReves
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.LReves;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].isPath && maze[x + 1, y].isPath && maze[x, y - 1].isPath && !maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.LReves;
 
         //PointUp
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointUp;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].isPath && maze[x + 1, y].isPath && !maze[x, y - 1].isPath && maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.PointUp;
 
         //PointDown
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointDown;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].isPath && maze[x + 1, y].isPath && maze[x, y - 1].isPath && !maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.PointDown;
 
         //LMinus90
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.LMinus90;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].isPath && !maze[x + 1, y].isPath && !maze[x, y - 1].isPath && maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.LMinus90;
 
         //LMinus180
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.LMinus180;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].isPath && maze[x + 1, y].isPath && !maze[x, y - 1].isPath && maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.LMinus180;
 
         //PointLeft
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointLeft;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].isPath && !maze[x + 1, y].isPath && maze[x, y - 1].isPath && maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.PointLeft;
 
         //PointRight
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && maze[x, y - 1].EsCamino && maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.PointRight;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].isPath && maze[x + 1, y].isPath && maze[x, y - 1].isPath && maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.PointRight;
 
 
 
 
         //wallLimitDown
-        if (y == 0) casilla.spriteType = Casilla.SpriteType.wallLimitDown;
+        if (y == 0) Tile.spriteType = Tile.SpriteType.wallLimitDown;
         //wallLimitRigth
-        if (x == maze.GetLength(1) - 1) casilla.spriteType = Casilla.SpriteType.wallLimitRight;
+        if (x == maze.GetLength(1) - 1) Tile.spriteType = Tile.SpriteType.wallLimitRight;
         //wallLimitUp
-        if (y == maze.GetLength(0) - 1) casilla.spriteType = Casilla.SpriteType.wallLimitUp;
+        if (y == maze.GetLength(0) - 1) Tile.spriteType = Tile.SpriteType.wallLimitUp;
         //wallLimitLeft
-        if (x == 0) casilla.spriteType = Casilla.SpriteType.wallLimitLeft;
+        if (x == 0) Tile.spriteType = Tile.SpriteType.wallLimitLeft;
         //tMinus90
-        if ((casilla.spriteType == Casilla.SpriteType.wallLimitLeft && !maze[x + 1, y].EsCamino) || (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino)) casilla.spriteType = Casilla.SpriteType.tMinus90;
+        if ((Tile.spriteType == Tile.SpriteType.wallLimitLeft && !maze[x + 1, y].isPath) || (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && maze[x - 1, y].isPath && !maze[x + 1, y].isPath && !maze[x, y - 1].isPath && !maze[x, y + 1].isPath)) Tile.spriteType = Tile.SpriteType.tMinus90;
         //tPlus90
-        if ((x == maze.GetLength(1) - 1 && !maze[x - 1, y].EsCamino) || (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino)) casilla.spriteType = Casilla.SpriteType.tPlus90;
+        if ((x == maze.GetLength(1) - 1 && !maze[x - 1, y].isPath) || (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].isPath && maze[x + 1, y].isPath && !maze[x, y - 1].isPath && !maze[x, y + 1].isPath)) Tile.spriteType = Tile.SpriteType.tPlus90;
 
         //wallT
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallT;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0) && !maze[x - 1, y].isPath && !maze[x + 1, y].isPath && !maze[x, y - 1].isPath) Tile.spriteType = Tile.SpriteType.wallT;
         //wallX
-        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].EsCamino && !maze[x + 1, y].EsCamino && !maze[x, y - 1].EsCamino && !maze[x, y + 1].EsCamino) casilla.spriteType = Casilla.SpriteType.wallX;
+        if (!(x == 0 || x == maze.GetLength(1) - 1) && !(y == 0 || y == maze.GetLength(0) - 1) && !maze[x - 1, y].isPath && !maze[x + 1, y].isPath && !maze[x, y - 1].isPath && !maze[x, y + 1].isPath) Tile.spriteType = Tile.SpriteType.wallX;
 
 
 
 
         //wallCornerDowLeft
-        if (y == 0 && x == 0) casilla.spriteType = Casilla.SpriteType.wallCornerDowLeft;
+        if (y == 0 && x == 0) Tile.spriteType = Tile.SpriteType.wallCornerDowLeft;
         //wallCornerDowRight
-        if (y == 0 && x == maze.GetLength(1) - 1) casilla.spriteType = Casilla.SpriteType.wallCornerDowRight;
+        if (y == 0 && x == maze.GetLength(1) - 1) Tile.spriteType = Tile.SpriteType.wallCornerDowRight;
         //wallCornerUpLeft
-        if (y == maze.GetLength(0) - 1 && x == 0) casilla.spriteType = Casilla.SpriteType.wallCornerUpLeft;
+        if (y == maze.GetLength(0) - 1 && x == 0) Tile.spriteType = Tile.SpriteType.wallCornerUpLeft;
         //wallCornerUpRigh
-        if (y == maze.GetLength(0) - 1 && x == maze.GetLength(1) - 1) casilla.spriteType = Casilla.SpriteType.wallCornerUpRight;
+        if (y == maze.GetLength(0) - 1 && x == maze.GetLength(1) - 1) Tile.spriteType = Tile.SpriteType.wallCornerUpRight;
 
 
 
     }
 
-    void IdentificarCasillasLaberinto()
+    void IdentifyTilesMaze()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
         {
             for (int j = 0; j < maze.GetLength(1); j++)
             {
-                IdentificarCasilla(maze[i, j]);
+                IdentifyTile(maze[i, j]);
             }
         }
     }
@@ -614,18 +614,18 @@ public class MazeManager : MonoBehaviour
 
 
         Generar();
-        ColocarJugadores();
-        ColocarTrampas();
-        ColocarMeta();
-        ColocarKeys();
+        PutPlayers();
+        PutTraps();
+        PutGoal();
+        PutKeys();
 
 
-        IdentificarCasillasLaberinto();
-        InstanciarLaberinto();
+        IdentifyTilesMaze();
+        InstantiateMaze();
         PrintMaze();
-        InstanciarJugadores();
+        InstantiatePlayers();
 
-        ColocarCamara();
+        PutCamera();
     }
 
 }

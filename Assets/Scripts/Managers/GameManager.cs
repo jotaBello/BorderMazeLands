@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public List<Teams> teams;
     public List<Teams> users;
 
-    public Ficha winner;
+    public Piece winner;
 
     private void Awake()
     {

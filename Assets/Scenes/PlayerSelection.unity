@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 154161001}
   - component: {fileID: 154161000}
   m_Layer: 5
-  m_Name: Velocity
+  m_Name: Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 156393450016757981, guid: fb408411ccf148b42981b5bd21d10342, type: 3}
+  m_Sprite: {fileID: 156393450016757981, guid: 06288303c29994043a86776f1eab6076, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1183,7 +1183,7 @@ MonoBehaviour:
   currentPlayer: {fileID: 1525003201}
   currentUser: {fileID: 86640184}
   LifeText: {fileID: 1537179246}
-  VelocityText: {fileID: 1604985729}
+  SpeedText: {fileID: 1604985729}
   CoolDownText: {fileID: 1616266595}
   AbilityText: {fileID: 1897805935}
   gameManager: {fileID: 500919955}

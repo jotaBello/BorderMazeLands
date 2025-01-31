@@ -16,8 +16,7 @@ MonoBehaviour:
   teamName: Krieg
   teamDescription: El Psicopata explota las paredes adyascentes a el y las vuelve
     camino
-  velocidad: 4
-  colort: {r: 0.6226415, g: 0.25710058, b: 0, a: 1}
+  speed: 4
   playerSprite: {fileID: 156393450016757981, guid: 06288303c29994043a86776f1eab6076, type: 3}
-  habilidadEnfriamiento: 3
-  vida: 5
+  cooldown: 4
+  life: 5

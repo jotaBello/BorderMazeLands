@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 
-public class ClickFicha : MonoBehaviour
+public class ClickPiece : MonoBehaviour
 {
     public Turn_Manager turnManager;
-    public FichaManager fichaManager;
+    public PieceManager pieceManager;
     public MazeManager mazeManager;
-    public Ficha ficha;
+    public Piece piece;
 
-    public int vida;
+    public int life;
     public int freeze;
 
 
@@ -17,23 +17,23 @@ public class ClickFicha : MonoBehaviour
     {
         turnManager = GameObject.Find("TurnManager").GetComponent<Turn_Manager>();
         mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
-        fichaManager = GameObject.Find("FichaManager").GetComponent<FichaManager>();
+        pieceManager = GameObject.Find("PieceManager").GetComponent<PieceManager>();
     }
 
     void Update()
     {
-        vida = ficha.vida;
-        freeze = ficha.freeze;
+        life = piece.life;
+        freeze = piece.freeze;
     }
     void OnMouseDown()
     {
-        if (ficha.team == GameManager.Instance.users[turnManager.turnoActual])
+        if (piece.team == GameManager.Instance.users[turnManager.currentTurn])
         {
-            fichaManager.SeleccionarFicha(ficha);
+            pieceManager.SelectPiece(piece);
         }
         else
         {
-            fichaManager.fichaSelecc = null;
+            pieceManager.pieceSelect = null;
             mazeManager.PrintMaze();
         }
     }

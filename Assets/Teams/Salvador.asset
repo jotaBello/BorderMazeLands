@@ -15,8 +15,7 @@ MonoBehaviour:
   teamImage: {fileID: -2865798153132735722, guid: 4c575459de6093a4897f1a6bc7898f21, type: 3}
   teamName: Salvador
   teamDescription: El Gunzerker aumenta su vision y velocidad durante 1 turno
-  velocidad: 4
-  colort: {r: 0, g: 0, b: 0, a: 0}
+  speed: 4
   playerSprite: {fileID: -2865798153132735722, guid: 4c575459de6093a4897f1a6bc7898f21, type: 3}
-  habilidadEnfriamiento: 3
-  vida: 6
+  cooldown: 4
+  life: 6

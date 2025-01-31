@@ -10,10 +10,10 @@ public class Turn_Manager : MonoBehaviour
 {
     public MazeManager mazeManager;
     private GameManager gameManager;
-    public FichaManager fichaManager;
+    public PieceManager pieceManager;
     private HudManager hudManager;
-    public List<Teams> equipos;
-    public int turnoActual;
+    public List<Teams> teams;
+    public int currentTurn;
 
     private void Start()
     {
@@ -22,34 +22,34 @@ public class Turn_Manager : MonoBehaviour
 
 
 
-        equipos = gameManager.users;
-        turnoActual = 0;
-        IniciarTurno();
+        teams = gameManager.users;
+        currentTurn = 0;
+        StartTurn();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            FinalizarTurno();
+            FinishTurn();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (fichaManager.fichaSelecc != null)
+            if (pieceManager.pieceSelect != null)
             {
-                if (fichaManager.fichaSelecc.cooldown <= 0)
+                if (pieceManager.pieceSelect.cooldown <= 0)
                 {
-                    fichaManager.fichaSelecc.team.Habilidad(fichaManager.fichaSelecc);
-                    fichaManager.CheckLife();
-                    fichaManager.fichaSelecc.cooldown = fichaManager.fichaSelecc.team.habilidadEnfriamiento;
+                    pieceManager.pieceSelect.team.Ability(pieceManager.pieceSelect);
+                    pieceManager.CheckLife();
+                    pieceManager.pieceSelect.cooldown = pieceManager.pieceSelect.team.cooldown;
                 }
             }
         }
     }
 
-    void IniciarTurno()
+    void StartTurn()
     {
-        hudManager.PutMessage($"Turno del jugador {turnoActual + 1}");
+        hudManager.PutMessage($"Turno del jugador {currentTurn + 1}");
 
         UpdateCamera();
     }
@@ -57,11 +57,11 @@ public class Turn_Manager : MonoBehaviour
     void UpdateCamera()
     {
         GameObject target = null;
-        foreach (Ficha ficha in fichaManager.fichaList)
+        foreach (Piece piece in pieceManager.pieceList)
         {
-            if (ficha.team == equipos[turnoActual])
+            if (piece.team == teams[currentTurn])
             {
-                target = ficha.fichaObj;
+                target = piece.pieceObject;
             }
         }
         mazeManager.MainCamera.GetComponent<Camera_Script>().target = target;
@@ -69,51 +69,50 @@ public class Turn_Manager : MonoBehaviour
 
     void UpdateLight()
     {
-        foreach (Ficha ficha in fichaManager.fichaList)
+        foreach (Piece piece in pieceManager.pieceList)
         {
-            if (ficha.team == equipos[turnoActual])
+            if (piece.team == teams[currentTurn])
             {
-                ficha.fichaObj.GetComponent<Light2D>().enabled = false;
+                piece.pieceObject.GetComponent<Light2D>().enabled = false;
             }
-            if (ficha.team == equipos[(turnoActual + 1) % equipos.Count])
+            if (piece.team == teams[(currentTurn + 1) % teams.Count])
             {
-                ficha.fichaObj.GetComponent<Light2D>().enabled = true;
+                piece.pieceObject.GetComponent<Light2D>().enabled = true;
             }
         }
     }
 
     public void CheckWin()
     {
-        foreach (Ficha ficha in fichaManager.fichaList)
+        foreach (Piece piece in pieceManager.pieceList)
         {
-            if (ficha.team == equipos[turnoActual])
+            if (piece.team == teams[currentTurn])
             {
-                if (ficha.Posicion.isGoal == true && ficha.HadKey)
+                if (piece.Position.isGoal == true && piece.HadKey)
                 {
-                    Win(ficha);
+                    Win(piece);
                 }
             }
         }
     }
 
-    void Win(Ficha ficha)
+    void Win(Piece piece)
     {
-        Debug.Log($"{ficha.team.teamName} WINS ");
-        gameManager.winner = ficha;
+        gameManager.winner = piece;
         hudManager.Win();
     }
 
     public void CheckKeys()
     {
-        foreach (Ficha ficha in fichaManager.fichaList)
+        foreach (Piece piece in pieceManager.pieceList)
         {
-            if (ficha.team == equipos[turnoActual])
+            if (piece.team == teams[currentTurn])
             {
-                if (ficha.Posicion.key != null && !ficha.HadKey && ficha.Posicion.key.GetComponent<KeyScript>().target == null)
+                if (piece.Position.key != null && !piece.HadKey && piece.Position.key.GetComponent<KeyScript>().target == null)
                 {
-                    ficha.Posicion.key.GetComponent<KeyScript>().target = ficha.fichaObj;
-                    ficha.HadKey = true;
-                    ficha.key = ficha.Posicion.key.GetComponent<KeyScript>();
+                    piece.Position.key.GetComponent<KeyScript>().target = piece.pieceObject;
+                    piece.HadKey = true;
+                    piece.key = piece.Position.key.GetComponent<KeyScript>();
                 }
             }
         }
@@ -122,21 +121,21 @@ public class Turn_Manager : MonoBehaviour
 
 
 
-    public void FinalizarTurno()
+    public void FinishTurn()
     {
-        fichaManager.fichaSelecc = null;
+        pieceManager.pieceSelect = null;
 
 
-        fichaManager.CheckFreeze();
-        fichaManager.UpdateInitialPosotion();
+        pieceManager.CheckFreeze();
+        pieceManager.UpdateInitialPositions();
         mazeManager.PrintMaze();
-        fichaManager.CheckMovement();
-        fichaManager.CheckCooldown();
-        fichaManager.CheckSlowness();
-        fichaManager.CheckShield();
+        pieceManager.CheckMovement();
+        pieceManager.CheckCooldown();
+        pieceManager.CheckSlowness();
+        pieceManager.CheckShield();
 
 
-        fichaManager.CheckLight();
+        pieceManager.CheckLight();
         UpdateLight();
 
         CheckWin();
@@ -145,8 +144,8 @@ public class Turn_Manager : MonoBehaviour
 
 
 
-        turnoActual = (turnoActual + 1) % equipos.Count;
-        IniciarTurno();
+        currentTurn = (currentTurn + 1) % teams.Count;
+        StartTurn();
     }
 
 }

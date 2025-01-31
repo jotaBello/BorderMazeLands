@@ -15,8 +15,7 @@ MonoBehaviour:
   teamImage: {fileID: -6949976096347835249, guid: 876d1935916f99d4bb536a2f0019bfb7, type: 3}
   teamName: Axton
   teamDescription: El Comando activa un escudo que lo vuelve inmune a las trampas
-  velocidad: 4
-  colort: {r: 0.7264151, g: 0.709985, b: 0, a: 1}
+  speed: 4
   playerSprite: {fileID: -6949976096347835249, guid: 876d1935916f99d4bb536a2f0019bfb7, type: 3}
-  habilidadEnfriamiento: 4
-  vida: 5
+  cooldown: 3
+  life: 5

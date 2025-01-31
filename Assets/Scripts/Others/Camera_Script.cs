@@ -5,7 +5,7 @@ public class Camera_Script : MonoBehaviour
 {
 
     public GameObject target;
-    public FichaManager fichaManager;
+    public PieceManager pieceManager;
 
 
 

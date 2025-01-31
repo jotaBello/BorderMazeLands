@@ -15,8 +15,7 @@ MonoBehaviour:
   teamImage: {fileID: -6975019505116764623, guid: bbe7fd538ef23724d8f4ae4cc071c358, type: 3}
   teamName: Maya
   teamDescription: La Sirena congela a todo los enemigos a 4 casillas de distancia
-  velocidad: 4
-  colort: {r: 1, g: 0.07715398, b: 0, a: 1}
+  speed: 4
   playerSprite: {fileID: -6975019505116764623, guid: bbe7fd538ef23724d8f4ae4cc071c358, type: 3}
-  habilidadEnfriamiento: 2
-  vida: 5
+  cooldown: 3
+  life: 5

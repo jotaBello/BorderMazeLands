@@ -15,8 +15,7 @@ MonoBehaviour:
   teamImage: {fileID: -9119831651892389313, guid: ccceca4a9cf9368458abe989856ba09b, type: 3}
   teamName: Gaige
   teamDescription: La Mecanomante muestra el camino a la La Camara
-  velocidad: 4
-  colort: {r: 0, g: 0, b: 0, a: 0}
+  speed: 4
   playerSprite: {fileID: -9119831651892389313, guid: ccceca4a9cf9368458abe989856ba09b, type: 3}
-  habilidadEnfriamiento: 3
-  vida: 5
+  cooldown: 3
+  life: 5

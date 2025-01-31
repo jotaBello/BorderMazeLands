@@ -485,7 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  fichaManager: {fileID: 1109994618}
+  pieceManager: {fileID: 0}
 --- !u!1 &90625905
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.011764706}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1324,7 +1324,7 @@ GameObject:
   - component: {fileID: 562928642}
   - component: {fileID: 562928643}
   m_Layer: 5
-  m_Name: FichaName
+  m_Name: PieceName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1483,16 +1483,16 @@ MonoBehaviour:
   PauseButton: {fileID: 90625905}
   PauseMenu: {fileID: 70142690}
   GamePaused: 0
-  gameManager: {fileID: 0}
-  turnManager: {fileID: 0}
-  fichaManager: {fileID: 0}
-  FichaName: {fileID: 562928643}
-  Health: {fileID: 1385405319}
-  Velocity: {fileID: 2069782099}
+  gameManager: {fileID: 1092037493}
+  turnManager: {fileID: 1770724070}
+  pieceManager: {fileID: 1109994618}
+  pieceName: {fileID: 562928643}
+  Life: {fileID: 1385405319}
+  Speed: {fileID: 2069782099}
   CoolDown: {fileID: 1004205585}
   TabButton: {fileID: 2035359455}
   HideStatsButton: {fileID: 275867373}
-  FichaStats: {fileID: 1143926648}
+  pieceStats: {fileID: 1143926648}
   StatsHided: 0
   TutorialPanel: {fileID: 935276852}
   TutorialButton: {fileID: 2103421646}
@@ -2259,7 +2259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  fichaManager: {fileID: 1109994618}
+  pieceManager: {fileID: 1109994618}
   MainCamera: {fileID: 89105117}
   slot: {fileID: 6737991180159929581, guid: 0063f596b6752444d8f5c0648ec72392, type: 3}
   player: {fileID: 7503233823743090173, guid: 6793777a2e9580443a77ce223eda892e, type: 3}
@@ -2289,12 +2289,12 @@ MonoBehaviour:
   LMinus180: {fileID: -3900246167631814685, guid: 61d181ceb6f0fae479f3350575eb1312, type: 3}
   PointRight: {fileID: -422183901, guid: 495aee438ac1766438e80e8d46fccde8, type: 3}
   PointLeft: {fileID: -1273299725, guid: 495aee438ac1766438e80e8d46fccde8, type: 3}
-  TrampaDamage: {fileID: 99559849, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
-  TrampaTele: {fileID: 8461420503668631102, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
-  TrampaFreeze: {fileID: 286582197, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
-  TrampaCoolDown: {fileID: 313520999, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
-  TrampaSlowness: {fileID: 6290968146768072676, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
-  TrampaLight: {fileID: 1346282197, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
+  TrapDamage: {fileID: 99559849, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
+  TrapTele: {fileID: 8461420503668631102, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
+  TrapFreeze: {fileID: 286582197, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
+  TrapCoolDown: {fileID: 313520999, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
+  TrapSlowness: {fileID: 6290968146768072676, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
+  TrapLight: {fileID: 1346282197, guid: 5440c364ce0242f46a43658d2ed6cd53, type: 3}
   Goal: {fileID: 6077116747423885716, guid: 3c266591882ccb84ba5fc85622406a0f, type: 3}
   Key: {fileID: 6728238562314743991, guid: 6e2ea1c4e0154a648912d024508c0a89, type: 3}
 --- !u!4 &1059768173
@@ -2373,7 +2373,7 @@ GameObject:
   - component: {fileID: 1109994619}
   - component: {fileID: 1109994618}
   m_Layer: 0
-  m_Name: FichaManager
+  m_Name: PieceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2420,7 +2420,7 @@ GameObject:
   - component: {fileID: 1143926651}
   - component: {fileID: 1143926650}
   m_Layer: 5
-  m_Name: FichaStats
+  m_Name: PieceStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2785,12 +2785,12 @@ GameObject:
   - component: {fileID: 1292604506}
   - component: {fileID: 1292604505}
   m_Layer: 5
-  m_Name: FichaStats
+  m_Name: PieceStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1292604504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2823,7 +2823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.050980393}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3268,7 +3268,7 @@ GameObject:
   - component: {fileID: 1385405318}
   - component: {fileID: 1385405319}
   m_Layer: 5
-  m_Name: Health
+  m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4577,9 +4577,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mazeManager: {fileID: 1059768172}
-  fichaManager: {fileID: 1109994618}
-  equipos: []
-  turnoActual: 0
+  pieceManager: {fileID: 1109994618}
+  teams: []
+  currentTurn: 0
 --- !u!4 &1770724071
 Transform:
   m_ObjectHideFlags: 0
@@ -5227,7 +5227,7 @@ GameObject:
   - component: {fileID: 2069782098}
   - component: {fileID: 2069782099}
   m_Layer: 5
-  m_Name: Velocity
+  m_Name: Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

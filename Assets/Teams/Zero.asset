@@ -15,8 +15,7 @@ MonoBehaviour:
   teamImage: {fileID: 8418305615487025044, guid: 9b3c39e26d173264d8b551a5926c9e43, type: 3}
   teamName: Zero
   teamDescription: El Asesino quita 5 de vida a todo enemigo en linea recta con el
-  velocidad: 4
-  colort: {r: 0.42839468, g: 0, b: 0.4528302, a: 1}
+  speed: 4
   playerSprite: {fileID: 8418305615487025044, guid: 9b3c39e26d173264d8b551a5926c9e43, type: 3}
-  habilidadEnfriamiento: 4
-  vida: 5
+  cooldown: 5
+  life: 5

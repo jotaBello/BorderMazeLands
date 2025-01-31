@@ -1,21 +1,21 @@
 using UnityEngine;
-public class Ficha
+public class Piece
 {
-    public int Velocidad;
-    public Casilla Posicion;
-    public Casilla PosicionInicialTurno;
-    public Casilla Spawn;
+    public int Speed;
+    public Tile Position;
+    public Tile PositionInitialTurn;
+    public Tile SpawnTile;
     public Teams team;
-    public ClickFicha clickFicha;
+    public ClickPiece clickPiece;
 
     public int freeze;
     public int slowness;
     public int lighttime;
-    public int vida;
+    public int life;
     public bool shield;
     public int shieldTime;
 
-    public GameObject fichaObj;
+    public GameObject pieceObject;
 
     public bool Moved;
 
@@ -26,15 +26,15 @@ public class Ficha
 
 
 
-    public Ficha(Teams team)
+    public Piece(Teams team)
     {
         this.team = team;
-        vida = team.vida;
-        Velocidad = team.velocidad;
+        life = team.life;
+        Speed = team.speed;
         freeze = 0;
         slowness = 0;
         shield = false;
-        cooldown = team.habilidadEnfriamiento;
+        cooldown = team.cooldown;
     }
 
 

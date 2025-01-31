@@ -11,16 +11,16 @@ public class HudManager : MonoBehaviour
 
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Turn_Manager turnManager;
-    [SerializeField] private FichaManager fichaManager;
+    [SerializeField] private PieceManager pieceManager;
 
-    [SerializeField] private TextMeshProUGUI FichaName;
-    [SerializeField] private TextMeshProUGUI Health;
-    [SerializeField] private TextMeshProUGUI Velocity;
+    [SerializeField] private TextMeshProUGUI pieceName;
+    [SerializeField] private TextMeshProUGUI Life;
+    [SerializeField] private TextMeshProUGUI Speed;
     [SerializeField] private TextMeshProUGUI CoolDown;
 
     [SerializeField] private GameObject TabButton;
     [SerializeField] private GameObject HideStatsButton;
-    [SerializeField] private GameObject FichaStats;
+    [SerializeField] private GameObject pieceStats;
     [SerializeField] private bool StatsHided;
 
     [SerializeField] private GameObject TutorialPanel;
@@ -47,7 +47,7 @@ public class HudManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         turnManager = GameObject.Find("TurnManager").GetComponent<Turn_Manager>();
-        fichaManager = GameObject.Find("FichaManager").GetComponent<FichaManager>();
+        pieceManager = GameObject.Find("PieceManager").GetComponent<PieceManager>();
     }
 
     void Update()
@@ -89,20 +89,20 @@ public class HudManager : MonoBehaviour
         }
 
 
-        Ficha ficha = null;
-        foreach (var fich in fichaManager.fichaList)
+        Piece piece = null;
+        foreach (var p in pieceManager.pieceList)
         {
-            if (fich.team == turnManager.equipos[turnManager.turnoActual])
+            if (p.team == turnManager.teams[turnManager.currentTurn])
             {
-                ficha = fich;
+                piece = p;
             }
         }
-        if (ficha != null)
+        if (piece != null)
         {
-            FichaName.text = ficha.team.name;
-            Health.text = $"Vida: {ficha.vida.ToString()}";
-            Velocity.text = $"Velocidad: {ficha.Velocidad.ToString()}";
-            CoolDown.text = $"Enfriamiento: {ficha.cooldown.ToString()}";
+            pieceName.text = piece.team.name;
+            Life.text = $"Vida: {piece.life.ToString()}";
+            Speed.text = $"Velocidad: {piece.Speed.ToString()}";
+            CoolDown.text = $"Enfriamiento: {piece.cooldown.ToString()}";
         }
     }
     public void Pause()
@@ -139,16 +139,19 @@ public class HudManager : MonoBehaviour
         {
             TabButton.SetActive(false);
             HideStatsButton.SetActive(true);
-            FichaStats.SetActive(true);
+            pieceStats.SetActive(true);
             StatsHided = false;
         }
     }
     public void HideStats()
     {
-        TabButton.SetActive(true);
-        HideStatsButton.SetActive(false);
-        FichaStats.SetActive(false);
-        StatsHided = true;
+        if (!GamePaused)
+        {
+            TabButton.SetActive(true);
+            HideStatsButton.SetActive(false);
+            pieceStats.SetActive(false);
+            StatsHided = true;
+        }
     }
 
     public void ShowTutorial()

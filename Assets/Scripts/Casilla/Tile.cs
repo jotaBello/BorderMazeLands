@@ -1,31 +1,27 @@
 using UnityEngine;
-public class Casilla
+public class Tile
 {
-    public int fila;
-    public int columna;
-    public bool EsCamino;
+    public int row;
+    public int column;
+    public bool isPath;
     public bool isGoal;
-    public Ficha ficha;
-    public GameObject casillaObject;
+    public Piece piece;
+    public GameObject tileObject;
+    public ClickTile clickTile;
 
-    public ClickCasilla clickCasilla;
-
-    public Trampa trampa;
+    public Trap trap;
 
     public SpriteType spriteType;
-
-    public int pathIndex;
-
     public GameObject key;
 
 
-    public Casilla(bool esCamino, int f, int c)
+    public Tile(bool IsPath, int f, int c)
     {
-        fila = f;
-        columna = c;
-        EsCamino = esCamino;
-        ficha = null;
-        trampa = null;
+        row = f;
+        column = c;
+        isPath = IsPath;
+        piece = null;
+        trap = null;
     }
 
     public enum SpriteType

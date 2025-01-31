@@ -3,7 +3,7 @@ using UnityEngine;
 public class KeyScript : MonoBehaviour
 {
     public GameObject target;
-    public Casilla casillaActual;
+    public Tile currentTile;
 
     void Update()
     {
@@ -11,13 +11,13 @@ public class KeyScript : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position,
             new Vector3(target.transform.position.x, target.transform.position.y + 1, -1), Time.deltaTime);
     }
-    public void CaerEnELPiso(Casilla piso)
+    public void Fall_on_the_floor(Tile piso)
     {
         target = null;
-        transform.position = piso.casillaObject.transform.position;
-       // casillaActual.key = null;
+        transform.position = piso.tileObject.transform.position;
+
         piso.key = gameObject;
-        casillaActual=piso;
+        currentTile = piso;
 
     }
 }

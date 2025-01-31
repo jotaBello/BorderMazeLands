@@ -15,7 +15,7 @@ public class SelectionMenu : MonoBehaviour
 
 
     [SerializeField] private TextMeshProUGUI LifeText;
-    [SerializeField] private TextMeshProUGUI VelocityText;
+    [SerializeField] private TextMeshProUGUI SpeedText;
     [SerializeField] private TextMeshProUGUI CoolDownText;
     [SerializeField] private TextMeshProUGUI AbilityText;
 
@@ -47,9 +47,9 @@ public class SelectionMenu : MonoBehaviour
         currentUser.text = $"JUGADOR {gameManager.users.Count + 1}";
 
 
-        LifeText.text = gameManager.teams[index].vida.ToString();
-        VelocityText.text = gameManager.teams[index].velocidad.ToString();
-        CoolDownText.text = gameManager.teams[index].habilidadEnfriamiento.ToString();
+        LifeText.text = gameManager.teams[index].life.ToString();
+        SpeedText.text = gameManager.teams[index].life.ToString();
+        CoolDownText.text = gameManager.teams[index].cooldown.ToString();
         AbilityText.text = gameManager.teams[index].teamDescription;
 
         CheckSelectButton();
@@ -107,14 +107,13 @@ public class SelectionMenu : MonoBehaviour
         else
         {
             gameManager.users.Add(gameManager.teams[index]);
-            // gameManager.teams.RemoveAt(index);
+
             UpdateScreen();
         }
     }
 
     public void Select2Player()
     {
-        Debug.Log("locaaa");
         usersLimit = 2;
         modeSelection.SetActive(false);
         playerSelection.SetActive(true);
