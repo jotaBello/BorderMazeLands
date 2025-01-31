@@ -49,6 +49,7 @@ public class Turn_Manager : MonoBehaviour
 
     void IniciarTurno()
     {
+        hudManager.PutMessage($"Turno del jugador {turnoActual + 1}");
 
         UpdateCamera();
     }

@@ -19,6 +19,8 @@ public class Teams : ScriptableObject
 
 
 
+
+
     public int vida;
 
 
@@ -52,6 +54,7 @@ public class Teams : ScriptableObject
 
     void MayaAbility(Ficha ficha)
     {
+        HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
         Casilla[,] maze = mazeManager.maze;
@@ -60,6 +63,7 @@ public class Teams : ScriptableObject
         foreach (Ficha f in listNearEnemies)
         {
             f.freeze = 3;
+            hudManager.PutMessage($"Congelaste a {f.team.name}");
         }
 
 
@@ -106,13 +110,15 @@ public class Teams : ScriptableObject
 
     void AxtonAbility(Ficha ficha)
     {
+        HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
         ficha.shield = true;
         ficha.shieldTime = 3;
+        hudManager.PutMessage($"Activaste tu escudo");
     }
 
     void ZeroAbility(Ficha ficha)
     {
-
+        HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
 
         (int, int)[] directions =
         {
@@ -135,7 +141,10 @@ public class Teams : ScriptableObject
         foreach (Ficha enemie in enemies)
         {
             if (enemie != ficha)
+            {
                 enemie.vida -= 5;
+                hudManager.PutMessage($"Dañaste a {enemie.team.name}");
+            }
         }
 
         List<Ficha> FindEnemies((int, int) casilla)
@@ -166,6 +175,7 @@ public class Teams : ScriptableObject
 
     void KriegAbility(Ficha ficha)
     {
+        HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
 
         (int, int)[] directions =
         {
@@ -193,6 +203,7 @@ public class Teams : ScriptableObject
                 {
                     maze[fila, columna].EsCamino = true;
                     mazeManager.HacerCamino(fila, columna);
+                    hudManager.PutMessage($"EXPLOSIONEES");
                 }
             }
         }
@@ -201,6 +212,7 @@ public class Teams : ScriptableObject
 
     void SalvadorAbility(Ficha ficha)
     {
+        HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
 
@@ -210,10 +222,13 @@ public class Teams : ScriptableObject
         ficha.fichaObj.GetComponent<Light2D>().pointLightInnerRadius *= 1.5f;
         mazeManager.PonerVerdeCasillasValidas(ficha);
 
+        hudManager.PutMessage($"Aumentaste tu vision y velocidad");
+
     }
 
     void GaigeAbility(Ficha ficha)
     {
+        HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
         (int, int)[] directions =
                 {
         (0,-1),
@@ -222,7 +237,7 @@ public class Teams : ScriptableObject
         (-1,0)
 
     };
-   //Debug.LogError("Paso1");
+        //Debug.LogError("Paso1");
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
         Casilla[,] maze = mazeManager.maze;
@@ -256,12 +271,14 @@ public class Teams : ScriptableObject
         {
             List<Casilla> paths = GiveMeThePaths(ficha.Posicion, goal);
             MostrarCasillas(paths);
+            hudManager.PutMessage($"Este es el camino hacia la Camara");
         }
         else
         {
             List<Casilla> paths = GiveMeThePaths(ficha.Posicion, key);
-           // Debug.LogError("Paso2");
+            // Debug.LogError("Paso2");
             MostrarCasillas(paths);
+            hudManager.PutMessage($"Este es el camino hacia la LLave");
         }
 
 
@@ -270,23 +287,24 @@ public class Teams : ScriptableObject
 
         void MostrarCasillas(List<Casilla> paths)
         {
-           // Debug.LogError("Paso3");
+            // Debug.LogError("Paso3");
 
             if (paths.Count >= 3)
             {
-              
+
                 GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].fila, paths[paths.Count - 2].columna), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige1);
                 GameObject squareGaige2 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 3].fila, paths[paths.Count - 3].columna), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige2);
                 //Debug.LogError("Paso4");
+
             }
             else if (paths.Count == 2)
             {
-                
+
                 GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].fila, paths[paths.Count - 2].columna), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige1);
-               // Debug.LogError("Paso4");
+                // Debug.LogError("Paso4");
             }
             else
             {

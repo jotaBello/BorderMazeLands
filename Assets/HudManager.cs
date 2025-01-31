@@ -24,11 +24,16 @@ public class HudManager : MonoBehaviour
     [SerializeField] private bool StatsHided;
 
     [SerializeField] private GameObject TutorialPanel;
+    [SerializeField] private GameObject TutorialButton;
+    [SerializeField] private GameObject HideTutorialButton;
+
     [SerializeField] private bool TutorialShown;
 
     [SerializeField] private GameObject WinPanel;
     [SerializeField] private TextMeshProUGUI winText;
 
+    [SerializeField] private TextMeshProUGUI ConsoleMessage;
+    [SerializeField] private GameObject Console;
 
 
 
@@ -73,7 +78,14 @@ public class HudManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Show_Hide_Tutorial();
+            if (TutorialShown)
+            {
+                HideTutorial();
+            }
+            else
+            {
+                ShowTutorial();
+            }
         }
 
 
@@ -88,9 +100,9 @@ public class HudManager : MonoBehaviour
         if (ficha != null)
         {
             FichaName.text = ficha.team.name;
-            Health.text = $"Health: {ficha.vida.ToString()}";
-            Velocity.text = $"Velociity: {ficha.Velocidad.ToString()}";
-            CoolDown.text = $"CoolDown: {ficha.cooldown.ToString()}";
+            Health.text = $"Vida: {ficha.vida.ToString()}";
+            Velocity.text = $"Velocidad: {ficha.Velocidad.ToString()}";
+            CoolDown.text = $"Enfriamiento: {ficha.cooldown.ToString()}";
         }
     }
     public void Pause()
@@ -139,25 +151,34 @@ public class HudManager : MonoBehaviour
         StatsHided = true;
     }
 
-    public void Show_Hide_Tutorial()
+    public void ShowTutorial()
     {
         if (!GamePaused)
         {
-            if (TutorialShown)
-            {
-                TutorialPanel.SetActive(false);
-                TutorialShown = false;
-            }
-            else
-            {
-                TutorialPanel.SetActive(true);
-                TutorialShown = true;
-            }
+            TutorialPanel.SetActive(true);
+            TutorialButton.SetActive(false);
+            HideTutorialButton.SetActive(true);
+            TutorialShown = true;
+        }
+    }
+    public void HideTutorial()
+    {
+        if (!GamePaused)
+        {
+            TutorialPanel.SetActive(false);
+            TutorialButton.SetActive(true);
+            HideTutorialButton.SetActive(false);
+            TutorialShown = false;
         }
     }
     public void Win()
     {
         WinPanel.SetActive(true);
-        winText.text = $"{gameManager.winner.team.name} WINS";
+        winText.text = $"{gameManager.winner.team.name} GANO";
+    }
+
+    public void PutMessage(string message)
+    {
+        ConsoleMessage.text = message;
     }
 }

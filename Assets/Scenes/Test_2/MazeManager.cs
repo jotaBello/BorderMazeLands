@@ -406,7 +406,7 @@ public class MazeManager : MonoBehaviour
                 sprite = TrampaLight;
                 break;
         }
-        // if (maze[i, j].trampa.Actived || maze[i, j].trampa.tipo == "Tele" || maze[i, j].trampa.tipo == "Light")
+        if (maze[i, j].trampa.Actived || maze[i, j].trampa.tipo == "Tele" || maze[i, j].trampa.tipo == "Light")
         maze[i, j].casillaObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 

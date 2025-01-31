@@ -538,8 +538,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -960, y: -407.9333}
-  m_SizeDelta: {x: 350, y: 460}
+  m_AnchoredPosition: {x: -960, y: -453.5}
+  m_SizeDelta: {x: 465.5, y: 465.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367071141
 MonoBehaviour:
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4629347822339926746, guid: 1b96ec777908b23418f0322027885d76, type: 3}
+  m_Sprite: {fileID: 156393450016757981, guid: fb408411ccf148b42981b5bd21d10342, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -850,7 +850,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: Atras
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fbe6123d16e5afd4a9972c9fc723ab3a, type: 2}
   m_sharedMaterial: {fileID: -3933021738938997436, guid: fbe6123d16e5afd4a9972c9fc723ab3a, type: 2}
@@ -1202,7 +1202,7 @@ GameObject:
   - component: {fileID: 771346101}
   - component: {fileID: 771346100}
   m_Layer: 5
-  m_Name: 4 JUGADORES
+  m_Name: 4 PLAYERS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1862,7 +1862,7 @@ GameObject:
   - component: {fileID: 1050775134}
   - component: {fileID: 1050775133}
   m_Layer: 5
-  m_Name: 2 JUGADORES
+  m_Name: 2 PLAYERS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2039,7 +2039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: Atras
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fbe6123d16e5afd4a9972c9fc723ab3a, type: 2}
   m_sharedMaterial: {fileID: -3933021738938997436, guid: fbe6123d16e5afd4a9972c9fc723ab3a, type: 2}
@@ -2311,7 +2311,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SELECT
+  m_text: SELECCIONAR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fbe6123d16e5afd4a9972c9fc723ab3a, type: 2}
   m_sharedMaterial: {fileID: -3933021738938997436, guid: fbe6123d16e5afd4a9972c9fc723ab3a, type: 2}
@@ -2669,7 +2669,7 @@ GameObject:
   - component: {fileID: 1391666424}
   - component: {fileID: 1391666423}
   m_Layer: 5
-  m_Name: 3 JUGADORES
+  m_Name: 3 PLAYERS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

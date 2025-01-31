@@ -11,6 +11,7 @@ public class Trampa
 
     MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
     FichaManager fichaManager = GameObject.Find("FichaManager").GetComponent<FichaManager>();
+    HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
 
     public Trampa(Casilla casilla, string tipo)
     {
@@ -35,23 +36,32 @@ public class Trampa
                 break;
             case "Damage":
                 TrampaDamage(ficha);
+                if (!ficha.shield)
+                    hudManager.PutMessage("Activaste una trampa de Daño");
                 break;
             case "Freeze":
                 TrampaFreeze(ficha);
+                if (!ficha.shield)
+                    hudManager.PutMessage("Activaste una trampa de Congelamiento");
                 break;
             case "CoolDown":
                 TrampaCoolDown(ficha);
+                if (!ficha.shield)
+                    hudManager.PutMessage("Activaste una trampa de Habilidad");
                 break;
             case "Slowness":
                 TrampaSlowness(ficha);
+                if (!ficha.shield)
+                    hudManager.PutMessage("Activaste una trampa de Lentitud");
                 break;
+
             case "Light":
                 TrampaLight(ficha);
                 casillaAsociada.trampa = null;
                 break;
         }
-        if (!ficha.shield)
-            Debug.Log("Activaste una trampa de tipo" + tipo);
+
+
 
     }
 
@@ -70,11 +80,11 @@ public class Trampa
     }
     void TrampaFreeze(Ficha ficha)
     {
-        //int time = URandom.Range(3, 5);
+        int time = URandom.Range(3, 5);
 
-        if (!ficha.shield && !Actived)
-            ficha.freeze = 3;
-        
+        if (!ficha.shield)
+            ficha.freeze = time;
+
     }
     void TrampaCoolDown(Ficha ficha)
     {

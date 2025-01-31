@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
   m_Name: Zero
   m_EditorClassIdentifier: 
-  teamImage: {fileID: 2826493407183913623, guid: ac0f265613aac994bbef08b8ad3f3a8a, type: 3}
+  teamImage: {fileID: 8418305615487025044, guid: c34dcd53e6ad33b4dae81bef4b8a4823, type: 3}
   teamName: Zero
   teamDescription: El Asesino quita 5 de vida a todo enemigo en linea recta con el
   velocidad: 4
   colort: {r: 0.42839468, g: 0, b: 0.4528302, a: 1}
-  playerSprite: {fileID: 2826493407183913623, guid: ac0f265613aac994bbef08b8ad3f3a8a, type: 3}
+  playerSprite: {fileID: 8418305615487025044, guid: c34dcd53e6ad33b4dae81bef4b8a4823, type: 3}
   habilidadEnfriamiento: 4
   vida: 5

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
   m_Name: Gaige
   m_EditorClassIdentifier: 
-  teamImage: {fileID: 8412226727407725119, guid: 0de7a6a32cc2e4c47875463dab242acf, type: 3}
+  teamImage: {fileID: -9119831651892389313, guid: 961f768ac0476ed4983e42638fe8c015, type: 3}
   teamName: Gaige
   teamDescription: La Mecanomante muestra el camino a la La Camara
   velocidad: 4
   colort: {r: 0, g: 0, b: 0, a: 0}
-  playerSprite: {fileID: 8412226727407725119, guid: 0de7a6a32cc2e4c47875463dab242acf, type: 3}
+  playerSprite: {fileID: -9119831651892389313, guid: 961f768ac0476ed4983e42638fe8c015, type: 3}
   habilidadEnfriamiento: 3
   vida: 5

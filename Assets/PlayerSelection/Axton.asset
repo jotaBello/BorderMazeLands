@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
   m_Name: Axton
   m_EditorClassIdentifier: 
-  teamImage: {fileID: -2009747209964837771, guid: c01acb0cd7123a14c9ec82e9214974c0, type: 3}
+  teamImage: {fileID: -6949976096347835249, guid: d9420e3754ba87f4db3c9edc49dac55a, type: 3}
   teamName: Axton
   teamDescription: El Comando activa un escudo que lo vuelve inmune a las trampas
   velocidad: 4
   colort: {r: 0.7264151, g: 0.709985, b: 0, a: 1}
-  playerSprite: {fileID: -2009747209964837771, guid: c01acb0cd7123a14c9ec82e9214974c0, type: 3}
+  playerSprite: {fileID: -6949976096347835249, guid: d9420e3754ba87f4db3c9edc49dac55a, type: 3}
   habilidadEnfriamiento: 4
   vida: 5
