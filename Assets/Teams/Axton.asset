@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62030bee67ec4c74f8887696d5bce8f8, type: 3}
+  m_Name: Axton
+  m_EditorClassIdentifier: 
+  teamImage: {fileID: -6949976096347835249, guid: 876d1935916f99d4bb536a2f0019bfb7, type: 3}
+  teamName: Axton
+  teamDescription: El Comando activa un escudo que lo vuelve inmune a las trampas
+  velocidad: 4
+  colort: {r: 0.7264151, g: 0.709985, b: 0, a: 1}
+  playerSprite: {fileID: -6949976096347835249, guid: 876d1935916f99d4bb536a2f0019bfb7, type: 3}
+  habilidadEnfriamiento: 4
+  vida: 5
