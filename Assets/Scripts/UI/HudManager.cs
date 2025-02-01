@@ -1,6 +1,9 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class HudManager : MonoBehaviour
 {
@@ -31,6 +34,14 @@ public class HudManager : MonoBehaviour
 
     [SerializeField] private GameObject WinPanel;
     [SerializeField] private TextMeshProUGUI winText;
+
+    [SerializeField] private Sprite MayaWinSprite;
+    [SerializeField] private Sprite AxtonWinSprite;
+    [SerializeField] private Sprite ZeroWinSprite;
+    [SerializeField] private Sprite GaigeWinSprite;
+    [SerializeField] private Sprite KriegWinSprite;
+    [SerializeField] private Sprite SalvadorWinSprite;
+
 
     [SerializeField] private TextMeshProUGUI ConsoleMessage;
     [SerializeField] private GameObject Console;
@@ -108,11 +119,12 @@ public class HudManager : MonoBehaviour
     public void Pause()
     {
         HideStats();
+        HideTutorial();
         Time.timeScale = 0f;
         PauseButton.SetActive(false);
         PauseMenu.SetActive(true);
         GamePaused = true;
-        TutorialPanel.SetActive(false);
+
     }
     public void Resume()
     {
@@ -177,6 +189,30 @@ public class HudManager : MonoBehaviour
     public void Win()
     {
         WinPanel.SetActive(true);
+        switch (gameManager.winner.team.name)
+        {
+            case "Maya":
+                WinPanel.GetComponent<UnityEngine.UI.Image>().sprite = MayaWinSprite;
+                break;
+            case "Axton":
+                WinPanel.GetComponent<UnityEngine.UI.Image>().sprite = AxtonWinSprite;
+                break;
+            case "Gaige":
+                WinPanel.GetComponent<UnityEngine.UI.Image>().sprite = GaigeWinSprite;
+                break;
+            case "Krieg":
+                WinPanel.GetComponent<UnityEngine.UI.Image>().sprite = KriegWinSprite;
+                break;
+            case "Zero":
+                WinPanel.GetComponent<UnityEngine.UI.Image>().sprite = ZeroWinSprite;
+                break;
+            case "Salvador":
+                WinPanel.GetComponent<UnityEngine.UI.Image>().sprite = SalvadorWinSprite;
+                break;
+            default:
+                Debug.LogError("winner team unknown");
+                break; ;
+        }
         winText.text = $"{gameManager.winner.team.name} GANO";
     }
 
