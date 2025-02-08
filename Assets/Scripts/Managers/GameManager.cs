@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        users = new List<Teams>();
         if (GameManager.Instance == null)
         {
             GameManager.Instance = this;
@@ -20,6 +21,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            if (SceneManager.GetActiveScene().name == "PlayerSelection")
+            {
+                GameManager.Instance.users = new List<Teams>();
+            }
             Destroy(gameObject);
         }
     }

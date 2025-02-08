@@ -28,6 +28,8 @@ public class SelectionMenu : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         index = PlayerPrefs.GetInt("PlayerIndex");
 
         if (index > gameManager.teams.Count - 1)
