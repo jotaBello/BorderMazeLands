@@ -19,6 +19,7 @@ public class HudManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Life;
     [SerializeField] private TextMeshProUGUI Speed;
     [SerializeField] private TextMeshProUGUI CoolDown;
+    [SerializeField] private GameObject Freeze;
 
     [SerializeField] private GameObject TabButton;
     [SerializeField] private GameObject HideStatsButton;
@@ -113,6 +114,8 @@ public class HudManager : MonoBehaviour
             Life.text = $"Vida: {piece.life.ToString()}";
             Speed.text = $"Velocidad: {piece.Speed.ToString()}";
             CoolDown.text = $"Enfriamiento: {piece.cooldown.ToString()}";
+            if (piece.freeze > 0) Freeze.SetActive(true);
+            else Freeze.SetActive(false);
         }
     }
     public void Pause()

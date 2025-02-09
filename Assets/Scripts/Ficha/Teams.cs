@@ -137,7 +137,7 @@ public class Teams : ScriptableObject
             if (enemie != piece)
             {
                 enemie.life -= 5;
-                hudManager.PutMessage($"Dañaste a {enemie.team.name}");
+                hudManager.PutMessage($"Afectaste a {enemie.team.name}");
             }
         }
 
