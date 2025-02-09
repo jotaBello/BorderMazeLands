@@ -23,7 +23,7 @@ public class PieceManager : MonoBehaviour
 
     }
 
-    //Metodo de seleccionar ficha para mover o usar habilidad
+    //Method to select a piece to move or use an ability
     public void SelectPiece(Piece pieceSel)
     {
         if (pieceSel.freeze <= 0)
@@ -33,7 +33,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    //Metodo de mover ficha a la casilla clickeada
+    //Method to move a piece to the clicked tile
     public void MovePiece(Piece piece, Tile final)
     {
         if (piece.Position.row > final.row)
@@ -49,7 +49,7 @@ public class PieceManager : MonoBehaviour
         mazeManager.PrintMaze();
     }
 
-    //Revisa si alguna ficha cayo en una trampa
+    //Checks if any piece fell into a trap
     public void CheckTraps()
     {
         foreach (Piece piece in pieceList)
@@ -69,7 +69,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    //Revisa la vida de cada ficha
+    //Checks the life of each piece
     public void CheckLife()
     {
         foreach (Piece piece in pieceList)
@@ -93,7 +93,7 @@ public class PieceManager : MonoBehaviour
 
     }
 
-    //Revisa si alguna ficha esta congelada
+    //Checks if any piece is frozen
     public void CheckFreeze()
     {
         foreach (Piece piece in pieceList)
@@ -106,7 +106,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    //Actualiza la posicion inicial en el turno de cada ficha
+    //Updates the initial position of each piece at the start of the turn
     public void UpdateInitialPositions()
     {
         foreach (Piece piece in pieceList)
@@ -116,7 +116,7 @@ public class PieceManager : MonoBehaviour
 
     }
 
-    //Colocar cada ficha como no movida
+    //Sets each piece as not moved
     public void CheckMovement()
     {
         foreach (Piece piece in pieceList)
@@ -125,7 +125,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    //Disminuye el cooldown de cada ficha
+    //Decreases the cooldown of each piece
     public void CheckCooldown()
     {
         foreach (Piece piece in pieceList)
@@ -137,7 +137,7 @@ public class PieceManager : MonoBehaviour
 
         }
     }
-    //Disminuye el tiempo de lentitud de cada ficha
+    //Decreases the slowness time of each piece
     public void CheckSlowness()
     {
         foreach (Piece piece in pieceList)
@@ -153,7 +153,7 @@ public class PieceManager : MonoBehaviour
 
         }
     }
-    //Disminuye el tiempo con vision cambiada
+    //Decreases the time with changed vision
     public void CheckLight()
     {
         foreach (Piece piece in pieceList)
@@ -170,7 +170,7 @@ public class PieceManager : MonoBehaviour
 
         }
     }
-    //Disminuye el timepo que se tiene el escudo
+    //Decreases the shield time
     public void CheckShield()
     {
         foreach (Piece piece in pieceList)
@@ -187,7 +187,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    //Revisar algunas estadisticas sin pasar el turno
+    //Checks some statistics without passing the turns
     public void CheckWithoutPassTurn()
     {
         CheckTraps();

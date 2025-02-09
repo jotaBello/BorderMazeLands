@@ -8,7 +8,7 @@ public class ModeSelection : MonoBehaviour
     public GameObject P;
 
 
-    //Metodos para seleccionar la cantidad de jugadores
+    //Methods to select the number of players
 
     public void TwoPlayerSelection()
     {

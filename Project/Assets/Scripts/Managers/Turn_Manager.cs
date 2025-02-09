@@ -29,7 +29,7 @@ public class Turn_Manager : MonoBehaviour
 
     void Update()
     {
-        //Revisa si el jugador toca la tecla A o E
+        //Checks if the player presses the A or E key
         if (Input.GetKeyDown(KeyCode.A))
         {
             FinishTurn();
@@ -48,7 +48,7 @@ public class Turn_Manager : MonoBehaviour
         }
     }
 
-    //Comienza un turno
+    //Starts a turn
     void StartTurn()
     {
         hudManager.PutMessage($"Turno del jugador {currentTurn + 1}");
@@ -56,7 +56,7 @@ public class Turn_Manager : MonoBehaviour
         UpdateCamera();
     }
 
-    //Actualiza la camara al jugador que le corresponde el turno
+    //Updates the camera to the player whose turn it is
     void UpdateCamera()
     {
         GameObject target = null;
@@ -70,7 +70,7 @@ public class Turn_Manager : MonoBehaviour
         mazeManager.MainCamera.GetComponent<Camera_Script>().target = target;
     }
 
-    //Actualiza la luz al jugador que le corresponde el turno
+    //Updates the light to the player whose turn it is
     void UpdateLight()
     {
         foreach (Piece piece in pieceManager.pieceList)
@@ -86,7 +86,7 @@ public class Turn_Manager : MonoBehaviour
         }
     }
 
-    //Revisa la condicion de victoria
+    //Checks the win condition
     public void CheckWin()
     {
         foreach (Piece piece in pieceManager.pieceList)
@@ -101,14 +101,14 @@ public class Turn_Manager : MonoBehaviour
         }
     }
 
-    //Metodo de Victoria
+    //Win method
     void Win(Piece piece)
     {
         gameManager.winner = piece;
         hudManager.Win();
     }
 
-    //Revisa si una ficha se encuentra con una llave
+    //Checks if a piece finds a key
     public void CheckKeys()
     {
         foreach (Piece piece in pieceManager.pieceList)
@@ -127,7 +127,7 @@ public class Turn_Manager : MonoBehaviour
 
 
 
-    //Termina el turno y revisa las estadisticas y condicion de victoria
+    //Ends the turn and checks the statistics and win condition
     public void FinishTurn()
     {
         pieceManager.pieceSelect = null;

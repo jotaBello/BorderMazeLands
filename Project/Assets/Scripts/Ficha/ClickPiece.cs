@@ -20,14 +20,15 @@ public class ClickPiece : MonoBehaviour
         pieceManager = GameObject.Find("PieceManager").GetComponent<PieceManager>();
     }
 
-    //Este metodo reconoce el click sobre la ficha
+    //This method recognizes the click on the piece
     void OnMouseDown()
     {
-        //Si a la ficha le corresponde el turno, seleccionarla
+        //If the piece corresponds to the current turn, select it
         if (piece.team == GameManager.Instance.users[turnManager.currentTurn])
         {
             pieceManager.SelectPiece(piece);
         }
+        //Deselects the piece and prints the maze if it's not the current turn
         else
         {
             pieceManager.pieceSelect = null;

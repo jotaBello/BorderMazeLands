@@ -24,6 +24,7 @@ public class Tile
         trap = null;
     }
 
+    // Enumeration that defines the different types of sprites that can be used
     public enum SpriteType
     {
         none, wallLimitDown, wallLimitLeft, wallLimitUp, wallLimitRight, wallCornerDowLeft, wallCornerDowRight, wallCornerUpLeft, wallCornerUpRight, tMinus90, tPlus90, wallHorizontal, wallVertical, wallT, wallX, L, LReves, PointUp, PointDown, LMinus90, LMinus180, PointRight, PointLeft,

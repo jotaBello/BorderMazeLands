@@ -17,12 +17,12 @@ public class ClickTile : MonoBehaviour
         pieceManager = GameObject.Find("PieceManager").GetComponent<PieceManager>();
     }
 
-    //Este metodo reconoce el click sobre una casilla del laberinto
+    //This method recognizes a click on a maze tile
     void OnMouseDown()
     {
         if (pieceManager.pieceSelect != null)
         {
-            //Si hay una casilla seleccionada y la casilla es alcanzable, mover la ficha
+            //If a piece is selected and the tile is reachable, move the piece
             if (mazeManager.IsValidTile(tile, pieceManager.pieceSelect) && pieceManager.pieceSelect.team == turnManager.teams[turnManager.currentTurn] && !pieceManager.pieceSelect.Moved && pieceManager.pieceSelect.freeze <= 0)
             {
                 pieceManager.MovePiece(pieceManager.pieceSelect, tile);

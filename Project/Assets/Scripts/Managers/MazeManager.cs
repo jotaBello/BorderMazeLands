@@ -61,7 +61,7 @@ public class MazeManager : MonoBehaviour
 
 
 
-    //Algoritmo de Prim para generar el laberinto
+    //Prim's algorithm to generate the maze
     void Generate()
     {
         for (int i = 0; i < rows; i++)
@@ -77,23 +77,22 @@ public class MazeManager : MonoBehaviour
         int x = 15, y = 15;
         maze[x, y].isPath = true;
 
-        // Añade las walls iniciales de esta celda
+        //Add the initial walls of this tile
         PutWalls(x, y);
 
 
-        // Procesa las walls hasta que se acaben
+        //Process the walls until they are finished
         while (walls.Count > 0)
         {
-            // Elige una pared al azar y la elimina de la lista
             int index = rand.Next(walls.Count);
             var (px, py, cx, cy) = walls[index];
             walls.RemoveAt(index);
 
             if (!maze[cx, cy].isPath)
             {
-                maze[px, py].isPath = true; // Elimina la pared entre las celdas
-                maze[cx, cy].isPath = true; // Marca la nueva celda como camino
-                PutWalls(cx, cy); // Añade las walls de la nueva celda
+                maze[px, py].isPath = true;
+                maze[cx, cy].isPath = true;
+                PutWalls(cx, cy);
             }
         }
 
@@ -101,18 +100,17 @@ public class MazeManager : MonoBehaviour
     }
     void PutWalls(int x, int y)
     {
-        // Añade las walls de las celdas adyacentes (solo celdas impares)
         if (x > 1) walls.Add((x - 1, y, x - 2, y));
         if (x < rows - 2) walls.Add((x + 1, y, x + 2, y));
         if (y > 1) walls.Add((x, y - 1, x, y - 2));
         if (y < columns - 2) walls.Add((x, y + 1, x, y + 2));
     }
-    //Coloca las trampas de diferentes tipos alrededor del mapa
+    ////Place traps of different types around the map
     void PutTraps()
     {
-        int amountOfTraps = 40; // Número de traps que quieres colocar
+        int amountOfTraps = 40; //Number of traps you want to place
         int tries = 0;
-        int amountOfBuffs = 0; // Restringe el numero de buffs(trampas de tele y de light) en el mapa
+        int amountOfBuffs = 0; //Restrict the number of buffs (tele and light traps) on the map
 
         while (amountOfTraps > 0 && tries < 1000)
         {
@@ -164,7 +162,7 @@ public class MazeManager : MonoBehaviour
             tries++;
         }
     }
-    //Coloca los jugadores en una esquina aleatoria
+    //Place the players in a random corner
     void PutPlayers()
     {
         List<(int x, int y)> listInitialPositions = GeneratePositions();
@@ -197,7 +195,7 @@ public class MazeManager : MonoBehaviour
             return shuffledList;
         }
     }
-    //Genera las posiciones de las esquinas
+    //Generate the positions of the corners
     List<(int, int)> GeneratePositions()
     {
         List<(int, int)> listInitialPositions = new List<(int x, int y)>();
@@ -211,13 +209,13 @@ public class MazeManager : MonoBehaviour
 
         return listInitialPositions;
     }
-    //Colocar meta
+    //Place goal
     void PutGoal()
     {
         maze[15, 15].isGoal = true;
         Instantiate(Goal, new Vector2(15, 15), Quaternion.identity);
     }
-    //Coloca las llaves
+    //Place keys
     void PutKeys()
     {
         maze[15, 29].key = Instantiate(Key, new Vector2(15, 29), Quaternion.identity);
@@ -230,7 +228,7 @@ public class MazeManager : MonoBehaviour
         maze[15, 29].key.GetComponent<KeyScript>().currentTile = maze[1, 15];
 
     }
-    //Instancia primeramente el laberinto
+    //Instantiate the maze initially
     void InstantiateMaze()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
@@ -245,7 +243,7 @@ public class MazeManager : MonoBehaviour
         }
 
     }
-    //Instancia los jugadores
+    //Instantiate players
     void InstantiatePlayers()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
@@ -264,7 +262,7 @@ public class MazeManager : MonoBehaviour
             }
         }
     }
-    //Metodo para imprimir el laberinto constantemente durante la partida
+    //Method to print the maze constantly during the game
     public void PrintMaze()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
@@ -293,12 +291,12 @@ public class MazeManager : MonoBehaviour
             }
         }
     }
-    //Cambia el sprite de la casilla al sprite de camino
+    //Change the sprite of the tile to the path sprite
     public void MakePath(int i, int j)
     {
         maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = path1;
     }
-    //Cambia el sprite de la casilla al sprite de pared que le corresponde segun su tipo de sprite
+    //Change the sprite of the tile to the wall sprite that corresponds to its sprite type
     void MakeWall(int i, int j)
     {
         switch (maze[i, j].spriteType)
@@ -375,7 +373,7 @@ public class MazeManager : MonoBehaviour
                 break;
         }
     }
-    //Cambia el sprite de la trampa al sprite que le corresponde si esta se activo
+    //Change the sprite of the trap to the sprite that corresponds to it if it is activated
     void MakeTrap(int i, int j)
     {
         Sprite sprite = null;
@@ -403,13 +401,13 @@ public class MazeManager : MonoBehaviour
         if (maze[i, j].trap.Actived || maze[i, j].trap.tipe == "Tele" || maze[i, j].trap.tipe == "Light")
             maze[i, j].tileObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
-    //Colocar camara al comienzo al centro del mapa
+    //Place the camera at the beginning in the center of the map
     void PutCamera()
     {
         MainCamera.transform.position = new Vector3(maze.GetLength(0) / 2, maze.GetLength(0) / 2, -10);
         Camera.main.orthographicSize = (float)maze.GetLength(0) / 2;
     }
-    //Muestra las casillas alcanzables por la ficha
+    //Show the tiles that can be reached by the piece
     public void Show_Valid_Tiles(Piece piece)
     {
         (int x, int y) Start = (piece.PositionInitialTurn.row, piece.PositionInitialTurn.column);
@@ -427,13 +425,13 @@ public class MazeManager : MonoBehaviour
         }
 
     }
-    //Mostrar como valida una casilla
+    //Show like valid the tile
     void PutValid(int i, int j)
     {
         GameObject squareSel = Instantiate(squareSelection, new Vector2(i, j), Quaternion.identity);
         squareSelectionList.Add(squareSel);
     }
-    //Genera una matriz de enteros que representa las distancias con respecto a una casilla inicial con un metodo de bfs
+    ////Generate a matrix of integers that represents the distances with respect to an initial tile using a BFS method
     public int[,] BFS((int, int) initialTile)
     {
         (int, int)[] directions = { (1, 0), (0, 1), (-1, 0), (0, -1) };
@@ -485,7 +483,7 @@ public class MazeManager : MonoBehaviour
             return Tile.Item1 >= 0 && Tile.Item1 < bfs.GetLength(0) && Tile.Item2 >= 0 && Tile.Item2 < bfs.GetLength(1);
         }
     }
-    //Retorna true si la casilla es alcanzable por la ficha
+    //Return true if the tile is reachable by the piece
     public bool IsValidTile(Tile destino, Piece piece)
     {
         Tile initialTile = piece.PositionInitialTurn;
@@ -503,12 +501,12 @@ public class MazeManager : MonoBehaviour
             Debug.LogWarning(bfs[finalTile.Item1, finalTile.Item2]);
         return b;
     }
-    //Cambia el sprite de la ficha al sprite que le corresponde segun su equipo
+    //Change the sprite of the piece to the sprite that corresponds to its team
     void IdentifyPiece(Piece piece)
     {
         piece.pieceObject.GetComponent<SpriteRenderer>().sprite = piece.team.playerSprite;
     }
-    //Metodo que identifica el sprite que le corresponde a una casilla segun las paredes y caminos adyascentes
+    //Method that identifies the sprite that corresponds to a cell based on the adjacent walls and paths
     void IdentifyTile(Tile Tile)
     {
         int x = Tile.row;
@@ -583,7 +581,7 @@ public class MazeManager : MonoBehaviour
 
 
     }
-    //Recorre el laberinto identificando cada casilla
+    //Traverse the maze identifying each tile
     void IdentifyTilesMaze()
     {
         for (int i = 0; i < maze.GetLength(0); i++)
@@ -594,25 +592,25 @@ public class MazeManager : MonoBehaviour
             }
         }
     }
-    
+
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        //Genera el laberinto y coloca las trampas, jugadores, llaves y meta
+        //Generate the maze and place traps, players, keys and goal
         Generate();
         PutPlayers();
         PutTraps();
         PutGoal();
         PutKeys();
 
-        //Identifica cada casilla del laberinto y las fichas
+        //Identify each tile of the maze and the pieces
         IdentifyTilesMaze();
         InstantiateMaze();
         PrintMaze();
         InstantiatePlayers();
 
-        //Coloca la camara en el centro
+        //Place the camera in the center
         PutCamera();
     }
 

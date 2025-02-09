@@ -67,14 +67,14 @@ public class Trap
 
     void TrapTele(Piece piece)
     {
-        //Teletransporta a la ficha a la casilla enlazada
+        //Teleports the piece to the linked tile
         pieceManager.MovePiece(piece, linkedTile);
     }
     void TrapDamage(Piece piece)
     {
         int damage = URandom.Range(1, 4);
 
-        //Resta vida a la ficha
+        //Subtracts life from the piece
         if (!piece.shield)
             piece.life -= damage;
 
@@ -83,20 +83,20 @@ public class Trap
     {
         int time = URandom.Range(3, 5);
 
-        //Congela la ficha
+        //Freezes the piece
         if (!piece.shield)
             piece.freeze = time;
 
     }
     void TrapCoolDown(Piece piece)
     {
-        //Resetea el cooldown a la ficha
+        //Resets the cooldown for the piece
         if (!piece.shield)
             piece.cooldown = piece.team.cooldown;
     }
     void TrapSlowness(Piece piece)
     {
-        //Reduce la velocidad a la ficha
+        //Reduces the speed of the piece
         if (!piece.shield)
         {
             piece.Speed -= 2;
@@ -105,7 +105,7 @@ public class Trap
     }
     void TrapLight(Piece piece)
     {
-        //Aumenta la vision de la ficha
+        //Increases the vision of the piece
         piece.lighttime = 2;
         piece.pieceObject.GetComponent<Light2D>().pointLightOuterRadius *= 1.5f;
         piece.pieceObject.GetComponent<Light2D>().pointLightInnerRadius *= 1.5f;
