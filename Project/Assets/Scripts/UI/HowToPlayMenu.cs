@@ -13,16 +13,7 @@ public class HowToPlayMenu : MonoBehaviour
     public bool trapsPanelHided;
     public bool playersPanelHided;
 
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    //Muestra/Oculta los diferentes paneles del menu de HowToPlay
 
     public void Show_Hide_LorePanel()
     {

@@ -63,6 +63,9 @@ public class HudManager : MonoBehaviour
 
     void Update()
     {
+        //Verifica si el jugador toca una tecla para mostrar u ocultar los menus
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GamePaused)
@@ -118,6 +121,8 @@ public class HudManager : MonoBehaviour
             else Freeze.SetActive(false);
         }
     }
+
+    //Pausa el juego y muetra el menu de pausa
     public void Pause()
     {
         HideStats();
@@ -128,6 +133,9 @@ public class HudManager : MonoBehaviour
         GamePaused = true;
 
     }
+
+    //Metodos para mostrar/ocultar los menus
+
     public void Resume()
     {
         Time.timeScale = 1f;
@@ -188,6 +196,8 @@ public class HudManager : MonoBehaviour
             TutorialShown = false;
         }
     }
+
+    //Metodo que mestra el panel de victoria y muestra el fondo del ganador
     public void Win()
     {
         WinPanel.SetActive(true);
@@ -218,6 +228,8 @@ public class HudManager : MonoBehaviour
         winText.text = $"{gameManager.winner.team.name} GANO";
     }
 
+
+    //Metodo para cambiar el mensaje de la consola
     public void PutMessage(string message)
     {
         ConsoleMessage.text = message;

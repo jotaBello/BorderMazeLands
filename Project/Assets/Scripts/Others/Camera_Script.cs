@@ -13,6 +13,7 @@ public class Camera_Script : MonoBehaviour
 
     void Update()
     {
+        //La camara sigue al jugador con el turno
 
         gameObject.GetComponent<Camera>().orthographicSize = 7;
         if (target != null)

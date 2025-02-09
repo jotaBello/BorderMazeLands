@@ -40,6 +40,7 @@ public class SelectionMenu : MonoBehaviour
         UpdateScreen();
     }
 
+    //Actualizar le personaje y el texto en el menu de seleccion
     private void UpdateScreen()
     {
         if (index > gameManager.teams.Count - 1) index = 0;
@@ -57,6 +58,7 @@ public class SelectionMenu : MonoBehaviour
         CheckSelectButton();
     }
 
+    //Revisa si el equipo ya fue seleccionado y ocultar el boton de seleccionar
     void CheckSelectButton()
     {
         bool wasSelected = false;
@@ -72,7 +74,7 @@ public class SelectionMenu : MonoBehaviour
         else selectButton.SetActive(false);
     }
 
-
+    //Boton de proximo de equipo
     public void NextTeam()
     {
         if (index == gameManager.teams.Count - 1)
@@ -86,6 +88,7 @@ public class SelectionMenu : MonoBehaviour
         UpdateScreen();
     }
 
+    //Boton de anterior personaje
     public void PreviewTeam()
     {
         if (index == 0)
@@ -99,6 +102,7 @@ public class SelectionMenu : MonoBehaviour
         UpdateScreen();
     }
 
+    //Boton de seleccionar equipo
     public void Select()
     {
         if (gameManager.users.Count == usersLimit - 1)
@@ -113,6 +117,8 @@ public class SelectionMenu : MonoBehaviour
             UpdateScreen();
         }
     }
+
+    //Metodos para seleccionar varios jugadores
 
     public void Select2Player()
     {

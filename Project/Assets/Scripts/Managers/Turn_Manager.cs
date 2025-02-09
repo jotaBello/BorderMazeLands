@@ -29,6 +29,7 @@ public class Turn_Manager : MonoBehaviour
 
     void Update()
     {
+        //Revisa si el jugador toca la tecla A o E
         if (Input.GetKeyDown(KeyCode.A))
         {
             FinishTurn();
@@ -47,6 +48,7 @@ public class Turn_Manager : MonoBehaviour
         }
     }
 
+    //Comienza un turno
     void StartTurn()
     {
         hudManager.PutMessage($"Turno del jugador {currentTurn + 1}");
@@ -54,6 +56,7 @@ public class Turn_Manager : MonoBehaviour
         UpdateCamera();
     }
 
+    //Actualiza la camara al jugador que le corresponde el turno
     void UpdateCamera()
     {
         GameObject target = null;
@@ -67,6 +70,7 @@ public class Turn_Manager : MonoBehaviour
         mazeManager.MainCamera.GetComponent<Camera_Script>().target = target;
     }
 
+    //Actualiza la luz al jugador que le corresponde el turno
     void UpdateLight()
     {
         foreach (Piece piece in pieceManager.pieceList)
@@ -82,6 +86,7 @@ public class Turn_Manager : MonoBehaviour
         }
     }
 
+    //Revisa la condicion de victoria
     public void CheckWin()
     {
         foreach (Piece piece in pieceManager.pieceList)
@@ -96,12 +101,14 @@ public class Turn_Manager : MonoBehaviour
         }
     }
 
+    //Metodo de Victoria
     void Win(Piece piece)
     {
         gameManager.winner = piece;
         hudManager.Win();
     }
 
+    //Revisa si una ficha se encuentra con una llave
     public void CheckKeys()
     {
         foreach (Piece piece in pieceManager.pieceList)
@@ -120,7 +127,7 @@ public class Turn_Manager : MonoBehaviour
 
 
 
-
+    //Termina el turno y revisa las estadisticas y condicion de victoria
     public void FinishTurn()
     {
         pieceManager.pieceSelect = null;

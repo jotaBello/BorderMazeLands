@@ -60,12 +60,13 @@ public class Teams : ScriptableObject
 
         foreach (Piece p in listNearEnemies)
         {
+            //Congela a todos los enemigos alcanzables
             p.freeze = 3;
             hudManager.PutMessage($"Congelaste a {p.team.name}");
         }
 
 
-
+        //Encuentra todos los enemigos alcanzables por la habilidad de maya
         List<Piece> FindNearEnemies(Piece piece)
         {
             List<Piece> listNearEnemies = new List<Piece>();
@@ -105,6 +106,8 @@ public class Teams : ScriptableObject
     void AxtonAbility(Piece piece)
     {
         HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
+
+        //Activa el escudo para las trampas
         piece.shield = true;
         piece.shieldTime = 3;
         hudManager.PutMessage($"Activaste tu escudo");
@@ -134,6 +137,7 @@ public class Teams : ScriptableObject
 
         foreach (Piece enemie in enemies)
         {
+            //Resta vida a los enemigos alcanzables
             if (enemie != piece)
             {
                 enemie.life -= 5;
@@ -141,6 +145,8 @@ public class Teams : ScriptableObject
             }
         }
 
+
+        //Encuentra los enemigos alcanzables por la habilidad de Zero
         List<Piece> FindEnemies((int, int) tile)
         {
             List<Piece> enemies = new List<Piece>();
@@ -186,6 +192,7 @@ public class Teams : ScriptableObject
         Tile tile = piece.Position;
         (int, int) playerTile = (tile.row, tile.column);
 
+        //Encuentra las casillas adyascentes y las vuelve camino
         foreach (var dir in directions)
         {
             int row = playerTile.Item1 + dir.Item1;
@@ -209,7 +216,7 @@ public class Teams : ScriptableObject
         HudManager hudManager = GameObject.Find("Canvas").GetComponent<HudManager>();
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
-
+        //Aumenta la vision y velocidad del Salvador
         piece.Speed += 2;
         piece.lighttime = 1;
         piece.pieceObject.GetComponent<Light2D>().pointLightOuterRadius *= 1.5f;
@@ -231,7 +238,7 @@ public class Teams : ScriptableObject
         (-1,0)
 
     };
-        //Debug.LogError("Paso1");
+        //Debug.Log("Paso1");
         MazeManager mazeManager = GameObject.Find("MazeManager").GetComponent<MazeManager>();
 
         Tile[,] maze = mazeManager.maze;
@@ -242,6 +249,7 @@ public class Teams : ScriptableObject
 
         int[,] bfs = mazeManager.BFS((piece.Position.row, piece.Position.column));
 
+        //Reconoce la casilla goal y las casillas de llave
         foreach (Tile tile in maze)
         {
             if (tile.isGoal) goal = tile;
@@ -249,7 +257,7 @@ public class Teams : ScriptableObject
         }
 
 
-
+        //key toma el valor de la casilla con la llave mas cercana
         key = keys[0].key;
         foreach (var Key in keys)
         {
@@ -259,8 +267,8 @@ public class Teams : ScriptableObject
             }
         }
 
-
-
+        //Si tiene la llave path seria el camino a la meta, de lo contrario el camino a la llave mas cercana
+        //Muestra las primeras casillas del camino y lanza un mensaje
         if (piece.HadKey)
         {
             List<Tile> paths = GiveMeThePaths(piece.Position, goal);
@@ -270,7 +278,7 @@ public class Teams : ScriptableObject
         else
         {
             List<Tile> paths = GiveMeThePaths(piece.Position, key);
-            // Debug.LogError("Paso2");
+            // Debug.Log("Paso2");
             ShowTiles(paths);
             hudManager.PutMessage($"Este es el camino hacia la LLave");
         }
@@ -278,10 +286,10 @@ public class Teams : ScriptableObject
 
 
 
-
+        //Muestra las casillas instanciando un cuadrado azul
         void ShowTiles(List<Tile> paths)
         {
-            // Debug.LogError("Paso3");
+            // Debug.LogE("Paso3");
 
             if (paths.Count >= 3)
             {
@@ -290,7 +298,7 @@ public class Teams : ScriptableObject
                 mazeManager.squareSelectionList.Add(squareGaige1);
                 GameObject squareGaige2 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 3].row, paths[paths.Count - 3].column), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige2);
-                //Debug.LogError("Paso4");
+                //Debug.Log("Paso4");
 
             }
             else if (paths.Count == 2)
@@ -298,14 +306,14 @@ public class Teams : ScriptableObject
 
                 GameObject squareGaige1 = Instantiate(mazeManager.squareGaige, new Vector2(paths[paths.Count - 2].row, paths[paths.Count - 2].column), Quaternion.identity);
                 mazeManager.squareSelectionList.Add(squareGaige1);
-                // Debug.LogError("Paso4");
+                // Debug.Log("Paso4");
             }
         }
 
 
 
 
-
+        //Devuelve el camino usando las distancias del bfs
         List<Tile> GiveMeThePaths(Tile start, Tile final)
         {
             int distance = bfs[final.row, final.column];
@@ -325,6 +333,7 @@ public class Teams : ScriptableObject
 
         }
 
+        //Devuelve, dado una casilla, la casilla adyascente con menor distancia en el bfs
         Tile The_Min_Ady_Tile(Tile current)
         {
 

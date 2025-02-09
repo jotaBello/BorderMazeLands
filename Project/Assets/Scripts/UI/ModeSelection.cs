@@ -6,6 +6,10 @@ public class ModeSelection : MonoBehaviour
     public SelectionMenu canvas;
     public GameObject M;
     public GameObject P;
+
+
+    //Metodos para seleccionar la cantidad de jugadores
+
     public void TwoPlayerSelection()
     {
         canvas.usersLimit = 2;

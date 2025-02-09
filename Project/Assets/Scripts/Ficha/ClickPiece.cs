@@ -20,13 +20,10 @@ public class ClickPiece : MonoBehaviour
         pieceManager = GameObject.Find("PieceManager").GetComponent<PieceManager>();
     }
 
-    void Update()
-    {
-        life = piece.life;
-        freeze = piece.freeze;
-    }
+    //Este metodo reconoce el click sobre la ficha
     void OnMouseDown()
     {
+        //Si a la ficha le corresponde el turno, seleccionarla
         if (piece.team == GameManager.Instance.users[turnManager.currentTurn])
         {
             pieceManager.SelectPiece(piece);

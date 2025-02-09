@@ -22,6 +22,8 @@ public class PieceManager : MonoBehaviour
     {
 
     }
+
+    //Metodo de seleccionar ficha para mover o usar habilidad
     public void SelectPiece(Piece pieceSel)
     {
         if (pieceSel.freeze <= 0)
@@ -31,6 +33,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
+    //Metodo de mover ficha a la casilla clickeada
     public void MovePiece(Piece piece, Tile final)
     {
         if (piece.Position.row > final.row)
@@ -46,6 +49,7 @@ public class PieceManager : MonoBehaviour
         mazeManager.PrintMaze();
     }
 
+    //Revisa si alguna ficha cayo en una trampa
     public void CheckTraps()
     {
         foreach (Piece piece in pieceList)
@@ -64,6 +68,8 @@ public class PieceManager : MonoBehaviour
 
         }
     }
+
+    //Revisa la vida de cada ficha
     public void CheckLife()
     {
         foreach (Piece piece in pieceList)
@@ -87,6 +93,7 @@ public class PieceManager : MonoBehaviour
 
     }
 
+    //Revisa si alguna ficha esta congelada
     public void CheckFreeze()
     {
         foreach (Piece piece in pieceList)
@@ -99,6 +106,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
+    //Actualiza la posicion inicial en el turno de cada ficha
     public void UpdateInitialPositions()
     {
         foreach (Piece piece in pieceList)
@@ -108,6 +116,7 @@ public class PieceManager : MonoBehaviour
 
     }
 
+    //Colocar cada ficha como no movida
     public void CheckMovement()
     {
         foreach (Piece piece in pieceList)
@@ -116,6 +125,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
+    //Disminuye el cooldown de cada ficha
     public void CheckCooldown()
     {
         foreach (Piece piece in pieceList)
@@ -127,6 +137,7 @@ public class PieceManager : MonoBehaviour
 
         }
     }
+    //Disminuye el tiempo de lentitud de cada ficha
     public void CheckSlowness()
     {
         foreach (Piece piece in pieceList)
@@ -142,6 +153,7 @@ public class PieceManager : MonoBehaviour
 
         }
     }
+    //Disminuye el tiempo con vision cambiada
     public void CheckLight()
     {
         foreach (Piece piece in pieceList)
@@ -158,6 +170,7 @@ public class PieceManager : MonoBehaviour
 
         }
     }
+    //Disminuye el timepo que se tiene el escudo
     public void CheckShield()
     {
         foreach (Piece piece in pieceList)
@@ -174,6 +187,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
+    //Revisar algunas estadisticas sin pasar el turno
     public void CheckWithoutPassTurn()
     {
         CheckTraps();

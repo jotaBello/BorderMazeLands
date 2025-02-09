@@ -67,13 +67,14 @@ public class Trap
 
     void TrapTele(Piece piece)
     {
+        //Teletransporta a la ficha a la casilla enlazada
         pieceManager.MovePiece(piece, linkedTile);
-
     }
     void TrapDamage(Piece piece)
     {
         int damage = URandom.Range(1, 4);
 
+        //Resta vida a la ficha
         if (!piece.shield)
             piece.life -= damage;
 
@@ -82,17 +83,20 @@ public class Trap
     {
         int time = URandom.Range(3, 5);
 
+        //Congela la ficha
         if (!piece.shield)
             piece.freeze = time;
 
     }
     void TrapCoolDown(Piece piece)
     {
+        //Resetea el cooldown a la ficha
         if (!piece.shield)
             piece.cooldown = piece.team.cooldown;
     }
     void TrapSlowness(Piece piece)
     {
+        //Reduce la velocidad a la ficha
         if (!piece.shield)
         {
             piece.Speed -= 2;
@@ -101,12 +105,14 @@ public class Trap
     }
     void TrapLight(Piece piece)
     {
+        //Aumenta la vision de la ficha
         piece.lighttime = 2;
         piece.pieceObject.GetComponent<Light2D>().pointLightOuterRadius *= 1.5f;
         piece.pieceObject.GetComponent<Light2D>().pointLightInnerRadius *= 1.5f;
     }
 
 
+    
     Tile Search_a_random_tile_for_TeleTrap()
     {
         int x, y;
